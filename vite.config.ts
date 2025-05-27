@@ -6,7 +6,7 @@ import { componentTagger } from "lovable-tagger";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
-  base: mode === 'production' ? '/nombre-de-tu-repositorio/' : '/',
+  base: mode === 'production' ? '/' : '/',
   server: {
     host: "::",
     port: 8080,
@@ -29,7 +29,7 @@ export default defineConfig(({ mode }) => ({
       output: {
         manualChunks: {
           vendor: ['react', 'react-dom'],
-          ui: ['@radix-ui/react-select', '@radix-ui/react-card', '@radix-ui/react-button']
+          ui: ['@radix-ui/react-select', '@radix-ui/react-button']
         }
       }
     }

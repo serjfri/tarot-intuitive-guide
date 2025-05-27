@@ -41,59 +41,147 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
   const [paloSeleccionado, setPaloSeleccionado] = useState<string>('');
   const { toast } = useToast();
 
-  // Datos para Tarot Tradicional
-  const arcanosMayores = [
-    'Loco', 'Mago', 'Sacerdotisa', 'Emperatriz', 'Emperador',
-    'Hierofante', 'Amantes', 'Carro', 'Justicia', 'Ermitaño',
-    'Rueda de la Fortuna', 'Fuerza', 'Colgado', 'Muerte',
-    'Templanza', 'Diablo', 'Torre', 'Estrella', 'Luna',
-    'Sol', 'Juicio', 'Mundo'
+  // Datos para Tarot Tradicional con artículos
+  const arcanosMayoresConArticulos = [
+    { nombre: 'El Loco', letraOrden: 'L' },
+    { nombre: 'El Mago', letraOrden: 'M' },
+    { nombre: 'La Sacerdotisa', letraOrden: 'S' },
+    { nombre: 'La Emperatriz', letraOrden: 'E' },
+    { nombre: 'El Emperador', letraOrden: 'E' },
+    { nombre: 'El Hierofante', letraOrden: 'H' },
+    { nombre: 'Los Amantes', letraOrden: 'A' },
+    { nombre: 'El Carro', letraOrden: 'C' },
+    { nombre: 'La Justicia', letraOrden: 'J' },
+    { nombre: 'El Ermitaño', letraOrden: 'E' },
+    { nombre: 'La Rueda de la Fortuna', letraOrden: 'R' },
+    { nombre: 'La Fuerza', letraOrden: 'F' },
+    { nombre: 'El Colgado', letraOrden: 'C' },
+    { nombre: 'La Muerte', letraOrden: 'M' },
+    { nombre: 'La Templanza', letraOrden: 'T' },
+    { nombre: 'El Diablo', letraOrden: 'D' },
+    { nombre: 'La Torre', letraOrden: 'T' },
+    { nombre: 'La Estrella', letraOrden: 'E' },
+    { nombre: 'La Luna', letraOrden: 'L' },
+    { nombre: 'El Sol', letraOrden: 'S' },
+    { nombre: 'El Juicio', letraOrden: 'J' },
+    { nombre: 'El Mundo', letraOrden: 'M' }
   ];
 
   const palos = ['Bastos', 'Copas', 'Espadas', 'Oros'];
   const cartasPorPalo = ['As', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'Sota', 'Caballo', 'Reina', 'Rey'];
 
-  // Datos para Tarot de Osho 
-  const cartasOsho = [
-    'Abundancia', 'Agotamiento', 'Aislamiento', 'Apego al Pasado', 'Armonía', 'Aventura', 
-    'Avance', 'Cambio', 'Celebración', 'Comparación', 'Compartir', 'Compasión', 'Consciencia', 'Conclusión', 
-    'Condicionamientos', 'Confianza', 'Control', 'Creatividad', 'Culpa', 'Curación', 'Darse Cuenta', 'Desapego', 'Despacio', 'El Avaro', 
-    'El Creador', 'El Extraño', 'El Loco', 'El Maestro', 'El rayo', 'El Rebelde', 'Esquizofrenia', 'Estrés', 'Existencia', 'Éxito',
-    'Experimentar', 'Fluidez', 'Fluir', 'Florecimiento', 'Guía', 'Hacia Dentro', 'Inocencia', 'Integración', 'Intensidad', 
-    'Juego', 'La Fuente', 'Las Cargas', 'Lo simple y ordinario', 'Los Amantes', 'Lucha', 'Madurez', 'Materialización', 'Mente', 'Momento a Momento', 'Moralidad', 
-    'Más Allá de la Ilusión', 'Nueva Visión', 'Participación', 'Paciencia', 'Pena', 'Pereza', 'Plenitud', 'Política', 
-    'Posibilidades', 'Postergación', 'Proyecciones', 'Receptividad', 'Renacer', 'Represión', 'Silencio', 'Soledad', 
-    'Soltar', 'Somos el mundo', 'Sueños', 'Totalidad', 'Transformación', 'Transigencia', 'Vacío', 'Valor', 'Viajando', 'Vidas Pasadas', 'Voz Interior'
+  // Datos para Tarot de Osho con artículos
+  const cartasOshoConArticulos = [
+    { nombre: 'La Abundancia', letraOrden: 'A' },
+    { nombre: 'El Agotamiento', letraOrden: 'A' },
+    { nombre: 'El Aislamiento', letraOrden: 'A' },
+    { nombre: 'El Apego al Pasado', letraOrden: 'A' },
+    { nombre: 'La Armonía', letraOrden: 'A' },
+    { nombre: 'La Aventura', letraOrden: 'A' },
+    { nombre: 'El Avance', letraOrden: 'A' },
+    { nombre: 'El Cambio', letraOrden: 'C' },
+    { nombre: 'La Celebración', letraOrden: 'C' },
+    { nombre: 'La Comparación', letraOrden: 'C' },
+    { nombre: 'El Compartir', letraOrden: 'C' },
+    { nombre: 'La Compasión', letraOrden: 'C' },
+    { nombre: 'La Consciencia', letraOrden: 'C' },
+    { nombre: 'La Conclusión', letraOrden: 'C' },
+    { nombre: 'Los Condicionamientos', letraOrden: 'C' },
+    { nombre: 'La Confianza', letraOrden: 'C' },
+    { nombre: 'El Control', letraOrden: 'C' },
+    { nombre: 'La Creatividad', letraOrden: 'C' },
+    { nombre: 'La Culpa', letraOrden: 'C' },
+    { nombre: 'La Curación', letraOrden: 'C' },
+    { nombre: 'El Darse Cuenta', letraOrden: 'D' },
+    { nombre: 'El Desapego', letraOrden: 'D' },
+    { nombre: 'Despacio', letraOrden: 'D' },
+    { nombre: 'El Avaro', letraOrden: 'A' },
+    { nombre: 'El Creador', letraOrden: 'C' },
+    { nombre: 'El Extraño', letraOrden: 'E' },
+    { nombre: 'El Loco', letraOrden: 'L' },
+    { nombre: 'El Maestro', letraOrden: 'M' },
+    { nombre: 'El Rayo', letraOrden: 'R' },
+    { nombre: 'El Rebelde', letraOrden: 'R' },
+    { nombre: 'La Esquizofrenia', letraOrden: 'E' },
+    { nombre: 'El Estrés', letraOrden: 'E' },
+    { nombre: 'La Existencia', letraOrden: 'E' },
+    { nombre: 'El Éxito', letraOrden: 'E' },
+    { nombre: 'El Experimentar', letraOrden: 'E' },
+    { nombre: 'La Fluidez', letraOrden: 'F' },
+    { nombre: 'El Fluir', letraOrden: 'F' },
+    { nombre: 'El Florecimiento', letraOrden: 'F' },
+    { nombre: 'La Guía', letraOrden: 'G' },
+    { nombre: 'Hacia Dentro', letraOrden: 'H' },
+    { nombre: 'La Inocencia', letraOrden: 'I' },
+    { nombre: 'La Integración', letraOrden: 'I' },
+    { nombre: 'La Intensidad', letraOrden: 'I' },
+    { nombre: 'El Juego', letraOrden: 'J' },
+    { nombre: 'La Fuente', letraOrden: 'F' },
+    { nombre: 'Las Cargas', letraOrden: 'C' },
+    { nombre: 'Lo Simple y Ordinario', letraOrden: 'S' },
+    { nombre: 'Los Amantes', letraOrden: 'A' },
+    { nombre: 'La Lucha', letraOrden: 'L' },
+    { nombre: 'La Madurez', letraOrden: 'M' },
+    { nombre: 'La Materialización', letraOrden: 'M' },
+    { nombre: 'La Mente', letraOrden: 'M' },
+    { nombre: 'Momento a Momento', letraOrden: 'M' },
+    { nombre: 'La Moralidad', letraOrden: 'M' },
+    { nombre: 'Más Allá de la Ilusión', letraOrden: 'M' },
+    { nombre: 'La Nueva Visión', letraOrden: 'N' },
+    { nombre: 'La Participación', letraOrden: 'P' },
+    { nombre: 'La Paciencia', letraOrden: 'P' },
+    { nombre: 'La Pena', letraOrden: 'P' },
+    { nombre: 'La Pereza', letraOrden: 'P' },
+    { nombre: 'La Plenitud', letraOrden: 'P' },
+    { nombre: 'La Política', letraOrden: 'P' },
+    { nombre: 'Las Posibilidades', letraOrden: 'P' },
+    { nombre: 'La Postergación', letraOrden: 'P' },
+    { nombre: 'Las Proyecciones', letraOrden: 'P' },
+    { nombre: 'La Receptividad', letraOrden: 'R' },
+    { nombre: 'El Renacer', letraOrden: 'R' },
+    { nombre: 'La Represión', letraOrden: 'R' },
+    { nombre: 'El Silencio', letraOrden: 'S' },
+    { nombre: 'La Soledad', letraOrden: 'S' },
+    { nombre: 'El Soltar', letraOrden: 'S' },
+    { nombre: 'Somos el Mundo', letraOrden: 'S' },
+    { nombre: 'Los Sueños', letraOrden: 'S' },
+    { nombre: 'La Totalidad', letraOrden: 'T' },
+    { nombre: 'La Transformación', letraOrden: 'T' },
+    { nombre: 'La Transigencia', letraOrden: 'T' },
+    { nombre: 'El Vacío', letraOrden: 'V' },
+    { nombre: 'El Valor', letraOrden: 'V' },
+    { nombre: 'El Viajando', letraOrden: 'V' },
+    { nombre: 'Las Vidas Pasadas', letraOrden: 'V' },
+    { nombre: 'La Voz Interior', letraOrden: 'V' }
   ];
 
   const getLetrasArcanosMayores = () => {
     const letras = new Set<string>();
-    arcanosMayores.forEach(carta => {
-      letras.add(carta.charAt(0));
+    arcanosMayoresConArticulos.forEach(carta => {
+      letras.add(carta.letraOrden);
     });
     return Array.from(letras).sort();
   };
 
   const getLetrasOsho = () => {
     const letras = new Set<string>();
-    cartasOsho.forEach(carta => {
-      if (carta === 'Éxito') {
-        letras.add('E');
-      } else {
-        letras.add(carta.charAt(0));
-      }
+    cartasOshoConArticulos.forEach(carta => {
+      letras.add(carta.letraOrden);
     });
     return Array.from(letras).sort();
   };
 
   const filtrarCartasPorLetra = (letra: string) => {
     if (baraja === 'osho') {
-      return cartasOsho.filter(carta => {
-        if (letra === 'E' && carta === 'Éxito') return true;
-        return carta.charAt(0) === letra;
-      }).sort();
+      return cartasOshoConArticulos
+        .filter(carta => carta.letraOrden === letra)
+        .map(carta => carta.nombre)
+        .sort();
     } else if (categoriaSeleccionada === 'mayores') {
-      return arcanosMayores.filter(carta => carta.charAt(0) === letra).sort();
+      return arcanosMayoresConArticulos
+        .filter(carta => carta.letraOrden === letra)
+        .map(carta => carta.nombre)
+        .sort();
     }
     return [];
   };
