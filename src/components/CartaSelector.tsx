@@ -41,20 +41,17 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
   onCambiarBaraja
 }) => {
   const [posicionActual, setPosicionActual] = useState(1);
-  // El tipo de categoriaSeleccionada puede ser 'mayores', 'menores' o null
   const [categoriaSeleccionada, setCategoriaSeleccionada] = useState<'mayores' | 'menores' | null>(null);
   const [letraSeleccionada, setLetraSeleccionada] = useState<string>('');
   const [paloSeleccionado, setPaloSeleccionado] = useState<string>('');
   const { toast } = useToast();
 
-  // --- OBTENER DATOS DE cardNames.ts (Usamos useMemo para optimización) ---
   const arcanosMayores = useMemo(() => cardNames.filter(c => c.baraja === 'tradicional' && (c.id.startsWith('EL_') || c.id.startsWith('LA_') || c.id.startsWith('LOS_') || c.id === 'EL_LOCO')), []);
   const arcanosMenores = useMemo(() => cardNames.filter(c => c.baraja === 'tradicional' && (c.id.includes('_DE_BASTOS') || c.id.includes('_DE_COPAS') || c.id.includes('_DE_ESPADAS') || c.id.includes('_DE_OROS'))), []);
   const cartasOsho = useMemo(() => cardNames.filter(c => c.baraja === 'osho'), []);
 
   const palos = ['Bastos', 'Copas', 'Espadas', 'Oros'];
 
-  // Función auxiliar para obtener la primera letra significativa
   const getFirstLetterForSorting = (name: string): string => {
     const cleanedName = name
       .replace(/^(El|La|Los|Las)\s+/i, '')
@@ -78,9 +75,6 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
     return Array.from(letters).sort();
   }, [cartasOsho]);
 
-  // Función para filtrar cartas por letra (para Mayores Tradicionales o Osho)
-  // Nota: `categoria` aquí solo acepta 'mayores' o null para la baraja tradicional.
-  // Para Osho, el argumento `categoria` se ignora en la lógica interna.
   const filtrarCartasPorLetra = (letra: string, barajaActual: 'tradicional' | 'osho', categoria: 'mayores' | null) => {
     if (barajaActual === 'osho') {
       return cartasOsho
@@ -91,10 +85,9 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
         .filter(carta => getFirstLetterForSorting(carta.name) === letra)
         .sort((a, b) => a.name.localeCompare(b.name));
     }
-    return []; // Retorna un array vacío si no coincide con las condiciones de filtrado por letra
+    return [];
   };
 
-  // Función para filtrar cartas por palo (para Menores Tradicionales)
   const filtrarCartasPorPalo = (palo: string) => {
     const paloID = palo.toUpperCase();
     return arcanosMenores
@@ -115,7 +108,7 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
           if (name.includes('Caballo')) return 12;
           if (name.includes('Reina')) return 13;
           if (name.includes('Rey')) return 14;
-          return 99; // Para cualquier otro caso, aunque no debería ocurrir con estas cartas
+          return 99;
         };
         return getSortValue(a.name) - getSortValue(b.name);
       });
@@ -130,7 +123,7 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
           return i;
         }
       }
-      return posicionActual; // Si todas las posiciones están llenas, no avanzar
+      return posicionActual;
     }
   };
 
@@ -149,14 +142,13 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
       setPosicionActual(posicion + 1);
     }
 
-    // Resetear selecciones después de añadir una carta
     setCategoriaSeleccionada(null);
     setLetraSeleccionada('');
     setPaloSeleccionado('');
   };
 
   const handleDoubleClick = (posicion: number) => {
-    if (baraja === 'tradicional') { // Solo para baraja tradicional
+    if (baraja === 'tradicional') {
       onCartaToggle(posicion);
     }
   };
@@ -165,7 +157,6 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
     if (onCambiarBaraja) {
       onCambiarBaraja(nuevaBaraja);
     }
-    // Resetea todas las selecciones de filtro al cambiar de baraja
     setCategoriaSeleccionada(null);
     setLetraSeleccionada('');
     setPaloSeleccionado('');
@@ -173,7 +164,7 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
 
   const getCardNameById = (id: string) => {
     const card = cardNames.find(c => c.id === id);
-    return card ? card.name : id; // Retorna el nombre si lo encuentra, si no, el ID
+    return card ? card.name : id;
   };
 
   const copiarListaCartas = async () => {
@@ -328,12 +319,13 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
                       <label className="block text-sm font-medium text-emerald-900 mb-2">
                         Primera letra
                       </label>
-                      <div className="grid gap-2 grid-cols-6 sm:grid-cols-8 md:grid-cols-10">
+                      {/* MODIFICACIÓN: Ajuste de la rejilla para botones de letra */}
+                      <div className="grid grid-cols-6 sm:grid-cols-8 md:grid-cols-10 lg:grid-cols-12 gap-1 justify-items-center">
                         {getLetrasArcanosMayores.map((letra) => (
                           <Button
                             key={letra}
                             variant="outline"
-                            className="h-10 w-10 p-0 text-center"
+                            className="h-8 w-8 p-0 text-center text-xs flex items-center justify-center" // Menor tamaño, centrado
                             onClick={() => setLetraSeleccionada(letra)}
                           >
                             {letra}
@@ -372,12 +364,13 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
                   <label className="block text-sm font-medium text-emerald-900 mb-2">
                     Primera letra
                   </label>
-                  <div className="grid gap-2 grid-cols-6 sm:grid-cols-8 md:grid-cols-10">
+                  {/* MODIFICACIÓN: Ajuste de la rejilla para botones de letra de Osho */}
+                  <div className="grid grid-cols-6 sm:grid-cols-8 md:grid-cols-10 lg:grid-cols-12 gap-1 justify-items-center">
                     {getLetrasOsho.map((letra) => (
                       <Button
                         key={letra}
                         variant="outline"
-                        className="h-10 w-10 p-0 text-center"
+                        className="h-8 w-8 p-0 text-center text-xs flex items-center justify-center" // Menor tamaño, centrado
                         onClick={() => setLetraSeleccionada(letra)}
                       >
                         {letra}
@@ -395,23 +388,21 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
                     <label className="block text-sm font-medium text-emerald-900 mb-2">
                       Cartas disponibles
                     </label>
-                    <div className="grid gap-2 md:grid-cols-2 lg:grid-cols-3">
+                    {/* MODIFICACIÓN: Ajuste de la rejilla para las cartas filtradas */}
+                    <div className="grid gap-2 grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 justify-items-center">
                       {/* Cartas por letra (Mayores o Osho) */}
                       {(letraSeleccionada && (categoriaSeleccionada === 'mayores' || baraja === 'osho')) &&
-                        // AQUÍ ES DONDE ESTÁ LA CORRECCIÓN CLAVE
                         filtrarCartasPorLetra(
                           letraSeleccionada,
                           baraja,
-                          // Si la baraja es Osho, pasamos null como categoría
-                          // ya que la función filtrarCartasPorLetra ignora la categoría para Osho
-                          // Si es tradicional y mayores, pasamos categoriaSeleccionada ('mayores')
                           baraja === 'osho' ? null : categoriaSeleccionada as 'mayores' | null
                         ).map((carta) => (
                           <Button
-                            key={carta.id} // Usamos carta.id como key
+                            key={carta.id}
                             variant="outline"
-                            className="h-auto p-3 text-left hover:bg-emerald-50 hover:border-emerald-400 text-sm"
-                            onClick={() => handleCartaSelect(carta.id)} // Pasamos carta.id
+                            // MODIFICACIÓN: Ajuste de padding y altura para que ocupen menos espacio
+                            className="h-auto w-full max-w-[160px] p-2 text-center hover:bg-emerald-50 hover:border-emerald-400 text-sm truncate"
+                            onClick={() => handleCartaSelect(carta.id)}
                           >
                             {carta.name}
                           </Button>
@@ -422,10 +413,11 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
                       {(paloSeleccionado && categoriaSeleccionada === 'menores') &&
                         filtrarCartasPorPalo(paloSeleccionado).map((carta) => (
                           <Button
-                            key={carta.id} // Usamos carta.id como key
+                            key={carta.id}
                             variant="outline"
-                            className="h-auto p-3 text-center hover:bg-emerald-50 hover:border-emerald-400 text-sm"
-                            onClick={() => handleCartaSelect(carta.id)} // Pasamos carta.id
+                            // MODIFICACIÓN: Ajuste de padding y altura para que ocupen menos espacio
+                            className="h-auto w-full max-w-[160px] p-2 text-center hover:bg-emerald-50 hover:border-emerald-400 text-sm truncate"
+                            onClick={() => handleCartaSelect(carta.id)}
                           >
                             {carta.name}
                           </Button>
