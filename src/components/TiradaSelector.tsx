@@ -30,7 +30,7 @@ const TiradaSelector: React.FC<TiradaSelectorProps> = ({
         { numero: 4, nombre: 'Futuro posible', descripcion: 'Posible resultado futuro', x: 70, y: 50 },
         { numero: 5, nombre: 'Corona', descripcion: 'Objetivo o meta consciente', x: 50, y: 10 },
         { numero: 6, nombre: 'Pasado reciente', descripcion: 'Influencias del pasado reciente', x: 50, y: 70 },
-        { numero: 7, nombre: 'Tu enfoque', descripción: 'Tu punto de vista actual', x: 85, y: 70 },
+        { numero: 7, nombre: 'Tu enfoque', descripcion: 'Tu punto de vista actual', x: 85, y: 70 },
         { numero: 8, nombre: 'Influencias externas', descripcion: 'Factores externos', x: 85, y: 50 },
         { numero: 9, nombre: 'Esperanzas y miedos', descripcion: 'Tus esperanzas y temores', x: 85, y: 30 },
         { numero: 10, nombre: 'Resultado final', descripcion: 'El resultado final', x: 85, y: 10 }
