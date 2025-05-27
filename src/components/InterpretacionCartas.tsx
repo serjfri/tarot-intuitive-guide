@@ -161,22 +161,7 @@ const InterpretacionCartas: React.FC<InterpretacionCartasProps> = ({
               })}
           </div>
 
-          {/* Mensaje general */}
-          <Card className="bg-gradient-to-r from-purple-100 to-indigo-100 border-purple-200">
-            <CardHeader>
-              <CardTitle className="text-xl text-purple-900">
-                Mensaje General de la Lectura
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-purple-800 leading-relaxed">
-                Las cartas seleccionadas forman un mensaje único para ti. Reflexiona sobre cómo 
-                estos significados se relacionan con tu situación actual y las preguntas que 
-                tenías en mente. Recuerda que el tarot es una herramienta de autoconocimiento 
-                y reflexión personal.
-              </p>
-            </CardContent>
-          </Card>
+
 
           {/* Botón volver */}
           <div className="flex justify-center">
