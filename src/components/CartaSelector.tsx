@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -41,142 +41,115 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
   onCambiarBaraja
 }) => {
   const [posicionActual, setPosicionActual] = useState(1);
+  // El tipo de categoriaSeleccionada puede ser 'mayores', 'menores' o null
   const [categoriaSeleccionada, setCategoriaSeleccionada] = useState<'mayores' | 'menores' | null>(null);
   const [letraSeleccionada, setLetraSeleccionada] = useState<string>('');
   const [paloSeleccionado, setPaloSeleccionado] = useState<string>('');
   const { toast } = useToast();
 
-  // --- OBTENER DATOS DE cardNames.ts ---
-  const arcanosMayores = cardNames.filter(c => c.baraja === 'tradicional' && c.id.startsWith('EL_') || c.id.startsWith('LA_') || c.id.startsWith('LOS_'));
-  const arcanosMenores = cardNames.filter(c => c.baraja === 'tradicional' && (c.id.includes('_DE_BASTOS') || c.id.includes('_DE_COPAS') || c.id.includes('_DE_ESPADAS') || c.id.includes('_DE_OROS')));
-  const cartasOsho = cardNames.filter(c => c.baraja === 'osho');
+  // --- OBTENER DATOS DE cardNames.ts (Usamos useMemo para optimización) ---
+  const arcanosMayores = useMemo(() => cardNames.filter(c => c.baraja === 'tradicional' && (c.id.startsWith('EL_') || c.id.startsWith('LA_') || c.id.startsWith('LOS_') || c.id === 'EL_LOCO')), []);
+  const arcanosMenores = useMemo(() => cardNames.filter(c => c.baraja === 'tradicional' && (c.id.includes('_DE_BASTOS') || c.id.includes('_DE_COPAS') || c.id.includes('_DE_ESPADAS') || c.id.includes('_DE_OROS'))), []);
+  const cartasOsho = useMemo(() => cardNames.filter(c => c.baraja === 'osho'), []);
 
   const palos = ['Bastos', 'Copas', 'Espadas', 'Oros'];
-  // No necesitamos cartasPorPalo explícitamente aquí, ya que los nombres completos están en cardNames.ts
 
   // Función auxiliar para obtener la primera letra significativa
   const getFirstLetterForSorting = (name: string): string => {
-    // Eliminar artículos y espacios extra para obtener la primera letra real
     const cleanedName = name
-        .replace(/^(El|La|Los|Las)\s+/i, '') // Eliminar artículos
-        .trim();
+      .replace(/^(El|La|Los|Las)\s+/i, '')
+      .trim();
     return cleanedName.charAt(0).toUpperCase();
   };
 
-  const getLetrasArcanosMayores = () => {
-    const letras = new Set<string>();
+  const getLetrasArcanosMayores = useMemo(() => {
+    const letters = new Set<string>();
     arcanosMayores.forEach(carta => {
-      letras.add(getFirstLetterForSorting(carta.name));
+      letters.add(getFirstLetterForSorting(carta.name));
     });
-    return Array.from(letras).sort();
-  };
+    return Array.from(letters).sort();
+  }, [arcanosMayores]);
 
-  const getLetrasOsho = () => {
-    const letras = new Set<string>();
+  const getLetrasOsho = useMemo(() => {
+    const letters = new Set<string>();
     cartasOsho.forEach(carta => {
-      letras.add(getFirstLetterForSorting(carta.name));
+      letters.add(getFirstLetterForSorting(carta.name));
     });
-    return Array.from(letras).sort();
-  };
+    return Array.from(letters).sort();
+  }, [cartasOsho]);
 
-  const filtrarCartasPorLetra = (letra: string) => {
-    if (baraja === 'osho') {
+  // Función para filtrar cartas por letra (para Mayores Tradicionales o Osho)
+  // Nota: `categoria` aquí solo acepta 'mayores' o null para la baraja tradicional.
+  // Para Osho, el argumento `categoria` se ignora en la lógica interna.
+  const filtrarCartasPorLetra = (letra: string, barajaActual: 'tradicional' | 'osho', categoria: 'mayores' | null) => {
+    if (barajaActual === 'osho') {
       return cartasOsho
         .filter(carta => getFirstLetterForSorting(carta.name) === letra)
-        .map(carta => carta.name)
-        .sort();
-    } else if (categoriaSeleccionada === 'mayores') {
+        .sort((a, b) => a.name.localeCompare(b.name));
+    } else if (barajaActual === 'tradicional' && categoria === 'mayores') {
       return arcanosMayores
         .filter(carta => getFirstLetterForSorting(carta.name) === letra)
-        .map(carta => carta.name)
-        .sort();
+        .sort((a, b) => a.name.localeCompare(b.name));
     }
-    return [];
+    return []; // Retorna un array vacío si no coincide con las condiciones de filtrado por letra
   };
 
+  // Función para filtrar cartas por palo (para Menores Tradicionales)
   const filtrarCartasPorPalo = (palo: string) => {
-      // Reconstruir el nombre esperado del ID para la búsqueda
-      const paloID = palo.toUpperCase(); // Por ejemplo, 'BASTOS'
-      return arcanosMenores
-          .filter(carta => carta.id.endsWith(`_DE_${paloID}`))
-          .map(carta => carta.name)
-          .sort((a, b) => {
-              // Ordenar numéricamente primero, luego por nombres de corte
-              const getSortValue = (name: string) => {
-                  if (name.includes('As')) return 1;
-                  if (name.includes('Dos')) return 2; // Asegurarse de que "Dos" es el 2, etc.
-                  if (name.includes('Tres')) return 3;
-                  if (name.includes('Cuatro')) return 4;
-                  if (name.includes('Cinco')) return 5;
-                  if (name.includes('Seis')) return 6;
-                  if (name.includes('Siete')) return 7;
-                  if (name.includes('Ocho')) return 8;
-                  if (name.includes('Nueve')) return 9;
-                  if (name.includes('Diez')) return 10;
-                  if (name.includes('Sota')) return 11;
-                  if (name.includes('Caballo')) return 12;
-                  if (name.includes('Reina')) return 13;
-                  if (name.includes('Rey')) return 14;
-                  return 99; // Para cualquier otro caso
-              };
-              return getSortValue(a) - getSortValue(b);
-          });
+    const paloID = palo.toUpperCase();
+    return arcanosMenores
+      .filter(carta => carta.id.endsWith(`_DE_${paloID}`))
+      .sort((a, b) => {
+        const getSortValue = (name: string) => {
+          if (name.includes('As')) return 1;
+          if (name.includes('Dos')) return 2;
+          if (name.includes('Tres')) return 3;
+          if (name.includes('Cuatro')) return 4;
+          if (name.includes('Cinco')) return 5;
+          if (name.includes('Seis')) return 6;
+          if (name.includes('Siete')) return 7;
+          if (name.includes('Ocho')) return 8;
+          if (name.includes('Nueve')) return 9;
+          if (name.includes('Diez')) return 10;
+          if (name.includes('Sota')) return 11;
+          if (name.includes('Caballo')) return 12;
+          if (name.includes('Reina')) return 13;
+          if (name.includes('Rey')) return 14;
+          return 99; // Para cualquier otro caso, aunque no debería ocurrir con estas cartas
+        };
+        return getSortValue(a.name) - getSortValue(b.name);
+      });
   };
 
   const obtenerSiguientePosicion = () => {
     if (modoLibre) {
       return cartasSeleccionadas.length + 1;
     } else {
-      // Buscar la primera posición vacía
       for (let i = 1; i <= tirada.numeroCartas; i++) {
         if (!cartasSeleccionadas.some(c => c.posicion === i)) {
           return i;
         }
       }
-      return posicionActual;
+      return posicionActual; // Si todas las posiciones están llenas, no avanzar
     }
   };
 
-  const handleCartaSelect = (nombreCarta: string) => {
-    // Aquí necesitamos obtener el ID de la carta a partir de su nombre
-    let cartaId = '';
-    if (baraja === 'tradicional') {
-        const foundCard = [...arcanosMayores, ...arcanosMenores].find(c => c.name === nombreCarta);
-        if (foundCard) {
-            cartaId = foundCard.id;
-        }
-    } else { // Osho
-        const foundCard = cartasOsho.find(c => c.name === nombreCarta);
-        if (foundCard) {
-            cartaId = foundCard.id;
-        }
-    }
-
-    if (!cartaId) {
-        console.error(`Error: No se encontró el ID para la carta "${nombreCarta}" en la baraja "${baraja}"`);
-        toast({
-            title: "Error de selección",
-            description: "No se pudo añadir la carta. Inténtalo de nuevo.",
-            variant: "destructive",
-        });
-        return;
-    }
-
+  const handleCartaSelect = (idCarta: string) => {
     const posicion = obtenerSiguientePosicion();
     const nuevaCarta: CartaSeleccionada = {
       posicion: posicion,
-      carta: cartaId, // Aquí es donde usamos el ID, no el nombre
+      carta: idCarta,
       invertida: false,
       baraja: baraja
     };
-    
+
     onCartaAdd(nuevaCarta);
-    
+
     if (!modoLibre && posicion < tirada.numeroCartas) {
       setPosicionActual(posicion + 1);
     }
-    
-    // Resetear selecciones
+
+    // Resetear selecciones después de añadir una carta
     setCategoriaSeleccionada(null);
     setLetraSeleccionada('');
     setPaloSeleccionado('');
@@ -192,15 +165,15 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
     if (onCambiarBaraja) {
       onCambiarBaraja(nuevaBaraja);
     }
-    // Resetear selecciones al cambiar de baraja
+    // Resetea todas las selecciones de filtro al cambiar de baraja
     setCategoriaSeleccionada(null);
     setLetraSeleccionada('');
     setPaloSeleccionado('');
   };
 
   const getCardNameById = (id: string) => {
-      const card = cardNames.find(c => c.id === id);
-      return card ? card.name : id; // Retorna el nombre o el ID si no se encuentra (fallback)
+    const card = cardNames.find(c => c.id === id);
+    return card ? card.name : id; // Retorna el nombre si lo encuentra, si no, el ID
   };
 
   const copiarListaCartas = async () => {
@@ -208,7 +181,7 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
       .sort((a, b) => a.posicion - b.posicion)
       .map((carta, index) => {
         const posicionData = tirada.posiciones.find(p => p.numero === carta.posicion);
-        const nombreDisplay = getCardNameById(carta.carta); // Usamos la función para obtener el nombre
+        const nombreDisplay = getCardNameById(carta.carta);
         return `${index + 1}. ${posicionData?.nombre || `Carta ${carta.posicion}`}: ${nombreDisplay}${carta.invertida ? ' (Invertida)' : ''}`;
       })
       .join('\n');
@@ -228,7 +201,7 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
     }
   };
 
-  const posicionActualData = modoLibre 
+  const posicionActualData = modoLibre
     ? { nombre: `Carta ${obtenerSiguientePosicion()}`, descripcion: 'Selecciona una carta' }
     : tirada.posiciones.find(p => p.numero === obtenerSiguientePosicion());
 
@@ -255,7 +228,7 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
                   </span>
                 </div>
                 <div className="w-full bg-emerald-200 rounded-full h-2">
-                  <div 
+                  <div
                     className="bg-emerald-600 h-2 rounded-full transition-all duration-300"
                     style={{ width: `${(cartasSeleccionadas.length / tirada.numeroCartas) * 100}%` }}
                   />
@@ -329,135 +302,153 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
               {/* Selección para Tarot Tradicional */}
               {baraja === 'tradicional' && (
                 <div className="space-y-4">
-                  {/* Selección de categoría */}
-                  <div>
-                    <label className="block text-sm font-medium text-emerald-900 mb-2">
-                      Categoría
-                    </label>
-                    <Select 
-                      value={categoriaSeleccionada || ''} 
-                      onValueChange={(value) => {
-                        setCategoriaSeleccionada(value as 'mayores' | 'menores');
-                        setLetraSeleccionada('');
-                        setPaloSeleccionado('');
-                      }}
-                    >
-                      <SelectTrigger>
-                        <SelectValue placeholder="Selecciona una categoría" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="mayores">Arcanos Mayores</SelectItem>
-                        <SelectItem value="menores">Arcanos Menores</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
+                  {/* Botones para seleccionar categoría */}
+                  {!categoriaSeleccionada && (
+                    <div className="grid gap-2 grid-cols-2">
+                      <Button
+                        variant="outline"
+                        className="h-12"
+                        onClick={() => setCategoriaSeleccionada('mayores')}
+                      >
+                        Arcanos Mayores
+                      </Button>
+                      <Button
+                        variant="outline"
+                        className="h-12"
+                        onClick={() => setCategoriaSeleccionada('menores')}
+                      >
+                        Arcanos Menores
+                      </Button>
+                    </div>
+                  )}
 
-                  {/* Selección de letra para arcanos mayores */}
-                  {categoriaSeleccionada === 'mayores' && (
-                    <div>
+                  {/* Selección de letra para arcanos mayores (con botones) */}
+                  {categoriaSeleccionada === 'mayores' && !letraSeleccionada && (
+                    <>
                       <label className="block text-sm font-medium text-emerald-900 mb-2">
                         Primera letra
                       </label>
-                      <Select 
-                        value={letraSeleccionada} 
-                        onValueChange={setLetraSeleccionada}
-                      >
-                        <SelectTrigger>
-                          <SelectValue placeholder="Selecciona una letra" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {getLetrasArcanosMayores().map((letra) => (
-                            <SelectItem key={letra} value={letra}>{letra}</SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </div>
+                      <div className="grid gap-2 grid-cols-6 sm:grid-cols-8 md:grid-cols-10">
+                        {getLetrasArcanosMayores.map((letra) => (
+                          <Button
+                            key={letra}
+                            variant="outline"
+                            className="h-10 w-10 p-0 text-center"
+                            onClick={() => setLetraSeleccionada(letra)}
+                          >
+                            {letra}
+                          </Button>
+                        ))}
+                      </div>
+                    </>
                   )}
 
-                  {/* Selección de palo para arcanos menores */}
-                  {categoriaSeleccionada === 'menores' && (
-                    <div>
+                  {/* Selección de palo para arcanos menores (con botones) */}
+                  {categoriaSeleccionada === 'menores' && !paloSeleccionado && (
+                    <>
                       <label className="block text-sm font-medium text-emerald-900 mb-2">
                         Palo
                       </label>
-                      <Select 
-                        value={paloSeleccionado} 
-                        onValueChange={setPaloSeleccionado}
-                      >
-                        <SelectTrigger>
-                          <SelectValue placeholder="Selecciona un palo" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {palos.map((palo) => (
-                            <SelectItem key={palo} value={palo}>{palo}</SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </div>
+                      <div className="grid gap-2 md:grid-cols-4">
+                        {palos.map((palo) => (
+                          <Button
+                            key={palo}
+                            variant="outline"
+                            className="h-12"
+                            onClick={() => setPaloSeleccionado(palo)}
+                          >
+                            {palo}
+                          </Button>
+                        ))}
+                      </div>
+                    </>
                   )}
                 </div>
               )}
 
-              {/* Selección para Tarot de Osho */}
-              {baraja === 'osho' && (
-                <div>
+              {/* Selección para Tarot de Osho (con botones de letra) */}
+              {baraja === 'osho' && !letraSeleccionada && (
+                <>
                   <label className="block text-sm font-medium text-emerald-900 mb-2">
                     Primera letra
                   </label>
-                  <Select 
-                    value={letraSeleccionada} 
-                    onValueChange={setLetraSeleccionada}
-                  >
-                    <SelectTrigger>
-                      <SelectValue placeholder="Selecciona una letra" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {getLetrasOsho().map((letra) => (
-                        <SelectItem key={letra} value={letra}>{letra}</SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
+                  <div className="grid gap-2 grid-cols-6 sm:grid-cols-8 md:grid-cols-10">
+                    {getLetrasOsho.map((letra) => (
+                      <Button
+                        key={letra}
+                        variant="outline"
+                        className="h-10 w-10 p-0 text-center"
+                        onClick={() => setLetraSeleccionada(letra)}
+                      >
+                        {letra}
+                      </Button>
+                    ))}
+                  </div>
+                </>
               )}
 
-              {/* Cartas filtradas */}
+              {/* Cartas filtradas por letra o palo */}
               {((baraja === 'tradicional' && categoriaSeleccionada === 'mayores' && letraSeleccionada) ||
                 (baraja === 'tradicional' && categoriaSeleccionada === 'menores' && paloSeleccionado) ||
                 (baraja === 'osho' && letraSeleccionada)) && (
-                <div>
-                  <label className="block text-sm font-medium text-emerald-900 mb-2">
-                    Cartas disponibles
-                  </label>
-                  <div className="grid gap-2 md:grid-cols-2 lg:grid-cols-3">
-                    {/* Cartas por letra (Mayores o Osho) */}
-                    {letraSeleccionada && (categoriaSeleccionada === 'mayores' || baraja === 'osho') && 
-                      filtrarCartasPorLetra(letraSeleccionada).map((carta) => (
-                        <Button
-                          key={carta}
-                          variant="outline"
-                          className="h-auto p-3 text-left hover:bg-emerald-50 hover:border-emerald-400 text-sm"
-                          onClick={() => handleCartaSelect(carta)}
-                        >
-                          {carta}
-                        </Button>
-                      ))
-                    }
-                    
-                    {/* Cartas por palo (Menores Tradicionales) */}
-                    {paloSeleccionado && categoriaSeleccionada === 'menores' &&
-                      filtrarCartasPorPalo(paloSeleccionado).map((carta) => (
-                        <Button
-                          key={carta}
-                          variant="outline"
-                          className="h-auto p-3 text-center hover:bg-emerald-50 hover:border-emerald-400 text-sm"
-                          onClick={() => handleCartaSelect(carta)}
-                        >
-                          {carta}
-                        </Button>
-                      ))
-                    }
+                  <div>
+                    <label className="block text-sm font-medium text-emerald-900 mb-2">
+                      Cartas disponibles
+                    </label>
+                    <div className="grid gap-2 md:grid-cols-2 lg:grid-cols-3">
+                      {/* Cartas por letra (Mayores o Osho) */}
+                      {(letraSeleccionada && (categoriaSeleccionada === 'mayores' || baraja === 'osho')) &&
+                        // AQUÍ ES DONDE ESTÁ LA CORRECCIÓN CLAVE
+                        filtrarCartasPorLetra(
+                          letraSeleccionada,
+                          baraja,
+                          // Si la baraja es Osho, pasamos null como categoría
+                          // ya que la función filtrarCartasPorLetra ignora la categoría para Osho
+                          // Si es tradicional y mayores, pasamos categoriaSeleccionada ('mayores')
+                          baraja === 'osho' ? null : categoriaSeleccionada as 'mayores' | null
+                        ).map((carta) => (
+                          <Button
+                            key={carta.id} // Usamos carta.id como key
+                            variant="outline"
+                            className="h-auto p-3 text-left hover:bg-emerald-50 hover:border-emerald-400 text-sm"
+                            onClick={() => handleCartaSelect(carta.id)} // Pasamos carta.id
+                          >
+                            {carta.name}
+                          </Button>
+                        ))
+                      }
+
+                      {/* Cartas por palo (Menores Tradicionales) */}
+                      {(paloSeleccionado && categoriaSeleccionada === 'menores') &&
+                        filtrarCartasPorPalo(paloSeleccionado).map((carta) => (
+                          <Button
+                            key={carta.id} // Usamos carta.id como key
+                            variant="outline"
+                            className="h-auto p-3 text-center hover:bg-emerald-50 hover:border-emerald-400 text-sm"
+                            onClick={() => handleCartaSelect(carta.id)} // Pasamos carta.id
+                          >
+                            {carta.name}
+                          </Button>
+                        ))
+                      }
+                    </div>
                   </div>
-                </div>
+                )}
+
+              {/* Botón para volver a la selección de categoría/letra/palo */}
+              {(categoriaSeleccionada || letraSeleccionada || paloSeleccionado) && (
+                <Button
+                  variant="ghost"
+                  className="text-emerald-700 hover:bg-emerald-50"
+                  onClick={() => {
+                    if (paloSeleccionado) setPaloSeleccionado('');
+                    else if (letraSeleccionada) setLetraSeleccionada('');
+                    else if (categoriaSeleccionada) setCategoriaSeleccionada(null);
+                  }}
+                >
+                  <ChevronLeft className="w-4 h-4 mr-2" />
+                  Volver a seleccionar
+                </Button>
               )}
             </CardContent>
           </Card>
@@ -485,8 +476,8 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
                         <div
                           key={carta.posicion}
                           className={`p-3 rounded border cursor-pointer transition-all ${
-                            carta.invertida 
-                              ? 'bg-red-50 border-red-200' 
+                            carta.invertida
+                              ? 'bg-red-50 border-red-200'
                               : 'bg-green-50 border-green-200'
                           }`}
                           onDoubleClick={() => handleDoubleClick(carta.posicion)}
@@ -495,7 +486,7 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
                             {posicionData?.nombre || `Carta ${carta.posicion}`}
                           </div>
                           <div className="text-sm text-emerald-700">
-                            {getCardNameById(carta.carta)} {/* Usamos la función para obtener el nombre */}
+                            {getCardNameById(carta.carta)}
                             {carta.invertida && ' (Invertida)'}
                           </div>
                         </div>
@@ -536,7 +527,7 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
                   <Copy className="w-4 h-4 mr-2" />
                   Copiar Lista
                 </Button>
-                
+
                 <Button
                   variant="outline"
                   className="text-red-700 border-red-300 hover:bg-red-50"
@@ -547,7 +538,7 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
                 </Button>
               </>
             )}
-            
+
             {puedeIrAInterpretacion && (
               <Button
                 size="lg"
