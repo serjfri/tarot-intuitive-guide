@@ -1,10 +1,13 @@
-
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ChevronLeft } from "lucide-react";
 import { Tirada, CartaSeleccionada } from '@/pages/Index';
+
+// Importa los datos de los significados que ya creamos
+import { traditionalMeanings, TraditionalCardMeaning } from '@/data/traditionalMeanings';
+import { oshoMeanings, OshoCardMeaning } from '@/data/oshoMeanings';
 
 interface InterpretacionCartasProps {
   tirada: Tirada;
@@ -19,65 +22,33 @@ const InterpretacionCartas: React.FC<InterpretacionCartasProps> = ({
   onVolver,
   modoLibre
 }) => {
-  const getInterpretacionCarta = (carta: string, invertida: boolean, baraja: 'tradicional' | 'osho'): { significado: string; interpretacion: string } => {
-    // Aquí deberías tener una base de datos completa de interpretaciones
-    // Para el ejemplo, incluyo algunas cartas básicas
-    
-    const interpretacionesTradicional: Record<string, { normal: string; invertida: string; detalle: string }> = {
-      'Loco': {
-        normal: 'Nuevos comienzos, espontaneidad, aventura',
-        invertida: 'Imprudencia, riesgo innecesario, falta de dirección',
-        detalle: 'El Loco representa el inicio de un viaje espiritual y personal.'
-      },
-      'Mago': {
-        normal: 'Manifestación, poder personal, acción',
-        invertida: 'Manipulación, falta de voluntad, desperdicio de talentos',
-        detalle: 'El Mago simboliza el poder de transformar ideas en realidad.'
-      },
-      'Sacerdotisa': {
-        normal: 'Intuición, conocimiento oculto, misterio',
-        invertida: 'Secretos revelados, falta de intuición, superficialidad',
-        detalle: 'La Sacerdotisa representa la sabiduría interior y la intuición.'
-      }
-    };
-
-    const interpretacionesOsho: Record<string, { significado: string; detalle: string }> = {
-      'Abundancia': {
-        significado: 'Plenitud, prosperidad, gratitud',
-        detalle: 'La abundancia no es solo material, sino un estado de consciencia de plenitud.'
-      },
-      'Agotamiento': {
-        significado: 'Necesidad de descanso, límites alcanzados',
-        detalle: 'El agotamiento señala la importancia de parar y recuperar energías.'
-      },
-      'Consciencia': {
-        significado: 'Despertar, claridad mental, presencia',
-        detalle: 'La consciencia es el primer paso hacia la transformación personal.'
-      }
-    };
-
+  // Nueva función para obtener la interpretación, usando los datos importados
+  const getInterpretacionCarta = (cartaId: string, invertida: boolean, baraja: 'tradicional' | 'osho'): { significado: string; interpretacion: string; detalle: string } => {
     if (baraja === 'tradicional') {
-      const interp = interpretacionesTradicional[carta];
+      const interp = (traditionalMeanings as TraditionalCardMeaning[]).find(c => c.id === cartaId);
       if (interp) {
         return {
-          significado: invertida ? interp.invertida : interp.normal,
-          interpretacion: interp.detalle
+          significado: invertida ? interp.significadoInvertido : interp.significadoDerecho,
+          interpretacion: interp.detalle,
+          detalle: interp.detalle // Puedes usar 'detalle' o 'interpretacion' según prefieras para la explicación extendida
         };
       }
-    } else {
-      const interp = interpretacionesOsho[carta];
+    } else { // Baraja Osho
+      const interp = (oshoMeanings as OshoCardMeaning[]).find(c => c.id === cartaId);
       if (interp) {
         return {
           significado: interp.significado,
-          interpretacion: interp.detalle
+          interpretacion: interp.detalle,
+          detalle: interp.detalle
         };
       }
     }
 
-    // Interpretación genérica si no se encuentra la carta específica
+    // Fallback si la carta no se encuentra (no debería pasar con IDs correctos)
     return {
-      significado: 'Carta con significado profundo y personal',
-      interpretacion: 'Esta carta invita a la reflexión personal y al autoconocimiento.'
+      significado: 'Significado no encontrado',
+      interpretacion: 'Detalle no encontrado',
+      detalle: 'Detalle no encontrado'
     };
   };
 
@@ -144,7 +115,8 @@ const InterpretacionCartas: React.FC<InterpretacionCartasProps> = ({
               .sort((a, b) => a.posicion - b.posicion)
               .map((carta) => {
                 const posicionData = tirada.posiciones.find(p => p.numero === carta.posicion);
-                const interpretacion = getInterpretacionCarta(carta.carta, carta.invertida, carta.baraja);
+                // Ahora pasamos carta.id en lugar de carta.carta (nombre de la carta)
+                const interpretacion = getInterpretacionCarta(carta.id, carta.invertida, carta.baraja);
                 
                 return (
                   <Card key={carta.posicion} className="bg-white/80 backdrop-blur-sm border-purple-200">
@@ -163,7 +135,8 @@ const InterpretacionCartas: React.FC<InterpretacionCartasProps> = ({
                             variant={carta.invertida ? "destructive" : "default"}
                             className="mb-1"
                           >
-                            {carta.carta}
+                            {/* Ahora mostramos carta.carta, que es el nombre de la carta */}
+                            {carta.carta} 
                           </Badge>
                           {carta.invertida && (
                             <div className="text-xs text-red-600">Invertida</div>
@@ -192,7 +165,7 @@ const InterpretacionCartas: React.FC<InterpretacionCartasProps> = ({
           <Card className="bg-gradient-to-r from-purple-100 to-indigo-100 border-purple-200">
             <CardHeader>
               <CardTitle className="text-xl text-purple-900">
-                Mensaje General
+                Mensaje General de la Lectura
               </CardTitle>
             </CardHeader>
             <CardContent>
