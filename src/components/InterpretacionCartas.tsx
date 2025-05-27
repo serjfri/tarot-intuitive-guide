@@ -3,30 +3,13 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ChevronLeft } from "lucide-react";
-import { Tirada, CartaSeleccionada } from '@/pages/Index';
+import { Tirada, CartaSeleccionada } from '@/pages/Index'; // Asumo que estas interfaces están correctas aquí
 
-// Definimos interfaces locales para evitar errores de importación
-interface TraditionalCardMeaning {
-  id: string;
-  nombre: string;
-  significadoDerecho: string;
-  significadoInvertido: string;
-  detalle: string;
-  elemento?: string;
-  palabrasClave?: string[];
-  arquetipo?: string;
-}
+// --- IMPORTACIONES DE DATOS Y TIPOS DESDE LOS ARCHIVOS DE DATOS ---
+import { traditionalMeanings, TraditionalCardMeaning } from '@/data/traditionalMeanings';
+import { oshoMeanings, OshoCardMeaning } from '@/data/oshoMeanings';
+// --- FIN DE IMPORTACIONES DE DATOS Y TIPOS ---
 
-interface OshoCardMeaning {
-  id: string;
-  nombre: string;
-  significado: string;
-  detalle: string;
-}
-
-// Datos de ejemplo - reemplaza con tus datos reales
-const traditionalMeanings: TraditionalCardMeaning[] = [];
-const oshoMeanings: OshoCardMeaning[] = [];
 
 interface InterpretacionCartasProps {
   tirada: Tirada;
@@ -46,32 +29,33 @@ const InterpretacionCartas: React.FC<InterpretacionCartasProps> = ({
       const interp = traditionalMeanings.find(c => c.id === cartaId);
       if (interp) {
         return {
+          nombre: interp.nombre, // Añadido para que el nombre de la carta también se retorne
           significado: invertida ? interp.significadoInvertido : interp.significadoDerecho,
-          interpretacion: interp.detalle,
-          detalle: interp.detalle,
+          interpretacion: interp.detalle, // Asumo que detalle es la interpretación larga
           elemento: interp.elemento,
           palabrasClave: interp.palabrasClave,
           arquetipo: interp.arquetipo
         };
       }
-    } else {
+    } else { // Baraja Osho
       const interp = oshoMeanings.find(c => c.id === cartaId);
       if (interp) {
         return {
+          nombre: interp.nombre, // Añadido para que el nombre de la carta también se retorne
           significado: interp.significado,
-          interpretacion: interp.detalle,
-          detalle: interp.detalle,
-          elemento: undefined,
-          palabrasClave: undefined,
-          arquetipo: undefined
+          interpretacion: interp.detalle, // Asumo que detalle es la interpretación larga
+          elemento: undefined, // Osho no tiene elemento
+          palabrasClave: undefined, // Osho no tiene palabras clave en tu definición actual
+          arquetipo: undefined // Osho no tiene arquetipo en tu definición actual
         };
       }
     }
 
+    // Caso de carta no encontrada
     return {
+      nombre: 'Carta Desconocida',
       significado: 'Significado no encontrado',
-      interpretacion: 'Detalle no encontrado',
-      detalle: 'Detalle no encontrado',
+      interpretacion: 'Detalle no encontrado para esta carta. Por favor, verifica los archivos de datos.',
       elemento: undefined,
       palabrasClave: undefined,
       arquetipo: undefined
@@ -115,13 +99,14 @@ const InterpretacionCartas: React.FC<InterpretacionCartasProps> = ({
                 </div>
                 <div className="text-center">
                   <div className="text-2xl font-bold text-purple-700">
-                    {cartasSeleccionadas[0]?.baraja === 'tradicional' ? 'Tradicional' : 'Osho'}
+                    {/* Asegúrate de que cartasSeleccionadas no esté vacío antes de acceder a [0] */}
+                    {cartasSeleccionadas.length > 0 ? (cartasSeleccionadas[0].baraja === 'tradicional' ? 'Tradicional' : 'Osho') : 'N/A'}
                   </div>
                   <div className="text-purple-600 text-sm">
                     Tipo de Baraja
                   </div>
                 </div>
-                {cartasSeleccionadas[0]?.baraja === 'tradicional' && (
+                {cartasSeleccionadas.length > 0 && cartasSeleccionadas[0].baraja === 'tradicional' && (
                   <div className="text-center">
                     <div className="text-2xl font-bold text-purple-700">
                       {cartasSeleccionadas.filter(c => c.invertida).length}
@@ -150,6 +135,10 @@ const InterpretacionCartas: React.FC<InterpretacionCartasProps> = ({
                         <div>
                           <CardTitle className="text-lg text-purple-900">
                             {posicionData?.nombre || `Carta ${carta.posicion}`}
+                            {/* Mostrar el nombre real de la carta aquí */}
+                            <span className="block text-sm font-normal text-purple-500 mt-1">
+                              {interpretacion.nombre}
+                            </span>
                           </CardTitle>
                           <p className="text-purple-600 text-sm mt-1">
                             {posicionData?.descripcion}
@@ -160,7 +149,8 @@ const InterpretacionCartas: React.FC<InterpretacionCartasProps> = ({
                             variant={carta.invertida && carta.baraja === 'tradicional' ? "destructive" : "default"}
                             className="mb-1"
                           >
-                            {carta.carta}
+                            {/* Ahora usamos el nombre de la carta del significado */}
+                            {interpretacion.nombre}
                           </Badge>
                           {carta.invertida && carta.baraja === 'tradicional' && (
                             <div className="text-xs text-red-600">Invertida</div>

@@ -7,6 +7,10 @@ import { ChevronLeft, Copy, Trash, Undo2 } from "lucide-react";
 import { Tirada, CartaSeleccionada } from '@/pages/Index';
 import { useToast } from "@/hooks/use-toast";
 
+// --- IMPORTACIONES DE DATOS DESDE cardNames.ts ---
+import { cardNames } from '@/data/cardNames';
+// --- FIN DE IMPORTACIONES DE DATOS ---
+
 interface CartaSelectorProps {
   tirada: Tirada;
   baraja: 'tradicional' | 'osho';
@@ -42,149 +46,81 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
   const [paloSeleccionado, setPaloSeleccionado] = useState<string>('');
   const { toast } = useToast();
 
-  // Datos para Tarot Tradicional con artículos
-  const arcanosMayoresConArticulos = [
-    { nombre: 'El Loco', letraOrden: 'L' },
-    { nombre: 'El Mago', letraOrden: 'M' },
-    { nombre: 'La Sacerdotisa', letraOrden: 'S' },
-    { nombre: 'La Emperatriz', letraOrden: 'E' },
-    { nombre: 'El Emperador', letraOrden: 'E' },
-    { nombre: 'El Hierofante', letraOrden: 'H' },
-    { nombre: 'Los Amantes', letraOrden: 'A' },
-    { nombre: 'El Carro', letraOrden: 'C' },
-    { nombre: 'La Justicia', letraOrden: 'J' },
-    { nombre: 'El Ermitaño', letraOrden: 'E' },
-    { nombre: 'La Rueda de la Fortuna', letraOrden: 'R' },
-    { nombre: 'La Fuerza', letraOrden: 'F' },
-    { nombre: 'El Colgado', letraOrden: 'C' },
-    { nombre: 'La Muerte', letraOrden: 'M' },
-    { nombre: 'La Templanza', letraOrden: 'T' },
-    { nombre: 'El Diablo', letraOrden: 'D' },
-    { nombre: 'La Torre', letraOrden: 'T' },
-    { nombre: 'La Estrella', letraOrden: 'E' },
-    { nombre: 'La Luna', letraOrden: 'L' },
-    { nombre: 'El Sol', letraOrden: 'S' },
-    { nombre: 'El Juicio', letraOrden: 'J' },
-    { nombre: 'El Mundo', letraOrden: 'M' }
-  ];
+  // --- OBTENER DATOS DE cardNames.ts ---
+  const arcanosMayores = cardNames.filter(c => c.baraja === 'tradicional' && c.id.startsWith('EL_') || c.id.startsWith('LA_') || c.id.startsWith('LOS_'));
+  const arcanosMenores = cardNames.filter(c => c.baraja === 'tradicional' && (c.id.includes('_DE_BASTOS') || c.id.includes('_DE_COPAS') || c.id.includes('_DE_ESPADAS') || c.id.includes('_DE_OROS')));
+  const cartasOsho = cardNames.filter(c => c.baraja === 'osho');
 
   const palos = ['Bastos', 'Copas', 'Espadas', 'Oros'];
-  const cartasPorPalo = ['As', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'Sota', 'Caballo', 'Reina', 'Rey'];
+  // No necesitamos cartasPorPalo explícitamente aquí, ya que los nombres completos están en cardNames.ts
 
-  // Datos para Tarot de Osho con artículos
-  const cartasOshoConArticulos = [
-    { nombre: 'La Abundancia', letraOrden: 'A' },
-    { nombre: 'El Agotamiento', letraOrden: 'A' },
-    { nombre: 'El Aislamiento', letraOrden: 'A' },
-    { nombre: 'El Apego al Pasado', letraOrden: 'A' },
-    { nombre: 'La Armonía', letraOrden: 'A' },
-    { nombre: 'La Aventura', letraOrden: 'A' },
-    { nombre: 'El Avance', letraOrden: 'A' },
-    { nombre: 'El Cambio', letraOrden: 'C' },
-    { nombre: 'La Celebración', letraOrden: 'C' },
-    { nombre: 'La Comparación', letraOrden: 'C' },
-    { nombre: 'El Compartir', letraOrden: 'C' },
-    { nombre: 'La Compasión', letraOrden: 'C' },
-    { nombre: 'La Consciencia', letraOrden: 'C' },
-    { nombre: 'La Conclusión', letraOrden: 'C' },
-    { nombre: 'Los Condicionamientos', letraOrden: 'C' },
-    { nombre: 'La Confianza', letraOrden: 'C' },
-    { nombre: 'El Control', letraOrden: 'C' },
-    { nombre: 'La Creatividad', letraOrden: 'C' },
-    { nombre: 'La Culpa', letraOrden: 'C' },
-    { nombre: 'La Curación', letraOrden: 'C' },
-    { nombre: 'El Darse Cuenta', letraOrden: 'D' },
-    { nombre: 'El Desapego', letraOrden: 'D' },
-    { nombre: 'Despacio', letraOrden: 'D' },
-    { nombre: 'El Avaro', letraOrden: 'A' },
-    { nombre: 'El Creador', letraOrden: 'C' },
-    { nombre: 'El Extraño', letraOrden: 'E' },
-    { nombre: 'El Loco', letraOrden: 'L' },
-    { nombre: 'El Maestro', letraOrden: 'M' },
-    { nombre: 'El Rayo', letraOrden: 'R' },
-    { nombre: 'El Rebelde', letraOrden: 'R' },
-    { nombre: 'La Esquizofrenia', letraOrden: 'E' },
-    { nombre: 'El Estrés', letraOrden: 'E' },
-    { nombre: 'La Existencia', letraOrden: 'E' },
-    { nombre: 'El Éxito', letraOrden: 'E' },
-    { nombre: 'El Experimentar', letraOrden: 'E' },
-    { nombre: 'La Fluidez', letraOrden: 'F' },
-    { nombre: 'El Fluir', letraOrden: 'F' },
-    { nombre: 'El Florecimiento', letraOrden: 'F' },
-    { nombre: 'La Guía', letraOrden: 'G' },
-    { nombre: 'Hacia Dentro', letraOrden: 'H' },
-    { nombre: 'La Inocencia', letraOrden: 'I' },
-    { nombre: 'La Integración', letraOrden: 'I' },
-    { nombre: 'La Intensidad', letraOrden: 'I' },
-    { nombre: 'El Juego', letraOrden: 'J' },
-    { nombre: 'La Fuente', letraOrden: 'F' },
-    { nombre: 'Las Cargas', letraOrden: 'C' },
-    { nombre: 'Lo Simple y Ordinario', letraOrden: 'S' },
-    { nombre: 'Los Amantes', letraOrden: 'A' },
-    { nombre: 'La Lucha', letraOrden: 'L' },
-    { nombre: 'La Madurez', letraOrden: 'M' },
-    { nombre: 'La Materialización', letraOrden: 'M' },
-    { nombre: 'La Mente', letraOrden: 'M' },
-    { nombre: 'Momento a Momento', letraOrden: 'M' },
-    { nombre: 'La Moralidad', letraOrden: 'M' },
-    { nombre: 'Más Allá de la Ilusión', letraOrden: 'M' },
-    { nombre: 'La Nueva Visión', letraOrden: 'N' },
-    { nombre: 'La Participación', letraOrden: 'P' },
-    { nombre: 'La Paciencia', letraOrden: 'P' },
-    { nombre: 'La Pena', letraOrden: 'P' },
-    { nombre: 'La Pereza', letraOrden: 'P' },
-    { nombre: 'La Plenitud', letraOrden: 'P' },
-    { nombre: 'La Política', letraOrden: 'P' },
-    { nombre: 'Las Posibilidades', letraOrden: 'P' },
-    { nombre: 'La Postergación', letraOrden: 'P' },
-    { nombre: 'Las Proyecciones', letraOrden: 'P' },
-    { nombre: 'La Receptividad', letraOrden: 'R' },
-    { nombre: 'El Renacer', letraOrden: 'R' },
-    { nombre: 'La Represión', letraOrden: 'R' },
-    { nombre: 'El Silencio', letraOrden: 'S' },
-    { nombre: 'La Soledad', letraOrden: 'S' },
-    { nombre: 'El Soltar', letraOrden: 'S' },
-    { nombre: 'Somos el Mundo', letraOrden: 'S' },
-    { nombre: 'Los Sueños', letraOrden: 'S' },
-    { nombre: 'La Totalidad', letraOrden: 'T' },
-    { nombre: 'La Transformación', letraOrden: 'T' },
-    { nombre: 'La Transigencia', letraOrden: 'T' },
-    { nombre: 'El Vacío', letraOrden: 'V' },
-    { nombre: 'El Valor', letraOrden: 'V' },
-    { nombre: 'El Viajando', letraOrden: 'V' },
-    { nombre: 'Las Vidas Pasadas', letraOrden: 'V' },
-    { nombre: 'La Voz Interior', letraOrden: 'V' }
-  ];
+  // Función auxiliar para obtener la primera letra significativa
+  const getFirstLetterForSorting = (name: string): string => {
+    // Eliminar artículos y espacios extra para obtener la primera letra real
+    const cleanedName = name
+        .replace(/^(El|La|Los|Las)\s+/i, '') // Eliminar artículos
+        .trim();
+    return cleanedName.charAt(0).toUpperCase();
+  };
 
   const getLetrasArcanosMayores = () => {
     const letras = new Set<string>();
-    arcanosMayoresConArticulos.forEach(carta => {
-      letras.add(carta.letraOrden);
+    arcanosMayores.forEach(carta => {
+      letras.add(getFirstLetterForSorting(carta.name));
     });
     return Array.from(letras).sort();
   };
 
   const getLetrasOsho = () => {
     const letras = new Set<string>();
-    cartasOshoConArticulos.forEach(carta => {
-      letras.add(carta.letraOrden);
+    cartasOsho.forEach(carta => {
+      letras.add(getFirstLetterForSorting(carta.name));
     });
     return Array.from(letras).sort();
   };
 
   const filtrarCartasPorLetra = (letra: string) => {
     if (baraja === 'osho') {
-      return cartasOshoConArticulos
-        .filter(carta => carta.letraOrden === letra)
-        .map(carta => carta.nombre)
+      return cartasOsho
+        .filter(carta => getFirstLetterForSorting(carta.name) === letra)
+        .map(carta => carta.name)
         .sort();
     } else if (categoriaSeleccionada === 'mayores') {
-      return arcanosMayoresConArticulos
-        .filter(carta => carta.letraOrden === letra)
-        .map(carta => carta.nombre)
+      return arcanosMayores
+        .filter(carta => getFirstLetterForSorting(carta.name) === letra)
+        .map(carta => carta.name)
         .sort();
     }
     return [];
+  };
+
+  const filtrarCartasPorPalo = (palo: string) => {
+      // Reconstruir el nombre esperado del ID para la búsqueda
+      const paloID = palo.toUpperCase(); // Por ejemplo, 'BASTOS'
+      return arcanosMenores
+          .filter(carta => carta.id.endsWith(`_DE_${paloID}`))
+          .map(carta => carta.name)
+          .sort((a, b) => {
+              // Ordenar numéricamente primero, luego por nombres de corte
+              const getSortValue = (name: string) => {
+                  if (name.includes('As')) return 1;
+                  if (name.includes('Dos')) return 2; // Asegurarse de que "Dos" es el 2, etc.
+                  if (name.includes('Tres')) return 3;
+                  if (name.includes('Cuatro')) return 4;
+                  if (name.includes('Cinco')) return 5;
+                  if (name.includes('Seis')) return 6;
+                  if (name.includes('Siete')) return 7;
+                  if (name.includes('Ocho')) return 8;
+                  if (name.includes('Nueve')) return 9;
+                  if (name.includes('Diez')) return 10;
+                  if (name.includes('Sota')) return 11;
+                  if (name.includes('Caballo')) return 12;
+                  if (name.includes('Reina')) return 13;
+                  if (name.includes('Rey')) return 14;
+                  return 99; // Para cualquier otro caso
+              };
+              return getSortValue(a) - getSortValue(b);
+          });
   };
 
   const obtenerSiguientePosicion = () => {
@@ -202,10 +138,34 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
   };
 
   const handleCartaSelect = (nombreCarta: string) => {
+    // Aquí necesitamos obtener el ID de la carta a partir de su nombre
+    let cartaId = '';
+    if (baraja === 'tradicional') {
+        const foundCard = [...arcanosMayores, ...arcanosMenores].find(c => c.name === nombreCarta);
+        if (foundCard) {
+            cartaId = foundCard.id;
+        }
+    } else { // Osho
+        const foundCard = cartasOsho.find(c => c.name === nombreCarta);
+        if (foundCard) {
+            cartaId = foundCard.id;
+        }
+    }
+
+    if (!cartaId) {
+        console.error(`Error: No se encontró el ID para la carta "${nombreCarta}" en la baraja "${baraja}"`);
+        toast({
+            title: "Error de selección",
+            description: "No se pudo añadir la carta. Inténtalo de nuevo.",
+            variant: "destructive",
+        });
+        return;
+    }
+
     const posicion = obtenerSiguientePosicion();
     const nuevaCarta: CartaSeleccionada = {
       posicion: posicion,
-      carta: nombreCarta,
+      carta: cartaId, // Aquí es donde usamos el ID, no el nombre
       invertida: false,
       baraja: baraja
     };
@@ -223,7 +183,7 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
   };
 
   const handleDoubleClick = (posicion: number) => {
-    if (baraja === 'tradicional') {
+    if (baraja === 'tradicional') { // Solo para baraja tradicional
       onCartaToggle(posicion);
     }
   };
@@ -238,12 +198,18 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
     setPaloSeleccionado('');
   };
 
+  const getCardNameById = (id: string) => {
+      const card = cardNames.find(c => c.id === id);
+      return card ? card.name : id; // Retorna el nombre o el ID si no se encuentra (fallback)
+  };
+
   const copiarListaCartas = async () => {
     const lista = cartasSeleccionadas
       .sort((a, b) => a.posicion - b.posicion)
       .map((carta, index) => {
         const posicionData = tirada.posiciones.find(p => p.numero === carta.posicion);
-        return `${index + 1}. ${posicionData?.nombre || `Carta ${carta.posicion}`}: ${carta.carta}${carta.invertida ? ' (Invertida)' : ''}`;
+        const nombreDisplay = getCardNameById(carta.carta); // Usamos la función para obtener el nombre
+        return `${index + 1}. ${posicionData?.nombre || `Carta ${carta.posicion}`}: ${nombreDisplay}${carta.invertida ? ' (Invertida)' : ''}`;
       })
       .join('\n');
 
@@ -463,7 +429,7 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
                     Cartas disponibles
                   </label>
                   <div className="grid gap-2 md:grid-cols-2 lg:grid-cols-3">
-                    {/* Cartas por letra */}
+                    {/* Cartas por letra (Mayores o Osho) */}
                     {letraSeleccionada && (categoriaSeleccionada === 'mayores' || baraja === 'osho') && 
                       filtrarCartasPorLetra(letraSeleccionada).map((carta) => (
                         <Button
@@ -477,14 +443,14 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
                       ))
                     }
                     
-                    {/* Cartas por palo */}
+                    {/* Cartas por palo (Menores Tradicionales) */}
                     {paloSeleccionado && categoriaSeleccionada === 'menores' &&
-                      cartasPorPalo.map((carta) => (
+                      filtrarCartasPorPalo(paloSeleccionado).map((carta) => (
                         <Button
                           key={carta}
                           variant="outline"
                           className="h-auto p-3 text-center hover:bg-emerald-50 hover:border-emerald-400 text-sm"
-                          onClick={() => handleCartaSelect(`${carta} de ${paloSeleccionado}`)}
+                          onClick={() => handleCartaSelect(carta)}
                         >
                           {carta}
                         </Button>
@@ -529,7 +495,7 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
                             {posicionData?.nombre || `Carta ${carta.posicion}`}
                           </div>
                           <div className="text-sm text-emerald-700">
-                            {carta.carta}
+                            {getCardNameById(carta.carta)} {/* Usamos la función para obtener el nombre */}
                             {carta.invertida && ' (Invertida)'}
                           </div>
                         </div>
