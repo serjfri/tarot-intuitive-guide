@@ -161,8 +161,6 @@ const InterpretacionCartas: React.FC<InterpretacionCartasProps> = ({
               })}
           </div>
 
-
-
           {/* Botón volver */}
           <div className="flex justify-center">
             <Button
