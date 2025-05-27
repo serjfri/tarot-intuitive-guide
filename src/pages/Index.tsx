@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -56,6 +55,7 @@ const Index = () => {
     setModoLibre(true);
     setTiradaSeleccionada(tiradaLibre);
     setCartasSeleccionadas([]);
+    setBarajaSeleccionada('tradicional'); // Reset to default
     setVistaActual('cartas');
   };
 
@@ -69,6 +69,14 @@ const Index = () => {
     setBarajaSeleccionada(baraja);
     setCartasSeleccionadas([]);
     setVistaActual('cartas');
+  };
+
+  const handleCambiarBaraja = (baraja: 'tradicional' | 'osho') => {
+    setBarajaSeleccionada(baraja);
+    // Limpiar cartas al cambiar de baraja en modo libre
+    if (modoLibre) {
+      setCartasSeleccionadas([]);
+    }
   };
 
   const handleCartaAdd = (carta: CartaSeleccionada) => {
@@ -199,6 +207,7 @@ const Index = () => {
         onDeshacerUltimaCarta={handleDeshacerUltimaCarta}
         puedeIrAInterpretacion={puedeIrAInterpretacion()}
         modoLibre={modoLibre}
+        onCambiarBaraja={handleCambiarBaraja}
       />
     );
   }

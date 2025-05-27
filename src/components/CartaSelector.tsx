@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -20,6 +19,7 @@ interface CartaSelectorProps {
   onDeshacerUltimaCarta: () => void;
   puedeIrAInterpretacion: boolean;
   modoLibre: boolean;
+  onCambiarBaraja?: (baraja: 'tradicional' | 'osho') => void;
 }
 
 const CartaSelector: React.FC<CartaSelectorProps> = ({
@@ -33,7 +33,8 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
   onLimpiarCartas,
   onDeshacerUltimaCarta,
   puedeIrAInterpretacion,
-  modoLibre
+  modoLibre,
+  onCambiarBaraja
 }) => {
   const [posicionActual, setPosicionActual] = useState(1);
   const [categoriaSeleccionada, setCategoriaSeleccionada] = useState<'mayores' | 'menores' | null>(null);
@@ -227,6 +228,16 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
     }
   };
 
+  const handleCambiarBaraja = (nuevaBaraja: 'tradicional' | 'osho') => {
+    if (onCambiarBaraja) {
+      onCambiarBaraja(nuevaBaraja);
+    }
+    // Resetear selecciones al cambiar de baraja
+    setCategoriaSeleccionada(null);
+    setLetraSeleccionada('');
+    setPaloSeleccionado('');
+  };
+
   const copiarListaCartas = async () => {
     const lista = cartasSeleccionadas
       .sort((a, b) => a.posicion - b.posicion)
@@ -310,24 +321,14 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
                   <Button
                     variant={baraja === 'tradicional' ? "default" : "outline"}
                     className="h-12"
-                    onClick={() => {
-                      // Cambiar baraja y resetear selecciones
-                      setCategoriaSeleccionada(null);
-                      setLetraSeleccionada('');
-                      setPaloSeleccionado('');
-                    }}
+                    onClick={() => handleCambiarBaraja('tradicional')}
                   >
                     Tarot Tradicional
                   </Button>
                   <Button
                     variant={baraja === 'osho' ? "default" : "outline"}
                     className="h-12"
-                    onClick={() => {
-                      // Cambiar baraja y resetear selecciones
-                      setCategoriaSeleccionada(null);
-                      setLetraSeleccionada('');
-                      setPaloSeleccionado('');
-                    }}
+                    onClick={() => handleCambiarBaraja('osho')}
                   >
                     Tarot de Osho
                   </Button>
