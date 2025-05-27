@@ -1,73 +1,103 @@
-# Welcome to your Lovable project
 
-## Project info
+# Guía de Tarot - PWA
 
-**URL**: https://lovable.dev/projects/afa62d0e-aa66-4b48-a37e-6c34592619d1
+Una aplicación web progresiva (PWA) elegante para interpretación de tiradas de tarot tradicional y de Osho.
 
-## How can I edit this code?
+## Características
 
-There are several ways of editing your application.
+- ✨ Selección directa de cartas o por tiradas específicas
+- 🎴 Soporte para Tarot Tradicional y Tarot de Osho
+- 📱 PWA completa - funciona offline
+- 🎨 Interfaz elegante y responsive
+- 🔄 Función de deshacer última carta
+- 📋 Copiar lista de cartas al portapapeles
+- 🌟 Menús en cascada para selección eficiente
 
-**Use Lovable**
+## Deployment en GitHub Pages
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/afa62d0e-aa66-4b48-a37e-6c34592619d1) and start prompting.
+### Configuración Inicial
 
-Changes made via Lovable will be committed automatically to this repo.
+1. **Fork o clona este repositorio**
+2. **Edita el archivo `vite.config.ts`:**
+   ```typescript
+   base: mode === 'production' ? '/nombre-de-tu-repositorio/' : '/',
+   ```
+   Reemplaza `nombre-de-tu-repositorio` con el nombre real de tu repositorio.
 
-**Use your preferred IDE**
+3. **Configura GitHub Pages:**
+   - Ve a Settings → Pages en tu repositorio
+   - Source: GitHub Actions
+   - El workflow se ejecutará automáticamente
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+### Estructura del Proyecto
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+```
+├── public/
+│   ├── manifest.json          # Configuración PWA
+│   ├── sw.js                  # Service Worker
+│   ├── .nojekyll             # Configuración GitHub Pages
+│   └── assets/               # Iconos y recursos
+├── .github/
+│   └── workflows/
+│       └── deploy.yml        # GitHub Actions workflow
+├── src/
+│   ├── components/           # Componentes React
+│   ├── pages/               # Páginas principales
+│   └── hooks/               # Hooks personalizados
+└── dist/                    # Build output (generado)
 ```
 
-**Edit a file directly in GitHub**
+### Comandos Disponibles
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+```bash
+# Desarrollo
+npm run dev
 
-**Use GitHub Codespaces**
+# Build para producción
+npm run build
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+# Preview del build
+npm run preview
 
-## What technologies are used for this project?
+# Lint
+npm run lint
+```
 
-This project is built with:
+### Personalización
 
-- Vite
+#### Cambiar Iconos
+Reemplaza los archivos en `public/assets/` con tus propios iconos:
+- `icon-72x72.png` hasta `icon-512x512.png`
+- `favicon-16x16.png` y `favicon-32x32.png`
+
+#### Modificar Colores
+Edita `src/index.css` para cambiar los colores del tema:
+```css
+:root {
+  --primary: tu-color-principal;
+  --background: tu-color-fondo;
+}
+```
+
+#### Añadir Nuevas Tiradas
+Edita `src/components/TiradaSelector.tsx` para añadir nuevas configuraciones de tiradas.
+
+### PWA Features
+
+- **Instalable:** Los usuarios pueden instalar la app en sus dispositivos
+- **Offline:** Funciona sin conexión una vez cargada
+- **App Shortcuts:** Accesos directos a funciones principales
+- **Responsive:** Adapta a cualquier tamaño de pantalla
+
+### Tecnologías Utilizadas
+
+- React 18
 - TypeScript
-- React
-- shadcn-ui
 - Tailwind CSS
+- Vite
+- Radix UI (shadcn/ui)
+- PWA capabilities
 
-## How can I deploy this project?
+## Licencia
 
-Simply open [Lovable](https://lovable.dev/projects/afa62d0e-aa66-4b48-a37e-6c34592619d1) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+MIT License - ve el archivo LICENSE para más detalles.
