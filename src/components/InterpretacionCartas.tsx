@@ -1,5 +1,3 @@
-// src/components/InterpretacionCartas.tsx
-
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -7,9 +5,28 @@ import { Badge } from "@/components/ui/badge";
 import { ChevronLeft } from "lucide-react";
 import { Tirada, CartaSeleccionada } from '@/pages/Index';
 
-// Importar los significados de las cartas
-import { oshoMeanings } from '@/data/oshoMeanings';
-import { traditionalMeanings } from '@/data/traditionalMeanings';
+// Definimos interfaces locales para evitar errores de importación
+interface TraditionalCardMeaning {
+  id: string;
+  nombre: string;
+  significadoDerecho: string;
+  significadoInvertido: string;
+  detalle: string;
+  elemento?: string;
+  palabrasClave?: string[];
+  arquetipo?: string;
+}
+
+interface OshoCardMeaning {
+  id: string;
+  nombre: string;
+  significado: string;
+  detalle: string;
+}
+
+// Datos de ejemplo - reemplaza con tus datos reales
+const traditionalMeanings: TraditionalCardMeaning[] = [];
+const oshoMeanings: OshoCardMeaning[] = [];
 
 interface InterpretacionCartasProps {
   tirada: Tirada;
@@ -24,38 +41,40 @@ const InterpretacionCartas: React.FC<InterpretacionCartasProps> = ({
   onVolver,
   modoLibre
 }) => {
-  const getInterpretacionCarta = (cartaNombre: string, invertida: boolean, baraja: 'tradicional' | 'osho'): { significado: string; interpretacion: string; palabrasClave?: string[]; arquetipo?: string; elemento?: string } => {
-
+  const getInterpretacionCarta = (cartaId: string, invertida: boolean, baraja: 'tradicional' | 'osho') => {
     if (baraja === 'tradicional') {
-      const interp = traditionalMeanings.find(c => c.nombre === cartaNombre); // Buscar en el array tradicional
+      const interp = traditionalMeanings.find(c => c.id === cartaId);
       if (interp) {
         return {
-          // Si está invertida, usa significadoInvertido; si no, usa significadoDerecho
-          significado: invertida ? (interp.significadoInvertido || interp.significadoDerecho) : interp.significadoDerecho,
-          interpretacion: interp.detalle || interp.significadoDerecho, // Si no hay detalle, usa el significado derecho
+          significado: invertida ? interp.significadoInvertido : interp.significadoDerecho,
+          interpretacion: interp.detalle,
+          detalle: interp.detalle,
+          elemento: interp.elemento,
           palabrasClave: interp.palabrasClave,
-          arquetipo: interp.arquetipo,
-          elemento: interp.elemento
+          arquetipo: interp.arquetipo
         };
       }
-    } else if (baraja === 'osho') {
-      const interp = oshoMeanings.find(c => c.nombre === cartaNombre); // Buscar en el array de Osho
+    } else {
+      const interp = oshoMeanings.find(c => c.id === cartaId);
       if (interp) {
         return {
           significado: interp.significado,
-          // MODIFICACIÓN AQUÍ: Aseguramos que palabrasClave exista antes de llamar a .join()
-          interpretacion: interp.afirmacion || (interp.palabrasClave && interp.palabrasClave.length > 0 ? interp.palabrasClave.join(', ') : interp.significado),
-          palabrasClave: interp.palabrasClave, // Ya es opcional en la interfaz de retorno
-          arquetipo: interp.arquetipo // Ya es opcional en la interfaz de retorno
-          // Osho no tiene 'elemento', así que no lo incluimos
+          interpretacion: interp.detalle,
+          detalle: interp.detalle,
+          elemento: undefined,
+          palabrasClave: undefined,
+          arquetipo: undefined
         };
       }
     }
 
-    // Interpretación genérica si no se encuentra la carta específica en ninguno de los arrays
     return {
-      significado: 'Carta con significado profundo y personal',
-      interpretacion: 'Esta carta invita a la reflexión personal y al autoconocimiento.'
+      significado: 'Significado no encontrado',
+      interpretacion: 'Detalle no encontrado',
+      detalle: 'Detalle no encontrado',
+      elemento: undefined,
+      palabrasClave: undefined,
+      arquetipo: undefined
     };
   };
 
@@ -123,7 +142,7 @@ const InterpretacionCartas: React.FC<InterpretacionCartasProps> = ({
               .map((carta) => {
                 const posicionData = tirada.posiciones.find(p => p.numero === carta.posicion);
                 const interpretacion = getInterpretacionCarta(carta.carta, carta.invertida, carta.baraja);
-
+                
                 return (
                   <Card key={carta.posicion} className="bg-white/80 backdrop-blur-sm border-purple-200">
                     <CardHeader>
@@ -146,9 +165,10 @@ const InterpretacionCartas: React.FC<InterpretacionCartasProps> = ({
                           {carta.invertida && carta.baraja === 'tradicional' && (
                             <div className="text-xs text-red-600">Invertida</div>
                           )}
-                          {/* Mostrar el elemento si es tradicional */}
                           {carta.baraja === 'tradicional' && interpretacion.elemento && (
-                            <div className="text-xs text-purple-500 mt-0.5">Elemento: {interpretacion.elemento}</div>
+                            <div className="text-xs text-purple-500 mt-0.5">
+                              Elemento: {interpretacion.elemento}
+                            </div>
                           )}
                         </div>
                       </div>
@@ -181,7 +201,6 @@ const InterpretacionCartas: React.FC<InterpretacionCartasProps> = ({
                 );
               })}
           </div>
-
 
           {/* Botón volver */}
           <div className="flex justify-center">
