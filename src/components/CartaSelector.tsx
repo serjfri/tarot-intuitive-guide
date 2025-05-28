@@ -108,10 +108,9 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
     return name; // Fallback
   };
 
-
   const filtrarCartasPorPalo = (palo: string) => {
     const paloID = palo.toUpperCase();
-    return arcanosMenores
+    const cartasDelPalo = arcanosMenores
       .filter(carta => carta.id.endsWith(`_DE_${paloID}`))
       .sort((a, b) => {
         const getSortValue = (name: string) => {
@@ -133,6 +132,14 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
         };
         return getSortValue(a.name) - getSortValue(b.name);
       });
+
+      // Agrupar las cartas según la nueva estructura solicitada
+      const asToFive = cartasDelPalo.filter(c => ['As', 'Dos', 'Tres', 'Cuatro', 'Cinco'].some(n => c.name.includes(n)));
+      const sixToTen = cartasDelPalo.filter(c => ['Seis', 'Siete', 'Ocho', 'Nueve', 'Diez'].some(n => c.name.includes(n)));
+      const sotaCaballero = cartasDelPalo.filter(c => ['Sota', 'Caballo'].some(n => c.name.includes(n)));
+      const reinaRey = cartasDelPalo.filter(c => ['Reina', 'Rey'].some(n => c.name.includes(n)));
+
+      return { asToFive, sixToTen, sotaCaballero, reinaRey };
   };
 
   const obtenerSiguientePosicion = () => {
@@ -163,7 +170,8 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
       setPosicionActual(posicion + 1);
     }
 
-    setCategoriaSeleccionada(null); 
+    // Reiniciar selecciones para mostrar de nuevo las categorías
+    setCategoriaSeleccionada(null);
     setLetraSeleccionada('');
     setPaloSeleccionado('');
   };
@@ -178,6 +186,7 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
     if (onCambiarBaraja) {
       onCambiarBaraja(nuevaBaraja);
     }
+    // Resetear las selecciones de categoría, letra y palo al cambiar de baraja
     setCategoriaSeleccionada(null);
     setLetraSeleccionada('');
     setPaloSeleccionado('');
@@ -224,6 +233,9 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
   const posicionActualData = modoLibre
     ? { nombre: `Carta ${obtenerSiguientePosicion()}`, descripcion: 'Selecciona una carta' }
     : tirada.posiciones.find(p => p.numero === obtenerSiguientePosicion());
+
+  // Agrupa las cartas del palo seleccionado para la nueva visualización
+  const cartasPorGruposDePalo = paloSeleccionado ? filtrarCartasPorPalo(paloSeleccionado) : null;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-teal-50 to-emerald-100">
@@ -422,27 +434,69 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
                       Cartas disponibles
                     </label>
                     {/* Contenedor flexible para Arcanos Menores para una distribución óptima */}
-                    {baraja === 'tradicional' && categoriaSeleccionada === 'menores' && paloSeleccionado ? (
-                       <div className="flex flex-wrap gap-1 justify-center"> {/* Flexbox para mejor distribución */}
-                       {filtrarCartasPorPalo(paloSeleccionado).map((carta) => (
-                         <Button
-                           key={carta.id}
-                           variant="outline"
-                           className="h-14 w-[50px] p-0 text-center hover:bg-emerald-50 hover:border-emerald-400 flex flex-col items-center justify-center text-sm" // Más pequeño y uniforme
-                           onClick={() => handleCartaSelect(carta.id)}
-                         >
-                           {/* Mostrar nombre de la carta menor */}
-                           <span className="font-bold text-base">
-                               {getCartaMenorDisplay(carta.name)}
-                           </span>
-                           {/* Icono del palo en lugar de texto */}
-                           {paloSeleccionado === 'Bastos' && <span className="text-xl">♣</span>}
-                           {paloSeleccionado === 'Copas' && <span className="text-xl">♥</span>}
-                           {paloSeleccionado === 'Espadas' && <span className="text-xl">♠</span>}
-                           {paloSeleccionado === 'Oros' && <span className="text-xl">♦</span>}
-                         </Button>
-                       ))}
-                     </div>
+                    {baraja === 'tradicional' && categoriaSeleccionada === 'menores' && paloSeleccionado && cartasPorGruposDePalo ? (
+                       <div className="space-y-2">
+                        {/* Fila: As, 2, 3, 4, 5 */}
+                        {cartasPorGruposDePalo.asToFive.length > 0 && (
+                            <div className="flex flex-wrap gap-1 justify-center">
+                                {cartasPorGruposDePalo.asToFive.map((carta) => (
+                                    <Button
+                                        key={carta.id}
+                                        variant="outline"
+                                        className="h-10 w-12 p-0 text-center hover:bg-emerald-50 hover:border-emerald-400 text-sm" // Más pequeño y uniforme
+                                        onClick={() => handleCartaSelect(carta.id)}
+                                    >
+                                        {getCartaMenorDisplay(carta.name)}
+                                    </Button>
+                                ))}
+                            </div>
+                        )}
+                        {/* Fila: 6, 7, 8, 9, 10 */}
+                        {cartasPorGruposDePalo.sixToTen.length > 0 && (
+                            <div className="flex flex-wrap gap-1 justify-center">
+                                {cartasPorGruposDePalo.sixToTen.map((carta) => (
+                                    <Button
+                                        key={carta.id}
+                                        variant="outline"
+                                        className="h-10 w-12 p-0 text-center hover:bg-emerald-50 hover:border-emerald-400 text-sm"
+                                        onClick={() => handleCartaSelect(carta.id)}
+                                    >
+                                        {getCartaMenorDisplay(carta.name)}
+                                    </Button>
+                                ))}
+                            </div>
+                        )}
+                        {/* Fila: Sota, Caballero */}
+                        {cartasPorGruposDePalo.sotaCaballero.length > 0 && (
+                            <div className="flex flex-wrap gap-1 justify-center">
+                                {cartasPorGruposDePalo.sotaCaballero.map((carta) => (
+                                    <Button
+                                        key={carta.id}
+                                        variant="outline"
+                                        className="h-10 w-24 p-0 text-center hover:bg-emerald-50 hover:border-emerald-400 text-sm" // Ancho ajustado para "Sota" y "Caballero"
+                                        onClick={() => handleCartaSelect(carta.id)}
+                                    >
+                                        {getCartaMenorDisplay(carta.name)}
+                                    </Button>
+                                ))}
+                            </div>
+                        )}
+                        {/* Fila: Reina, Rey */}
+                        {cartasPorGruposDePalo.reinaRey.length > 0 && (
+                            <div className="flex flex-wrap gap-1 justify-center">
+                                {cartasPorGruposDePalo.reinaRey.map((carta) => (
+                                    <Button
+                                        key={carta.id}
+                                        variant="outline"
+                                        className="h-10 w-24 p-0 text-center hover:bg-emerald-50 hover:border-emerald-400 text-sm" // Ancho ajustado para "Reina" y "Rey"
+                                        onClick={() => handleCartaSelect(carta.id)}
+                                    >
+                                        {getCartaMenorDisplay(carta.name)}
+                                    </Button>
+                                ))}
+                            </div>
+                        )}
+                       </div>
                     ) : (
                       <div className="grid gap-1 grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-7 justify-items-center">
                         {/* Cartas por letra (Mayores o Osho) */}
