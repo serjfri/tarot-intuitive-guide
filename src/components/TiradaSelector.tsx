@@ -1,10 +1,10 @@
 import React, { useState, useMemo } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
+import { Badge } from "@/components/ui/badge"; // Todavía útil para la baraja
 import { ChevronLeft, X } from "lucide-react";
 import { Tirada } from '@/pages/Index';
-import tiradasData from '@/data/tiradas'; // Renombrado para evitar conflicto con la variable 'tiradas' local
+import tiradasData from '@/data/tiradas'; // Importa las tiradas desde el archivo externo
 
 interface TiradaSelectorProps {
   onTiradaSelect: (tirada: Tirada, baraja: 'tradicional' | 'osho') => void;
@@ -18,10 +18,10 @@ const TiradaSelector: React.FC<TiradaSelectorProps> = ({
   const [barajaSeleccionada, setBarajaSeleccionada] = useState<'tradicional' | 'osho'>('tradicional');
   const [tiradaSeleccionada, setTiradaSeleccionada] = useState<Tirada | null>(null);
 
-  // Ordenar las tiradas por el número de cartas y agruparlas
+  // Ordenar y agrupar las tiradas por el número de cartas
   const orderedAndGroupedTiradas = useMemo(() => {
     const sortedTiradas = [...tiradasData].sort((a, b) => a.numeroCartas - b.numeroCartas);
-    
+
     const grouped: { [key: number]: Tirada[] } = {};
     sortedTiradas.forEach(tirada => {
       if (!grouped[tirada.numeroCartas]) {
@@ -34,7 +34,7 @@ const TiradaSelector: React.FC<TiradaSelectorProps> = ({
   }, []);
 
   const handleTiradaClick = (tirada: Tirada) => {
-    setTiradaSeleccionada(tirada);
+    setTiradaSeleccionada(tirada); // Muestra la vista previa
   };
 
   const handleConfirmarTirada = () => {
@@ -82,33 +82,25 @@ const TiradaSelector: React.FC<TiradaSelectorProps> = ({
             </CardContent>
           </Card>
 
-          {/* Lista de tiradas ordenadas y agrupadas */}
+          {/* Lista de tiradas agrupadas y más compactas */}
           {Object.entries(orderedAndGroupedTiradas).map(([numeroCartas, tiradasPorNumero]) => (
-            <div key={numeroCartas} className="mb-8">
-              <h3 className="text-xl font-serif text-orange-800 mb-4 mt-6">
+            <div key={numeroCartas} className="mb-6">
+              <h3 className="text-xl font-serif text-orange-800 mb-3 mt-5">
                 Tiradas de {numeroCartas} {parseInt(numeroCartas) === 1 ? 'carta' : 'cartas'}
               </h3>
-              <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+              <div className="bg-white/80 backdrop-blur-sm border border-orange-200 rounded-lg overflow-hidden">
                 {tiradasPorNumero.map((tirada) => (
-                  <Card
+                  <div
                     key={tirada.id}
-                    className="group bg-white/80 backdrop-blur-sm border-orange-200 hover:border-orange-400 transition-all duration-300 cursor-pointer hover:shadow-lg hover:-translate-y-1"
+                    className="flex justify-between items-center px-4 py-3 border-b border-orange-100 last:border-b-0 hover:bg-orange-50 transition-colors duration-200 cursor-pointer"
                     onClick={() => handleTiradaClick(tirada)}
                   >
-                    <CardHeader className="pb-3">
-                      <CardTitle className="text-lg text-orange-900 group-hover:text-orange-700">
-                        {tirada.nombre}
-                      </CardTitle>
-                      <Badge variant="outline" className="bg-orange-100">
-                        {tirada.numeroCartas} {tirada.numeroCartas === 1 ? 'carta' : 'cartas'}
-                      </Badge>
-                    </CardHeader>
-                    <CardContent>
-                      <p className="text-orange-700 text-sm leading-relaxed line-clamp-3"> {/* line-clamp para hacer más compacto */}
-                        {tirada.descripcion}
-                      </p>
-                    </CardContent>
-                  </Card>
+                    <div>
+                      <p className="font-semibold text-orange-900">{tirada.nombre}</p>
+                      <p className="text-orange-700 text-sm line-clamp-1">{tirada.descripcion}</p> {/* Descripción concisa */}
+                    </div>
+                    <Button variant="ghost" size="sm" className="text-orange-600 hover:text-orange-800">Ver Detalles</Button>
+                  </div>
                 ))}
               </div>
             </div>
@@ -116,7 +108,7 @@ const TiradaSelector: React.FC<TiradaSelectorProps> = ({
         </div>
       </div>
 
-      {/* Vista previa de la tirada */}
+      {/* Vista previa de la tirada - SIN CAMBIOS */}
       {tiradaSeleccionada && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
           <Card className="max-w-2xl w-full max-h-[90vh] flex flex-col bg-white/90 border-orange-200">
