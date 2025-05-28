@@ -1,0 +1,37 @@
+Pasos para hacer un nuevo deploy (uno a uno):
+
+Paso 1: Asegúrate de guardar todos los cambios que has hecho.
+
+Abre tu editor de código y verifica que todos los archivos que has modificado o añadido estén guardados.
+Paso 2: Prepara tus cambios para el commit (añadir al "staging area").
+
+Abre tu terminal en la raíz de tu proyecto (D:\tarot-intuitive-guide\).
+
+Ejecuta el siguiente comando para añadir todos los archivos modificados, nuevos y eliminados a la zona de "staging" de Git:
+
+Bash
+
+git add .
+Paso 3: Confirma tus cambios en Git (hacer un "commit").
+
+Ahora, crea un "commit" con un mensaje que describa los cambios que has hecho. Por ejemplo:
+
+Bash
+
+git commit -m "feat: [Descripción breve de tus nuevos cambios]"
+Reemplaza [Descripción breve de tus nuevos cambios] con algo relevante, como "feat: Mejoras en el layout de las cartas" o "fix: Corrección de errores en la interfaz".
+
+Paso 4: Sube tus cambios de código fuente a tu repositorio en GitHub.
+
+Esto es importante para que el historial de tu rama main en GitHub esté actualizado con la última versión de tu código.
+
+Bash
+
+git push origin main
+Paso 5: Ejecuta el comando de despliegue a GitHub Pages.
+
+Este comando se encarga de todo el proceso de compilación (npm run build) y luego sube la versión optimizada de tu aplicación (dist folder) a la rama gh-pages de tu repositorio, que es la que GitHub Pages utiliza para servir tu sitio web.
+
+Bash
+
+npm run deploy
