@@ -84,7 +84,37 @@ const tiradas: Tirada[] = [
       { numero: 6, nombre: 'Apoyo', descripcion: 'Cómo puedo apoyar a mi niño interior' },
       { numero: 7, nombre: 'Mensaje', descripcion: 'Un mensaje de mi niño interior' }
     ]
-  }
+  },
+  // Tirada "Trabajando con tu Sombra" añadida
+{
+  id: 'trabajando-con-sombra',
+  nombre: 'Trabajando con tu Sombra',
+  descripcion: 'Una tirada para explorar y entender aspectos ocultos de uno mismo.',
+  numeroCartas: 6,
+  posiciones: [
+    { numero: 1, nombre: '¿Qué necesito aceptar?', descripcion: 'Un aspecto de ti mismo que necesita ser reconocido y aceptado.' },
+    { numero: 2, nombre: '¿Qué necesito perdonar?', descripcion: 'Algo que necesitas perdonar, ya sea a ti mismo o a otros.' },
+    { numero: 3, nombre: '¿Qué necesito liberar?', descripcion: 'Hábitos, miedos o creencias que te retienen.' },
+    { numero: 4, nombre: '¿Qué puedo aprender?', descripcion: 'Lecciones valiosas que puedes extraer de esta exploración.' },
+    { numero: 5, nombre: '¿Dónde puedo buscar sanación y recuperación?', descripcion: 'Fuentes de apoyo y curación.' },
+    { numero: 6, nombre: '¿Dónde puedo obtener ayuda?', descripcion: 'Personas o recursos que te pueden asistir en este proceso.' }
+  ]
+},
+// Tirada "Encontrando el Propósito de tu Vida" añadida
+{
+  id: 'proposito-vida',
+  nombre: 'Encontrando el Propósito de tu Vida',
+  descripcion: 'Una tirada para descubrir y entender el propósito de tu vida',
+  numeroCartas: 6,
+  posiciones: [
+    { numero: 1, nombre: 'Una carta para describir mi propósito', descripcion: 'La esencia de tu propósito.' },
+    { numero: 2, nombre: 'Cómo se ve esto día a día', descripcion: 'Cómo se manifiesta tu propósito en la vida cotidiana.' },
+    { numero: 3, nombre: 'Cómo se ve esto al final de mi vida', descripcion: 'La visión a largo plazo de tu propósito cumplido.' },
+    { numero: 4, nombre: 'Cómo otros ven mi propósito de vida', descripcion: 'La percepción externa de tu misión.' },
+    { numero: 5, nombre: 'Pasos a seguir para realizar mi propósito (x3)', descripcion: 'Tres pasos concretos para manifestar tu propósito.' },
+    { numero: 6, nombre: 'Cómo puedo sacar el máximo provecho de esta vida', descripcion: 'Consejos para aprovechar al máximo tu existencia.' }
+  ]
+}
 ];
 
 export default tiradas;
