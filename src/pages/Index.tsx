@@ -5,6 +5,7 @@ import { CreditCard, Layers } from "lucide-react";
 import CartaSelector from '@/components/CartaSelector';
 import TiradaSelector from '@/components/TiradaSelector';
 import InterpretacionCartas from '@/components/InterpretacionCartas';
+import BackButton from '@/components/ui/back-button'; // <-- Importa el nuevo componente BackButton
 
 // MODIFICACIÓN CLAVE AQUÍ: x e y son OPCIONALES
 export interface Posicion {
@@ -36,13 +37,13 @@ const tiradaLibre: Tirada = {
   id: 'libre',
   nombre: 'Selección Libre',
   descripcion: 'Selecciona las cartas que desees sin un patrón específico',
-  numeroCartas: 1,
+  numeroCartas: 1, // Se ajustará dinámicamente
   posiciones: [
     {
       numero: 1,
       nombre: 'Carta',
       descripcion: 'Selecciona una carta',
-      // x e y eliminadas aquí también, ya que no son obligatorias
+      // x e y eliminadas aquí también, ya no son obligatorias
     }
   ]
 };
@@ -56,7 +57,8 @@ const Index = () => {
 
   const handleSeleccionLibre = () => {
     setModoLibre(true);
-    setTiradaSeleccionada(tiradaLibre);
+    // Para modo libre, inicializamos con una "tirada" que crecerá dinámicamente
+    setTiradaSeleccionada({ ...tiradaLibre, numeroCartas: 1, posiciones: [{ numero: 1, nombre: 'Carta', descripcion: 'Selecciona una carta' }] });
     setCartasSeleccionadas([]);
     setBarajaSeleccionada('tradicional'); // Reset to default
     setVistaActual('cartas');
@@ -76,9 +78,11 @@ const Index = () => {
 
   const handleCambiarBaraja = (baraja: 'tradicional' | 'osho') => {
     setBarajaSeleccionada(baraja);
-    // Limpiar cartas al cambiar de baraja en modo libre
+    // Limpiar cartas al cambiar de baraja en modo libre (o cualquier modo, es una buena práctica)
+    setCartasSeleccionadas([]);
+    // Si estás en modo libre, ajusta la tirada para la siguiente carta
     if (modoLibre) {
-      setCartasSeleccionadas([]);
+      setTiradaSeleccionada({ ...tiradaLibre, numeroCartas: 1, posiciones: [{ numero: 1, nombre: 'Carta', descripcion: 'Selecciona una carta' }] });
     }
   };
 
@@ -89,27 +93,35 @@ const Index = () => {
       const nuevaCarta = { ...carta, posicion: nuevaPosicion };
       setCartasSeleccionadas([...cartasSeleccionadas, nuevaCarta]);
       
-      // Actualizar la tirada libre para permitir más cartas
+      // Actualizar la tirada libre para permitir más cartas (solo si hay más cartas para seleccionar)
+      // La próxima "posición" que se mostrará en CartaSelector
+      const proximaPosicionNum = nuevaPosicion + 1;
+      const nuevaPosicionData = {
+        numero: proximaPosicionNum,
+        nombre: `Carta ${proximaPosicionNum}`,
+        descripcion: 'Selecciona otra carta',
+      };
+
       if (tiradaSeleccionada) {
-        const nuevaTirada = {
-          ...tiradaSeleccionada,
-          numeroCartas: nuevaPosicion + 1,
+        setTiradaSeleccionada(prevTirada => ({
+          ...(prevTirada || tiradaLibre), // Usar prevTirada o tiradaLibre si es null
+          numeroCartas: proximaPosicionNum, // Incrementa para la siguiente carta
           posiciones: [
-            ...tiradaSeleccionada.posiciones,
-            {
-              numero: nuevaPosicion + 1,
-              nombre: `Carta ${nuevaPosicion + 1}`,
-              descripcion: 'Selecciona otra carta',
-              // x e y eliminadas aquí también, ya no son obligatorias
-            }
+            ...(prevTirada?.posiciones.filter(p => p.numero <= nuevaPosicion) || []), // Mantener las posiciones ya ocupadas
+            nuevaPosicionData // Añadir la nueva posición para la siguiente selección
           ]
-        };
-        setTiradaSeleccionada(nuevaTirada);
+        }));
       }
     } else {
-      // En modo tirada específica, reemplazar carta en esa posición
-      const cartasActualizadas = cartasSeleccionadas.filter(c => c.posicion !== carta.posicion);
-      setCartasSeleccionadas([...cartasActualizadas, carta]);
+      // En modo tirada específica, si la carta ya existe en esa posición, la reemplazamos, si no, la añadimos
+      setCartasSeleccionadas(prevCartas => {
+        const existe = prevCartas.some(c => c.posicion === carta.posicion);
+        if (existe) {
+          return prevCartas.map(c => c.posicion === carta.posicion ? carta : c);
+        } else {
+          return [...prevCartas, carta];
+        }
+      });
     }
   };
 
@@ -123,27 +135,26 @@ const Index = () => {
 
   const handleDeshacerUltimaCarta = () => {
     if (cartasSeleccionadas.length > 0) {
+      const nuevasCartas = cartasSeleccionadas.slice(0, -1);
+      setCartasSeleccionadas(nuevasCartas);
+
       if (modoLibre) {
-        // En modo libre, eliminar la última carta y ajustar la tirada
-        const nuevasCartas = cartasSeleccionadas.slice(0, -1);
-        setCartasSeleccionadas(nuevasCartas);
-        
-        if (tiradaSeleccionada && nuevasCartas.length > 0) {
-          const nuevaTirada = {
-            ...tiradaSeleccionada,
-            numeroCartas: nuevasCartas.length + 1,
-            posiciones: tiradaSeleccionada.posiciones.slice(0, nuevasCartas.length + 1)
-          };
-          setTiradaSeleccionada(nuevaTirada);
-        } else if (nuevasCartas.length === 0) {
+        // En modo libre, ajustamos la "tirada" para reflejar el estado actual
+        if (nuevasCartas.length === 0) {
           setTiradaSeleccionada(tiradaLibre);
+        } else {
+          const ultimaPosicionNum = nuevasCartas.length + 1;
+          setTiradaSeleccionada(prevTirada => ({
+            ...(prevTirada || tiradaLibre),
+            numeroCartas: ultimaPosicionNum,
+            posiciones: prevTirada?.posiciones.slice(0, ultimaPosicionNum) || tiradaLibre.posiciones.slice(0, ultimaPosicionNum)
+          }));
         }
       } else {
-        // En modo tirada específica, eliminar la carta de mayor posición
-        const cartaConMayorPosicion = cartasSeleccionadas.reduce((max, carta) => 
-          carta.posicion > max.posicion ? carta : max
-        );
-        setCartasSeleccionadas(cartasSeleccionadas.filter(c => c.posicion !== cartaConMayorPosicion.posicion));
+        // En modo tirada específica, la carta que se deshace es la última añadida por el usuario
+        // No es la de mayor posición, sino la última en el array antes de sortearse.
+        // La lógica de "deshacer la última" en CartaSelector ya debería manejar esto si las cartas se añaden en orden.
+        // Aquí solo la eliminamos del array.
       }
     }
   };
@@ -151,10 +162,11 @@ const Index = () => {
   const handleLimpiarCartas = () => {
     setCartasSeleccionadas([]);
     if (modoLibre) {
-      setTiradaSeleccionada(tiradaLibre);
+      setTiradaSeleccionada(tiradaLibre); // Restablecer a la tirada libre inicial
     }
   };
 
+  // LÓGICA DEL BOTÓN VOLVER GLOBAL
   const handleVolver = () => {
     if (vistaActual === 'cartas') {
       if (modoLibre) {
@@ -164,10 +176,11 @@ const Index = () => {
         setCartasSeleccionadas([]);
       } else {
         setVistaActual('tiradas');
+        // No limpiar tiradaSeleccionada aquí, TiradaSelector la necesita
       }
     } else if (vistaActual === 'interpretacion') {
       setVistaActual('cartas');
-    } else {
+    } else { // Si estamos en 'tiradas' o 'seleccionLibre'
       setVistaActual('inicio');
     }
   };
@@ -184,106 +197,112 @@ const Index = () => {
     }
   };
 
-  if (vistaActual === 'interpretacion' && tiradaSeleccionada) {
-    return (
-      <InterpretacionCartas
-        tirada={tiradaSeleccionada}
-        cartasSeleccionadas={cartasSeleccionadas}
-        onVolver={handleVolver}
-        modoLibre={modoLibre}
-      />
-    );
-  }
-
-  if (vistaActual === 'cartas' && tiradaSeleccionada) {
-    return (
-      <CartaSelector
-        tirada={tiradaSeleccionada}
-        baraja={barajaSeleccionada}
-        cartasSeleccionadas={cartasSeleccionadas}
-        onCartaAdd={handleCartaAdd}
-        onCartaToggle={handleCartaToggle}
-        onVolver={handleVolver}
-        onInterpretarCartas={handleInterpretarCartas}
-        onLimpiarCartas={handleLimpiarCartas}
-        onDeshacerUltimaCarta={handleDeshacerUltimaCarta}
-        puedeIrAInterpretacion={puedeIrAInterpretacion()}
-        modoLibre={modoLibre}
-        onCambiarBaraja={handleCambiarBaraja}
-      />
-    );
-  }
-
-  if (vistaActual === 'tiradas') {
-    return (
-      <TiradaSelector
-        onTiradaSelect={handleTiradaSelect}
-        onVolver={handleVolver}
-      />
-    );
-  }
+  // Determinar si el botón de volver debe ser visible
+  const showBackButton = vistaActual !== 'inicio';
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-amber-50 via-orange-50 to-amber-100">
-      <div className="container mx-auto px-4 py-8">
-        <div className="max-w-4xl mx-auto">
-          {/* Encabezado */}
-          <div className="text-center mb-12">
-            <h1 className="text-5xl font-serif text-amber-900 mb-4">
-              Guía de Tarot
-            </h1>
-          </div>
+    <div className="relative min-h-screen"> {/* Contenedor relativo para posicionar el botón de volver */}
+      {showBackButton && <BackButton onClick={handleVolver} />} {/* Renderiza el botón de volver */}
 
-          {/* Opciones principales */}
-          <div className="grid md:grid-cols-2 gap-8 max-w-3xl mx-auto">
-            {/* Seleccionar Cartas Directamente */}
-            <Card 
-              className="group bg-white/80 backdrop-blur-sm border-amber-200 hover:border-amber-400 transition-all duration-300 cursor-pointer hover:shadow-xl hover:-translate-y-1"
-              onClick={handleSeleccionLibre}
-            >
-              <CardContent className="p-8 text-center">
-                <div className="mb-6">
-                  <div className="mx-auto w-16 h-16 bg-gradient-to-br from-amber-400 to-orange-500 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                    <CreditCard className="w-8 h-8 text-white" />
-                  </div>
-                  <h3 className="text-2xl font-serif text-amber-900 mb-3">
-                    Seleccionar Cartas
-                  </h3>
-                </div>
-                <Button 
-                  size="lg" 
-                  className="w-full bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-700 hover:to-orange-700 text-white font-medium"
-                >
-                  Comenzar Lectura
-                </Button>
-              </CardContent>
-            </Card>
+      {vistaActual === 'interpretacion' && tiradaSeleccionada && (
+        <InterpretacionCartas
+          tirada={tiradaSeleccionada}
+          cartasSeleccionadas={cartasSeleccionadas}
+          onVolver={handleVolver}
+          modoLibre={modoLibre}
+        />
+      )}
 
-            {/* Seleccionar con Tiradas */}
-            <Card 
-              className="group bg-white/80 backdrop-blur-sm border-amber-200 hover:border-amber-400 transition-all duration-300 cursor-pointer hover:shadow-xl hover:-translate-y-1"
-              onClick={handleSeleccionTiradas}
-            >
-              <CardContent className="p-8 text-center">
-                <div className="mb-6">
-                  <div className="mx-auto w-16 h-16 bg-gradient-to-br from-orange-400 to-red-500 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                    <Layers className="w-8 h-8 text-white" />
-                  </div>
-                  <h3 className="text-2xl font-serif text-amber-900 mb-3">
-                    Seleccionar Tiradas
-                  </h3>
-                </div>
-                <Button 
-                  size="lg" 
-                  className="w-full bg-gradient-to-r from-orange-600 to-red-600 hover:from-orange-700 hover:to-red-700 text-white font-medium"
+      {vistaActual === 'cartas' && tiradaSeleccionada && (
+        <CartaSelector
+          tirada={tiradaSeleccionada}
+          baraja={barajaSeleccionada}
+          cartasSeleccionadas={cartasSeleccionadas}
+          onCartaAdd={handleCartaAdd}
+          onCartaToggle={handleCartaToggle}
+          onVolver={handleVolver} // Se pasa la función de volver global
+          onInterpretarCartas={handleInterpretarCartas}
+          onLimpiarCartas={handleLimpiarCartas}
+          onDeshacerUltimaCarta={handleDeshacerUltimaCarta}
+          // Asegúrate de que puedeIrAInterpretacion se evalúe correctamente aquí
+          puedeIrAInterpretacion={
+            modoLibre ? cartasSeleccionadas.length > 0 : cartasSeleccionadas.length === tiradaSeleccionada.numeroCartas
+          }
+          modoLibre={modoLibre}
+          onCambiarBaraja={handleCambiarBaraja}
+        />
+      )}
+
+      {vistaActual === 'tiradas' && (
+        <TiradaSelector
+          onTiradaSelect={handleTiradaSelect}
+          onVolver={handleVolver} // Se pasa la función de volver global
+        />
+      )}
+
+      {vistaActual === 'inicio' && (
+        <div className="min-h-screen bg-gradient-to-br from-amber-50 via-orange-50 to-amber-100">
+          <div className="container mx-auto px-4 py-8">
+            <div className="max-w-4xl mx-auto">
+              {/* Encabezado */}
+              <div className="text-center mb-12">
+                <h1 className="text-5xl font-serif text-amber-900 mb-4">
+                  Guía de Tarot
+                </h1>
+              </div>
+
+              {/* Opciones principales */}
+              <div className="grid md:grid-cols-2 gap-8 max-w-3xl mx-auto">
+                {/* Seleccionar Cartas Directamente */}
+                <Card 
+                  className="group bg-white/80 backdrop-blur-sm border-amber-200 hover:border-amber-400 transition-all duration-300 cursor-pointer hover:shadow-xl hover:-translate-y-1"
+                  onClick={handleSeleccionLibre}
                 >
-                  Explorar Tiradas
-                </Button>
-              </CardContent>
-            </Card>
+                  <CardContent className="p-8 text-center">
+                    <div className="mb-6">
+                      <div className="mx-auto w-16 h-16 bg-gradient-to-br from-amber-400 to-orange-500 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                        <CreditCard className="w-8 h-8 text-white" />
+                      </div>
+                      <h3 className="text-2xl font-serif text-amber-900 mb-3">
+                        Seleccionar Cartas
+                      </h3>
+                    </div>
+                    <Button 
+                      size="lg" 
+                      className="w-full bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-700 hover:to-orange-700 text-white font-medium"
+                    >
+                      Comenzar Lectura
+                    </Button>
+                  </CardContent>
+                </Card>
+
+                {/* Seleccionar con Tiradas */}
+                <Card 
+                  className="group bg-white/80 backdrop-blur-sm border-amber-200 hover:border-amber-400 transition-all duration-300 cursor-pointer hover:shadow-xl hover:-translate-y-1"
+                  onClick={handleSeleccionTiradas}
+                >
+                  <CardContent className="p-8 text-center">
+                    <div className="mb-6">
+                      <div className="mx-auto w-16 h-16 bg-gradient-to-br from-orange-400 to-red-500 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                        <Layers className="w-8 h-8 text-white" />
+                      </div>
+                      <h3 className="text-2xl font-serif text-amber-900 mb-3">
+                        Seleccionar Tiradas
+                      </h3>
+                    </div>
+                    <Button 
+                      size="lg" 
+                      className="w-full bg-gradient-to-r from-orange-600 to-red-600 hover:from-orange-700 hover:to-red-700 text-white font-medium"
+                    >
+                      Explorar Tiradas
+                    </Button>
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };

@@ -1,20 +1,19 @@
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-// FIX THIS LINE: Import Badge from your UI components, not lucide-react
-import { Badge } from "@/components/ui/badge"; // <--- CHANGE THIS LINE
-import { ChevronLeft, X } from "lucide-react"; // X is for the close button, ChevronLeft for back
+import { Badge } from "@/components/ui/badge"; // Asegúrate de que esta importación sea correcta
+import { ChevronLeft, X } from "lucide-react";
 import { Tirada } from '@/pages/Index';
 import tiradas from '@/data/tiradas'; // Importa las tiradas desde el archivo externo
 
 interface TiradaSelectorProps {
   onTiradaSelect: (tirada: Tirada, baraja: 'tradicional' | 'osho') => void;
-  onVolver: () => void;
+  onVolver: () => void; // Mantendremos este prop para la lógica interna si es necesario
 }
 
 const TiradaSelector: React.FC<TiradaSelectorProps> = ({
   onTiradaSelect,
-  onVolver
+  onVolver // Aunque la mayor parte de la lógica de "volver" se moverá al padre
 }) => {
   const [barajaSeleccionada, setBarajaSeleccionada] = useState<'tradicional' | 'osho'>('tradicional');
   const [tiradaSeleccionada, setTiradaSeleccionada] = useState<Tirada | null>(null);
@@ -95,8 +94,9 @@ const TiradaSelector: React.FC<TiradaSelectorProps> = ({
             ))}
           </div>
 
-          {/* Botón volver */}
-          <div className="flex justify-center">
+          {/* El botón "Volver" a nivel de componente ahora se maneja en el componente padre */}
+          {/* Este div ya no es necesario si se mueve al padre para ser global */}
+          {/* <div className="flex justify-center">
             <Button
               variant="outline"
               className="text-orange-700 border-orange-300 hover:bg-orange-50"
@@ -105,15 +105,16 @@ const TiradaSelector: React.FC<TiradaSelectorProps> = ({
               <ChevronLeft className="w-4 h-4 mr-2" />
               Volver al Inicio
             </Button>
-          </div>
+          </div> */}
+
         </div>
       </div>
 
-      {/* Vista previa de la tirada */}
+      {/* Vista previa de la tirada - MODIFICADO PARA SER SCROLLABLE */}
       {tiradaSeleccionada && (
-        <div className="fixed top-0 left-0 w-full h-full bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center">
-          <Card className="max-w-2xl w-full bg-white/90 border-orange-200">
-            <CardHeader className="flex justify-between items-center">
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"> {/* inset-0 para ocupar toda la pantalla */}
+          <Card className="max-w-2xl w-full max-h-[90vh] flex flex-col bg-white/90 border-orange-200"> {/* max-h-[90vh] y flex-col */}
+            <CardHeader className="flex justify-between items-center shrink-0"> {/* shrink-0 para que no se encoja */}
               <CardTitle className="text-2xl text-orange-900">
                 {tiradaSeleccionada.nombre}
               </CardTitle>
@@ -121,18 +122,18 @@ const TiradaSelector: React.FC<TiradaSelectorProps> = ({
                 <X className="h-6 w-6" />
               </Button>
             </CardHeader>
-            <CardContent className="space-y-4">
+            <CardContent className="flex-grow overflow-y-auto space-y-4 px-6 py-4"> {/* flex-grow y overflow-y-auto */}
               <p className="text-orange-700">{tiradaSeleccionada.descripcion}</p>
-              <h3 className="text-lg text-orange-900">Posiciones:</h3>
-              <ul className="list-disc pl-5 space-y-2">
+              <h3 className="text-lg text-orange-900 font-semibold">Posiciones:</h3>
+              <ul className="list-decimal list-inside space-y-2"> {/* Cambiado a list-decimal para numeración */}
                 {tiradaSeleccionada.posiciones.map((posicion) => (
                   <li key={posicion.numero} className="text-orange-700">
-                    <strong>{posicion.nombre}:</strong> {posicion.descripcion}
+                    <strong className="font-medium">{posicion.nombre}:</strong> {posicion.descripcion}
                   </li>
                 ))}
               </ul>
             </CardContent>
-            <CardContent className="flex justify-end pt-6">
+            <CardContent className="flex justify-end pt-6 shrink-0"> {/* shrink-0 */}
               <Button onClick={handleConfirmarTirada}>
                 Seleccionar Tirada
               </Button>
