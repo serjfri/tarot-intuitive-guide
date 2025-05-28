@@ -6,18 +6,21 @@ import CartaSelector from '@/components/CartaSelector';
 import TiradaSelector from '@/components/TiradaSelector';
 import InterpretacionCartas from '@/components/InterpretacionCartas';
 
+// MODIFICACIÓN CLAVE AQUÍ: x e y son OPCIONALES
+export interface Posicion {
+  numero: number;
+  nombre: string;
+  descripcion: string;
+  x?: number; // Propiedad 'x' ahora es opcional
+  y?: number; // Propiedad 'y' ahora es opcional
+}
+
 export interface Tirada {
   id: string;
   nombre: string;
   descripcion: string;
   numeroCartas: number;
-  posiciones: {
-    numero: number;
-    nombre: string;
-    descripcion: string;
-    x: number;
-    y: number;
-  }[];
+  posiciones: Posicion[]; // Usa la interfaz Posicion modificada
 }
 
 export interface CartaSeleccionada {
@@ -28,6 +31,7 @@ export interface CartaSeleccionada {
 }
 
 // Tirada por defecto para selección libre
+// También se modifican las posiciones aquí para eliminar x e y
 const tiradaLibre: Tirada = {
   id: 'libre',
   nombre: 'Selección Libre',
@@ -38,8 +42,7 @@ const tiradaLibre: Tirada = {
       numero: 1,
       nombre: 'Carta',
       descripcion: 'Selecciona una carta',
-      x: 50,
-      y: 50
+      // x e y eliminadas aquí también, ya que no son obligatorias
     }
   ]
 };
@@ -97,8 +100,7 @@ const Index = () => {
               numero: nuevaPosicion + 1,
               nombre: `Carta ${nuevaPosicion + 1}`,
               descripcion: 'Selecciona otra carta',
-              x: 50,
-              y: 50
+              // x e y eliminadas aquí también, ya no son obligatorias
             }
           ]
         };

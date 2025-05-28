@@ -2,9 +2,14 @@ import { createRoot } from 'react-dom/client'
 import App from './App.tsx'
 import './index.css'
 
+// Renderiza la aplicación React en el elemento con id 'root'
 createRoot(document.getElementById("root")!).render(<App />);
 
-// Registrar Service Worker para PWA
+// NOTA IMPORTANTE:
+// El registro del Service Worker se maneja ahora automáticamente por 'vite-plugin-pwa'.
+// No es necesario un registro manual aquí.
+// Si tenías un bloque como el siguiente, ha sido eliminado o comentado:
+/*
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     // MODIFICACIÓN CLAVE AQUÍ: Usar import.meta.env.BASE_URL
@@ -19,3 +24,4 @@ if ('serviceWorker' in navigator) {
       });
   });
 }
+*/

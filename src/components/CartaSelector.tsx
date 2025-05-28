@@ -52,11 +52,12 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
 
   const palos = ['Bastos', 'Copas', 'Espadas', 'Oros'];
 
+  // Normaliza caracteres acentuados para la primera letra
   const getFirstLetterForSorting = (name: string): string => {
     const cleanedName = name
       .replace(/^(El|La|Los|Las)\s+/i, '')
       .trim();
-    return cleanedName.charAt(0).toUpperCase();
+    return cleanedName.normalize("NFD").replace(/[\u0300-\u036f]/g, "").charAt(0).toUpperCase();
   };
 
   const getLetrasArcanosMayores = useMemo(() => {
@@ -171,9 +172,18 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
     const lista = cartasSeleccionadas
       .sort((a, b) => a.posicion - b.posicion)
       .map((carta, index) => {
-        const posicionData = tirada.posiciones.find(p => p.numero === carta.posicion);
         const nombreDisplay = getCardNameById(carta.carta);
-        return `${index + 1}. ${posicionData?.nombre || `Carta ${carta.posicion}`}: ${nombreDisplay}${carta.invertida ? ' (Invertida)' : ''}`;
+        let prefix = '';
+
+        // MODIFICACIÓN CLAVE: Lógica para el formato de la lista
+        if (modoLibre) {
+          prefix = `${index + 1}. `; // Solo el número si es modo libre
+        } else {
+          const posicionData = tirada.posiciones.find(p => p.numero === carta.posicion);
+          prefix = `${index + 1}. ${posicionData?.nombre || `Carta ${carta.posicion}`}: `;
+        }
+        
+        return `${prefix}${nombreDisplay}${carta.invertida ? ' (Invertida)' : ''}`;
       })
       .join('\n');
 
@@ -319,13 +329,12 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
                       <label className="block text-sm font-medium text-emerald-900 mb-2">
                         Primera letra
                       </label>
-                      {/* MODIFICACIÓN: Ajuste de la rejilla para botones de letra */}
                       <div className="grid grid-cols-6 sm:grid-cols-8 md:grid-cols-10 lg:grid-cols-12 gap-1 justify-items-center">
                         {getLetrasArcanosMayores.map((letra) => (
                           <Button
                             key={letra}
                             variant="outline"
-                            className="h-8 w-8 p-0 text-center text-xs flex items-center justify-center" // Menor tamaño, centrado
+                            className="h-8 w-8 p-0 text-center text-xs flex items-center justify-center"
                             onClick={() => setLetraSeleccionada(letra)}
                           >
                             {letra}
@@ -364,13 +373,12 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
                   <label className="block text-sm font-medium text-emerald-900 mb-2">
                     Primera letra
                   </label>
-                  {/* MODIFICACIÓN: Ajuste de la rejilla para botones de letra de Osho */}
                   <div className="grid grid-cols-6 sm:grid-cols-8 md:grid-cols-10 lg:grid-cols-12 gap-1 justify-items-center">
                     {getLetrasOsho.map((letra) => (
                       <Button
                         key={letra}
                         variant="outline"
-                        className="h-8 w-8 p-0 text-center text-xs flex items-center justify-center" // Menor tamaño, centrado
+                        className="h-8 w-8 p-0 text-center text-xs flex items-center justify-center"
                         onClick={() => setLetraSeleccionada(letra)}
                       >
                         {letra}
@@ -388,7 +396,6 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
                     <label className="block text-sm font-medium text-emerald-900 mb-2">
                       Cartas disponibles
                     </label>
-                    {/* MODIFICACIÓN: Ajuste de la rejilla para las cartas filtradas */}
                     <div className="grid gap-2 grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 justify-items-center">
                       {/* Cartas por letra (Mayores o Osho) */}
                       {(letraSeleccionada && (categoriaSeleccionada === 'mayores' || baraja === 'osho')) &&
@@ -400,7 +407,6 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
                           <Button
                             key={carta.id}
                             variant="outline"
-                            // MODIFICACIÓN: Ajuste de padding y altura para que ocupen menos espacio
                             className="h-auto w-full max-w-[160px] p-2 text-center hover:bg-emerald-50 hover:border-emerald-400 text-sm truncate"
                             onClick={() => handleCartaSelect(carta.id)}
                           >
@@ -415,7 +421,6 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
                           <Button
                             key={carta.id}
                             variant="outline"
-                            // MODIFICACIÓN: Ajuste de padding y altura para que ocupen menos espacio
                             className="h-auto w-full max-w-[160px] p-2 text-center hover:bg-emerald-50 hover:border-emerald-400 text-sm truncate"
                             onClick={() => handleCartaSelect(carta.id)}
                           >
@@ -464,6 +469,11 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
                     .sort((a, b) => a.posicion - b.posicion)
                     .map((carta) => {
                       const posicionData = tirada.posiciones.find(p => p.numero === carta.posicion);
+                      // MODIFICACIÓN CLAVE AQUÍ: Lógica para el formato en la visualización
+                      const displayPrefix = modoLibre 
+                        ? `${carta.posicion}. ` // En modo libre, solo el número y punto
+                        : `${carta.posicion}. ${posicionData?.nombre || `Carta ${carta.posicion}`}: `;
+
                       return (
                         <div
                           key={carta.posicion}
@@ -475,10 +485,10 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
                           onDoubleClick={() => handleDoubleClick(carta.posicion)}
                         >
                           <div className="text-sm font-medium text-emerald-900">
-                            {posicionData?.nombre || `Carta ${carta.posicion}`}
+                            {displayPrefix}
+                            {getCardNameById(carta.carta)}
                           </div>
                           <div className="text-sm text-emerald-700">
-                            {getCardNameById(carta.carta)}
                             {carta.invertida && ' (Invertida)'}
                           </div>
                         </div>
