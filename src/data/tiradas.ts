@@ -7,15 +7,15 @@ export const tiradas: Tirada[] = [
     descripcion: 'Una tirada clásica para una visión completa de un problema o situación.',
     numeroCartas: 10,
     posiciones: [
-      { numero: 1, nombre: 'El consultante', descripcion: 'El corazón del asunto, la situación actual del consultante.' },
-      { numero: 2, nombre: 'El obstáculo', descripcion: 'Lo que cruza al consultante, el principal desafío o influencia opuesta.' },
+      { numero: 1, nombre: 'La consultante', descripcion: 'El corazón del asunto, la situación actual de la consultante.' },
+      { numero: 2, nombre: 'El obstáculo', descripcion: 'Lo que cruza a la consultante, el principal desafío o influencia opuesta.' },
       { numero: 3, nombre: 'Las raíces', descripcion: 'La base de la situación, lo que la originó o las influencias subyacentes.' },
       { numero: 4, nombre: 'El pasado', descripcion: 'Influencias recientes o pasadas que afectan la situación.' },
       { numero: 5, nombre: 'El objetivo', descripcion: 'El posible resultado futuro si la situación sigue su curso actual.' },
       { numero: 6, nombre: 'El futuro cercano', descripcion: 'Influencias o eventos que se manifestarán en un futuro próximo.' },
-      { numero: 7, nombre: 'El consultante (perspectiva)', descripcion: 'La posición del consultante en la situación, sus miedos y esperanzas.' },
+      { numero: 7, nombre: 'La consultante (perspectiva)', descripcion: 'La posición de la consultante en la situación, sus miedos y esperanzas.' },
       { numero: 8, nombre: 'Factores externos', descripcion: 'Influencias de otras personas o del entorno sobre la situación.' },
-      { numero: 9, nombre: 'Esperanzas y miedos', descripcion: 'Las esperanzas, miedos o expectativas ocultas del consultante.' },
+      { numero: 9, nombre: 'Esperanzas y miedos', descripcion: 'Las esperanzas, miedos o expectativas ocultas de la consultante.' },
       { numero: 10, nombre: 'El resultado', descripcion: 'El resultado final de la situación o el consejo general.' },
     ],
   },
@@ -62,8 +62,8 @@ export const tiradas: Tirada[] = [
     descripcion: 'Explora la dinámica entre dos personas en cualquier tipo de relación.',
     numeroCartas: 3,
     posiciones: [
-      { numero: 1, nombre: 'Tú', descripcion: 'Tu perspectiva y rol en la relación.' },
-      { numero: 2, nombre: 'La otra persona', descripcion: 'La perspectiva y rol de la otra persona en la relación.' },
+      { numero: 1, nombre: 'Tú', descripcion: 'Tu perspectiva y papel en la relación.' },
+      { numero: 2, nombre: 'La otra persona', descripcion: 'La perspectiva y papel de la otra persona en la relación.' },
       { numero: 3, nombre: 'La relación', descripcion: 'La dinámica general, los desafíos y el potencial de la relación.' },
     ],
   },
@@ -73,7 +73,7 @@ export const tiradas: Tirada[] = [
     descripcion: 'Ayuda a elegir entre dos opciones, mostrando los resultados de cada camino.',
     numeroCartas: 5,
     posiciones: [
-      { numero: 1, nombre: 'La situación actual', descripcion: 'Donde te encuentras ahora.' },
+      { numero: 1, nombre: 'La situación actual', descripcion: 'Dónde te encuentras ahora.' },
       { numero: 2, nombre: 'Camino A (Ventajas)', descripcion: 'Beneficios y puntos fuertes de la Opción A.' },
       { numero: 3, nombre: 'Camino A (Desafíos)', descripcion: 'Obstáculos y puntos débiles de la Opción A.' },
       { numero: 4, nombre: 'Camino B (Ventajas)', descripcion: 'Beneficios y puntos fuertes de la Opción B.' },
@@ -88,20 +88,20 @@ export const tiradas: Tirada[] = [
     posiciones: [
       { numero: 1, nombre: 'Yo interior', descripcion: 'Tu verdadero ser, tu esencia.' },
       { numero: 2, nombre: 'Yo exterior', descripcion: 'Cómo te presentas al mundo.' },
-      { numero: 3, nombre: 'Lo que necesitas reconocer', descripcion: 'Un aspecto de ti mismo que necesita atención.' },
+      { numero: 3, nombre: 'Lo que necesitas reconocer', descripcion: 'Un aspecto de ti misma que necesita atención.' },
       { numero: 4, nombre: 'Potencial de crecimiento', descripcion: 'Hacia dónde puedes crecer y evolucionar.' },
     ],
   },
   {
     id: 'proposito-vida',
     nombre: 'Encontrando el Propósito de tu Vida',
-    descripcion: 'Una tirada para descubrir y entender el propósito de tu vida',
+    descripcion: 'Una tirada para descubrir y entender el propósito de tu vida.',
     numeroCartas: 8,
     posiciones: [
       { numero: 1, nombre: 'Una carta para describir mi propósito', descripcion: 'La esencia de tu propósito.' },
       { numero: 2, nombre: 'Cómo se ve esto día a día', descripcion: 'Cómo se manifiesta tu propósito en la vida cotidiana.' },
       { numero: 3, nombre: 'Cómo se ve esto al final de mi vida', descripcion: 'La visión a largo plazo de tu propósito cumplido.' },
-      { numero: 4, nombre: 'Cómo otros ven mi propósito de vida', descripcion: 'La percepción externa de tu misión.' },
+      { numero: 4, nombre: 'Cómo otras personas ven mi propósito de vida', descripcion: 'La percepción externa de tu misión.' },
       { numero: 5, nombre: 'Paso 1 para realizar mi propósito', descripcion: 'Primer paso concreto para manifestar tu propósito.' },
       { numero: 6, nombre: 'Paso 2 para realizar mi propósito', descripcion: 'Segundo paso concreto para manifestar tu propósito.' },
       { numero: 7, nombre: 'Paso 3 para realizar mi propósito', descripcion: 'Tercer paso concreto para manifestar tu propósito.' },
@@ -110,27 +110,27 @@ export const tiradas: Tirada[] = [
   },
   {
     id: 'sanando-tu-nino-interior',
-    nombre: 'Sanando tu Niño Interior',
-    descripcion: 'Un tendido de tarot para la sanación del niño interior',
+    nombre: 'Sanando tu Niña Interior',
+    descripcion: 'Un tendido de tarot para la sanación de la niña interior.',
     numeroCartas: 7,
     posiciones: [
-      { numero: 1, nombre: 'Sentimientos actuales', descripcion: 'Cómo se siente mi niño interior actualmente' },
-      { numero: 2, nombre: 'Lo que faltó', descripcion: 'Lo que me faltó de niño' },
-      { numero: 3, nombre: 'Cicatríz', descripcion: 'Algo que dejó a mi niño interior marcado' },
-      { numero: 4, nombre: 'Efecto actual', descripcion: 'Cómo me está afectando eso en mi vida ahora' },
-      { numero: 5, nombre: 'Acción', descripcion: 'Algo que puedo hacer para sanar a mi niño interior' },
-      { numero: 6, nombre: 'Apoyo', descripcion: 'Cómo puedo apoyar a mi niño interior' },
-      { numero: 7, nombre: 'Mensaje', descripcion: 'Un mensaje de mi niño interior' }
+      { numero: 1, nombre: 'Sentimientos actuales', descripcion: 'Cómo se siente mi niña interior actualmente.' },
+      { numero: 2, nombre: 'Lo que faltó', descripcion: 'Lo que me faltó de niña.' },
+      { numero: 3, nombre: 'Cicatriz', descripcion: 'Algo que dejó a mi niña interior marcada.' },
+      { numero: 4, nombre: 'Efecto actual', descripcion: 'Cómo me está afectando eso en mi vida ahora.' },
+      { numero: 5, nombre: 'Acción', descripcion: 'Algo que puedo hacer para sanar a mi niña interior.' },
+      { numero: 6, nombre: 'Apoyo', descripcion: 'Cómo puedo apoyar a mi niña interior.' },
+      { numero: 7, nombre: 'Mensaje', descripcion: 'Un mensaje de mi niña interior.' }
     ]
   },
   {
     id: 'trabajando-con-sombra',
     nombre: 'Trabajando con tu Sombra',
-    descripcion: 'Una tirada para explorar y entender aspectos ocultos de uno mismo.',
+    descripcion: 'Una tirada para explorar y entender aspectos ocultos de ti misma.',
     numeroCartas: 6,
     posiciones: [
-      { numero: 1, nombre: '¿Qué necesito aceptar?', descripcion: 'Un aspecto de ti mismo que necesita ser reconocido y aceptado.' },
-      { numero: 2, nombre: '¿Qué necesito perdonar?', descripcion: 'Algo que necesitas perdonar, ya sea a ti mismo o a otros.' },
+      { numero: 1, nombre: '¿Qué necesito aceptar?', descripcion: 'Un aspecto de ti misma que necesita ser reconocido y aceptado.' },
+      { numero: 2, nombre: '¿Qué necesito perdonar?', descripcion: 'Algo que necesitas perdonar, ya sea a ti misma o a otras personas.' },
       { numero: 3, nombre: '¿Qué necesito liberar?', descripcion: 'Hábitos, miedos o creencias que te retienen.' },
       { numero: 4, nombre: '¿Qué puedo aprender?', descripcion: 'Lecciones valiosas que puedes extraer de esta exploración.' },
       { numero: 5, nombre: '¿Dónde puedo buscar sanación y recuperación?', descripcion: 'Fuentes de apoyo y curación.' },
@@ -153,7 +153,7 @@ export const tiradas: Tirada[] = [
       { numero: 8, nombre: 'Protección espiritual', descripcion: 'Los caminos que tu espíritu puede seguir para la protección en tu situación.' },
       { numero: 9, nombre: 'Protección espiritual', descripcion: 'Los caminos que tu espíritu puede seguir para la protección en tu situación.' },
       { numero: 10, nombre: 'El punto del hacha', descripcion: 'Algo o alguien que deberías evitar para ganar o mantener tu protección.' },
-      { numero: 11, nombre: 'Raíces', descripcion: 'Algo que debes hacer para asegurarte de permanecer protegido.' }
+      { numero: 11, nombre: 'Raíces', descripcion: 'Algo que debes hacer para asegurarte de permanecer protegida.' }
     ]
   },
   {
@@ -164,9 +164,9 @@ export const tiradas: Tirada[] = [
     posiciones: [
       { numero: 1, nombre: 'Mensaje de tus guías sobre lo que está disponible', descripcion: 'Información y oportunidades que tus guías quieren que sepas que están a tu alcance.' },
       { numero: 2, nombre: 'Cuál es el tema principal de lo que viene', descripcion: 'El mensaje central o la energía dominante de los próximos acontecimientos.' },
-      { numero: 3, nombre: 'Que viene en amor y parejas', descripcion: 'Tendencias y eventos relacionados con tus relaciones sentimentales.' },
-      { numero: 4, nombre: 'Que viene en estudio/trabajo y dinero', descripcion: 'Desarrollos en tu ámbito profesional, académico y financiero.' },
-      { numero: 5, nombre: 'Que experiencias atraes para tu evolución', descripcion: 'Lecciones y situaciones que se presentarán para tu crecimiento personal.' },
+      { numero: 3, nombre: 'Qué viene en amor y parejas', descripcion: 'Tendencias y eventos relacionados con tus relaciones sentimentales.' },
+      { numero: 4, nombre: 'Qué viene en estudio/trabajo y dinero', descripcion: 'Desarrollos en tu ámbito profesional, académico y financiero.' },
+      { numero: 5, nombre: 'Qué experiencias atraes para tu evolución', descripcion: 'Lecciones y situaciones que se presentarán para tu crecimiento personal.' },
       { numero: 6, nombre: 'Mensaje Final', descripcion: 'Un consejo o resumen importante para ti.' }
     ]
   },
@@ -176,10 +176,10 @@ export const tiradas: Tirada[] = [
     descripcion: 'Un tendido para ayudarte a establecer una conexión más profunda y clara con tus guías espirituales.',
     numeroCartas: 6,
     posiciones: [
-      { numero: 1, nombre: 'Tu Guía', descripcion: 'Representa a uno de tus guías espirituales principales o el tipo de energía que te guía.' },
+      { numero: 1, nombre: 'Tu Guía', descripcion: 'Representa a una de tus guías espirituales principales o el tipo de energía que te guía.' },
       { numero: 2, nombre: 'Lo que tu guía quiere que sepas', descripcion: 'Un mensaje crucial o una lección que tus guías desean comunicarte.' },
       { numero: 3, nombre: 'Qué te ayudará a conectar mejor con tu guía', descripcion: 'Acciones o prácticas que fortalecerán tu conexión espiritual.' },
-      { numero: 4, nombre: 'La misión de tu guía al ayudarte', descripcion: 'El propósito o la razón por la cual este guía está contigo.' },
+      { numero: 4, nombre: 'La misión de tu guía al ayudarte', descripcion: 'El propósito o la razón por la cual esta guía está contigo.' },
       { numero: 5, nombre: 'Lo que ha estado oculto hasta ahora', descripcion: 'Aspectos de tu camino o de la influencia de tus guías que no habías percibido.' },
       { numero: 6, nombre: 'Qué señal usará tu guía espiritual para captar tu atención', descripcion: 'Cómo tus guías intentarán comunicarse contigo o enviarte señales.' }
     ]
@@ -190,16 +190,16 @@ export const tiradas: Tirada[] = [
     descripcion: 'Una tirada detallada para analizar la dinámica de una relación de pareja.',
     numeroCartas: 16,
     posiciones: [
-      { numero: 1, nombre: 'Él (Su esencia)', descripcion: 'La esencia de la persona masculina en la relación.' },
-      { numero: 2, nombre: 'Ella (Su esencia)', descripcion: 'La esencia de la persona femenina en la relación.' },
-      { numero: 3, nombre: 'Comunicación (Él)', descripcion: 'La forma en que él se comunica en la relación.' },
-      { numero: 4, nombre: 'Comunicación (Ella)', descripcion: 'La forma en que ella se comunica en la relación.' },
-      { numero: 5, nombre: 'Sentimientos (Él)', descripcion: 'Los sentimientos profundos de él hacia la relación.' },
-      { numero: 6, nombre: 'Sentimientos (Ella)', descripcion: 'Los sentimientos profundos de ella hacia la relación.' },
-      { numero: 7, nombre: 'Virtudes (Él)', descripcion: 'Las cualidades positivas de él en la relación.' },
-      { numero: 8, nombre: 'Defectos (Él)', descripcion: 'Los aspectos negativos o desafíos de él en la relación.' },
-      { numero: 9, nombre: 'Virtudes (Ella)', descripcion: 'Las cualidades positivas de ella en la relación.' },
-      { numero: 10, nombre: 'Defectos (Ella)', descripcion: 'Los aspectos negativos o desafíos de ella en la relación.' },
+      { numero: 1, nombre: 'Ella (Su esencia)', descripcion: 'La esencia de una persona en la relación.' },
+      { numero: 2, nombre: 'Ella (Su esencia)', descripcion: 'La esencia de la otra persona en la relación.' },
+      { numero: 3, nombre: 'Comunicación (Persona 1)', descripcion: 'La forma en que se comunica la primera persona en la relación.' },
+      { numero: 4, nombre: 'Comunicación (Persona 2)', descripcion: 'La forma en que se comunica la segunda persona en la relación.' },
+      { numero: 5, nombre: 'Sentimientos (Persona 1)', descripcion: 'Los sentimientos profundos de la primera persona hacia la relación.' },
+      { numero: 6, nombre: 'Sentimientos (Persona 2)', descripcion: 'Los sentimientos profundos de la segunda persona hacia la relación.' },
+      { numero: 7, nombre: 'Virtudes (Persona 1)', descripcion: 'Las cualidades positivas de la primera persona en la relación.' },
+      { numero: 8, nombre: 'Defectos (Persona 1)', descripcion: 'Los aspectos negativos o desafíos de la primera persona en la relación.' },
+      { numero: 9, nombre: 'Virtudes (Persona 2)', descripcion: 'Las cualidades positivas de la segunda persona en la relación.' },
+      { numero: 10, nombre: 'Defectos (Persona 2)', descripcion: 'Los aspectos negativos o desafíos de la segunda persona en la relación.' },
       { numero: 11, nombre: 'Pasado', descripcion: 'Influencias y eventos del pasado que afectan la relación.' },
       { numero: 12, nombre: 'Pasado', descripcion: 'Influencias y eventos del pasado que afectan la relación.' },
       { numero: 13, nombre: 'Presente', descripcion: 'La situación actual y las energías presentes en la relación.' },
@@ -229,7 +229,7 @@ export const tiradas: Tirada[] = [
     descripcion: 'Una tirada para descubrir tu verdadero ser y tus capacidades.',
     numeroCartas: 6,
     posiciones: [
-      { numero: 1, nombre: 'Tu verdadero yo', descripcion: 'La esencia de quién eres realmente.' },
+      { numero: 1, nombre: 'Tu verdadero yo', descripcion: 'La esencia de quien eres realmente.' },
       { numero: 2, nombre: 'Tu corazón', descripcion: 'Lo que tu corazón desea o siente profundamente.' },
       { numero: 3, nombre: 'Tu mente', descripcion: 'Tus pensamientos, creencias y patrones mentales.' },
       { numero: 4, nombre: 'Tu espiritualidad', descripcion: 'Tu conexión con lo trascendente y tu propósito espiritual.' },
@@ -248,18 +248,18 @@ export const tiradas: Tirada[] = [
       { numero: 3, nombre: 'Qué dejar ir', descripcion: 'Hábitos, creencias o situaciones que ya no te sirven y debes soltar.' },
       { numero: 4, nombre: 'Qué integrar', descripcion: 'Nuevas ideas, cualidades o experiencias que debes incorporar a tu vida.' },
       { numero: 5, nombre: 'Energía del presente', descripcion: 'La vibración actual y lo que está manifestándose en tu vida.' },
-      { numero: 6, nombre: 'Enero', descripcion: 'Energías y eventos clave para el mes de Enero.' },
-      { numero: 7, nombre: 'Febrero', descripcion: 'Energías y eventos clave para el mes de Febrero.' },
-      { numero: 8, nombre: 'Marzo', descripcion: 'Energías y eventos clave para el mes de Marzo.' },
-      { numero: 9, nombre: 'Abril', descripcion: 'Energías y eventos clave para el mes de Abril.' },
-      { numero: 10, nombre: 'Mayo', descripcion: 'Energías y eventos clave para el mes de Mayo.' },
-      { numero: 11, nombre: 'Junio', descripcion: 'Energías y eventos clave para el mes de Junio.' },
-      { numero: 12, nombre: 'Julio', descripcion: 'Energías y eventos clave para el mes de Julio.' },
-      { numero: 13, nombre: 'Agosto', descripcion: 'Energías y eventos clave para el mes de Agosto.' },
-      { numero: 14, nombre: 'Septiembre', descripcion: 'Energías y eventos clave para el mes de Septiembre.' },
-      { numero: 15, nombre: 'Octubre', descripcion: 'Energías y eventos clave para el mes de Octubre.' },
-      { numero: 16, nombre: 'Noviembre', descripcion: 'Energías y eventos clave para el mes de Noviembre.' },
-      { numero: 17, nombre: 'Diciembre', descripcion: 'Energías y eventos clave para el mes de Diciembre.' }
+      { numero: 6, nombre: 'Enero', descripcion: 'Energías y eventos clave para el mes de enero.' },
+      { numero: 7, nombre: 'Febrero', descripcion: 'Energías y eventos clave para el mes de febrero.' },
+      { numero: 8, nombre: 'Marzo', descripcion: 'Energías y eventos clave para el mes de marzo.' },
+      { numero: 9, nombre: 'Abril', descripcion: 'Energías y eventos clave para el mes de abril.' },
+      { numero: 10, nombre: 'Mayo', descripcion: 'Energías y eventos clave para el mes de mayo.' },
+      { numero: 11, nombre: 'Junio', descripcion: 'Energías y eventos clave para el mes de junio.' },
+      { numero: 12, nombre: 'Julio', descripcion: 'Energías y eventos clave para el mes de julio.' },
+      { numero: 13, nombre: 'Agosto', descripcion: 'Energías y eventos clave para el mes de agosto.' },
+      { numero: 14, nombre: 'Septiembre', descripcion: 'Energías y eventos clave para el mes de septiembre.' },
+      { numero: 15, nombre: 'Octubre', descripcion: 'Energías y eventos clave para el mes de octubre.' },
+      { numero: 16, nombre: 'Noviembre', descripcion: 'Energías y eventos clave para el mes de noviembre.' },
+      { numero: 17, nombre: 'Diciembre', descripcion: 'Energías y eventos clave para el mes de diciembre.' }
     ]
   },
   {
@@ -269,7 +269,7 @@ export const tiradas: Tirada[] = [
     numeroCartas: 6,
     posiciones: [
       { numero: 1, nombre: 'Tu espíritu creativo', descripcion: 'La esencia de tu creatividad innata.' },
-      { numero: 2, nombre: 'Bloqueo 1', descripcion: 'Un obstáculo importante que te impide ser creativo.' },
+      { numero: 2, nombre: 'Bloqueo 1', descripcion: 'Un obstáculo importante que te impide ser creativa.' },
       { numero: 3, nombre: 'Bloqueo 2', descripcion: 'Otro bloqueo que afecta tu flujo creativo.' },
       { numero: 4, nombre: 'Cómo superarlo', descripcion: 'Consejos para superar el primer bloqueo.' },
       { numero: 5, nombre: 'Cómo superarlo', descripcion: 'Consejos para superar el segundo bloqueo.' },
@@ -282,27 +282,27 @@ export const tiradas: Tirada[] = [
     descripcion: 'Una tirada extensa para una visión profunda de diversas áreas de la vida, incluyendo lo espiritual, físico y emocional.',
     numeroCartas: 21,
     posiciones: [
-      { numero: 1, nombre: 'Corona', descripcion: '¿Cuál es el propósito de tu vida? ¿Quién eres? ¿La mayor aspiración a lograr en la vida.' },
+      { numero: 1, nombre: 'Corona', descripcion: '¿Cuál es el propósito de tu vida? ¿Quién eres? La mayor aspiración a lograr en la vida.' },
       { numero: 2, nombre: 'Físico (Meta/Acción)', descripcion: '¿Qué estás obteniendo?' },
       { numero: 3, nombre: 'Físico (Meta/Acción)', descripcion: '¿Qué hacer para obtenerlo?' },
-      { numero: 4, nombre: 'Sueños profundos, realizaciones y pasiones.', descripcion: 'Descripción de sueños, realizaciones y pasiones.' }, // Added description
-      { numero: 5, nombre: 'Emocional (Meta/Acción)', descripcion: 'Resultados, resultados y mensajes cósmicos para problemas.' },
+      { numero: 4, nombre: 'Sueños profundos, realizaciones y pasiones', descripcion: 'Tus sueños más profundos, tus realizaciones y tus pasiones.' },
+      { numero: 5, nombre: 'Emocional (Meta/Acción)', descripcion: 'Resultados y mensajes cósmicos para problemas emocionales.' },
       { numero: 6, nombre: 'Emocional (Meta/Acción)', descripcion: '¿Qué estás haciendo para arreglar las cosas?' },
       { numero: 7, nombre: 'Garganta', descripcion: '¿Qué estás expresando?' },
-      { numero: 8, nombre: '¿Qué estás diciendo/sintiendo?', descripcion: 'Descripción de lo que estás diciendo o sintiendo.' }, // Added description
-      { numero: 9, nombre: 'Resultados, resultados y mensajes cósmicos para problemas.', descripcion: 'Descripción de resultados y mensajes cósmicos.' }, // Added description
-      { numero: 10, nombre: 'Conciencia de la Sombra', descripcion: '¿Qué pueden hacer los demás/decirte para ayudarte? ¿Estás solo?' },
-      { numero: 11, nombre: 'Inacción', descripcion: 'Malos hábitos y adicciones, ¿cómo lidiar con el dolor?' },
-      { numero: 12, nombre: 'Extraversión', descripcion: 'Dolor en lo externo/afuera, ¿qué estás mostrando?' },
-      { numero: 13, nombre: 'Corazón', descripcion: '¿Cómo estás tratando a los demás/a ti mismo? Sufrimiento.' },
-      { numero: 14, nombre: 'Introversión', descripcion: 'Dolor en lo interno/adentro, ¿qué estás interiorizando?' },
-      { numero: 15, nombre: 'Inacción', descripcion: '¿Estás deprimido? ¿Qué te falta/echas de menos?' },
+      { numero: 8, nombre: 'Expresión', descripcion: '¿Qué estás diciendo o sintiendo?' },
+      { numero: 9, nombre: 'Mensajes cósmicos', descripcion: 'Resultados y mensajes cósmicos para problemas.' },
+      { numero: 10, nombre: 'Conciencia de la Sombra', descripcion: '¿Qué pueden hacer las demás personas para ayudarte? ¿Estás sola?' },
+      { numero: 11, nombre: 'Inacción', descripcion: 'Malos hábitos y adicciones. ¿Cómo lidiar con el dolor?' },
+      { numero: 12, nombre: 'Extraversión', descripcion: 'Dolor en lo externo. ¿Qué estás mostrando?' },
+      { numero: 13, nombre: 'Corazón', descripcion: '¿Cómo estás tratando a las demás personas y a ti misma? Sufrimiento.' },
+      { numero: 14, nombre: 'Introversión', descripcion: 'Dolor en lo interno. ¿Qué estás interiorizando?' },
+      { numero: 15, nombre: 'Inacción', descripcion: '¿Estás deprimida? ¿Qué te falta o echas de menos?' },
       { numero: 16, nombre: 'Autoconciencia', descripcion: '¿Por qué te estás enfocando en el dolor? ¿Dónde está el bien?' },
       { numero: 17, nombre: 'Plexo Solar', descripcion: '¿De dónde derivar energía para la acción?' },
-      { numero: 18, nombre: 'Ombligo', descripcion: '¿Estás motivado para cambiar o empezar?' },
-      { numero: 19, nombre: 'Raíz', descripcion: '¿Estás sano? ¿Desconectado del propósito?' },
-      { numero: 20, nombre: '¿Cuándo empezó el 12? ¿Dónde empezó el dolor?', descripcion: 'Descripción del inicio del dolor externo.' }, // Added description
-      { numero: 21, nombre: '¿Cuándo empezó el 14? ¿Dónde empezó el dolor?', descripcion: 'Descripción del inicio del dolor interno.' } // Added description
+      { numero: 18, nombre: 'Ombligo', descripcion: '¿Estás motivada para cambiar o empezar?' },
+      { numero: 19, nombre: 'Raíz', descripcion: '¿Estás sana? ¿Desconectada del propósito?' },
+      { numero: 20, nombre: 'Origen del dolor externo', descripcion: '¿Cuándo empezó el dolor externo? ¿Dónde empezó?' },
+      { numero: 21, nombre: 'Origen del dolor interno', descripcion: '¿Cuándo empezó el dolor interno? ¿Dónde empezó?' }
     ]
   },
   {

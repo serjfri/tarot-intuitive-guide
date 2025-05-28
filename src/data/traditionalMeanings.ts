@@ -1,33 +1,152 @@
+// src/data/traditionalMeanings.ts
+
+export interface CombinationMeaning {
+  cartaCombinada: string; // ID de la carta con la que se combina (ej. 'EL_MAGO')
+  orientacionCombinada: 'normal' | 'invertida' | 'cualquiera'; // Orientación de la carta combinada
+  significado: string; // Breve significado de la combinación
+}
+
+export interface ApplicationMeaning {
+  normal: string;
+  invertida: string;
+}
+
 export interface TraditionalCardMeaning {
   id: string;
   nombre: string;
-  
-  // Propiedades para la carta al derecho
   significadoDerecho: string;
-  detalleDerecho: string;
-  palabrasClaveDerechas: string[];
-
-  // Propiedades para la carta invertida
   significadoInvertido: string;
+  detalleDerecho: string;
   detalleInvertido: string;
-  palabrasClaveInvertidas: string[];
-  
-  elemento?: string; // Sigue siendo opcional
-  arquetipo?: string; // Sigue siendo opcional
+  elemento?: string;
+  palabrasClaveDerechas?: string[];
+  palabrasClaveInvertidas?: string[];
+  arquetipo?: string;
+  meditacionReflexion?: { // Propiedad opcional
+    preguntas: string[];
+  };
+  aplicaciones?: { // Propiedad opcional
+    amorRelaciones: ApplicationMeaning;
+    carreraFinanzas: ApplicationMeaning;
+    desarrolloPersonalEspiritual: ApplicationMeaning;
+    saludBienestar: ApplicationMeaning;
+  };
+  combinacionesSignificativas?: { // Propiedad opcional
+    conArcanosMayores?: CombinationMeaning[];
+    conCopas?: CombinationMeaning[];
+    conEspadas?: CombinationMeaning[];
+    conOros?: CombinationMeaning[];
+    conBastos?: CombinationMeaning[];
+  };
 }
 
+// ¡IMPORTANTE! Asegúrate de que TODAS tus cartas estén dentro de este array.
 export const traditionalMeanings: TraditionalCardMeaning[] = [
-  // ARCANOS MAYORES
   {
     id: 'EL_LOCO',
     nombre: 'El Loco',
     significadoDerecho: 'Nuevos comienzos, espontaneidad, espíritu libre, fe en el futuro, inexperiencia.',
     significadoInvertido: 'Imprudencia, insensatez, temeridad, falta de dirección, riesgo innecesario.',
-    detalleDerecho: 'El Loco representa el comienzo de un nuevo viaje. Es el espíritu libre que se lanza a lo desconocido con optimismo, a veces con ingenuidad. Invita a la espontaneidad y a la confianza en el camino, pero también advierte sobre la imprudencia.',
-    detalleInvertido: 'Cuando El Loco aparece invertido, puede indicar imprudencia, decisiones precipitadas o una falta de dirección que lleva a riesgos innecesarios. Advierte sobre la necesidad de anclarse antes de saltar.',
+    detalleDerecho: 'El Loco en posición normal representa un espíritu libre y aventurero, dispuesto a lanzarse a lo desconocido con entusiasmo y confianza. Simboliza nuevos comienzos, decisiones espontáneas y un enfoque de vida sin preocupaciones. Esta carta sugiere que es momento de tomar un salto de fe, confiar en el universo y seguir tu intuición aunque el camino no esté completamente definido.<br>El Loco encarna la energía pura y el potencial ilimitado, recordándonos la importancia de mantener una mente abierta y una actitud de asombro ante la vida. Representa el inicio del viaje espiritual, donde aún no hay restricciones ni expectativas. A menudo aparece cuando necesitamos liberarnos de convenciones, actuar con espontaneidad y abrazar lo impredecible.',
+    detalleInvertido: 'En posición invertida, El Loco advierte sobre imprudencia y decisiones precipitadas sin considerar las consecuencias. Puede indicar que estás tomando riesgos innecesarios o ignorando advertencias importantes. Esta posición sugiere descuido, comportamiento errático o una falta de dirección que podría resultar perjudicial.<br>También puede señalar que te resistes a nuevas experiencias por miedo, quedándote estancado en situaciones familiares pero limitantes. Alternativamente, puede reflejar una tendencia a huir de las responsabilidades o a actuar de manera infantil ante los desafíos. El Loco invertido te invita a encontrar un equilibrio entre la libertad y la responsabilidad.',
     elemento: 'Aire',
-    palabrasClaveDerechas: ['Comienzos', 'Libertad', 'Aventura', 'Inocencia', 'Espontaneidad'],
-    palabrasClaveInvertidas: ['Imprudencia', 'Caos', 'Indecisión', 'Riesgo', 'Falta de dirección']
+    palabrasClaveDerechas: ['Comienzos', 'Libertad', 'Aventura', 'Inocencia', 'Espontaneidad', 'Fe', 'Riesgos'],
+    palabrasClaveInvertidas: ['Imprudencia', 'Descuido', 'Riesgo innecesario', 'Ingenuidad peligrosa', 'Malas decisiones', 'Falta de dirección'],
+    arquetipo: 'El Viajero Sin Ruta',
+    meditacionReflexion: {
+      preguntas: [
+        '¿Qué me impide dar un salto de fe en mi vida?',
+        '¿Dónde necesito más espontaneidad y menos preocupación por el futuro?',
+        '¿Estoy considerando todas las advertencias importantes antes de embarcarme en una nueva aventura?',
+        '¿Cómo puedo mantener mi espíritu libre sin caer en la imprudencia?',
+        '¿Qué equipaje emocional o mental puedo dejar atrás para emprender mi viaje con más ligereza?'
+      ]
+    },
+    aplicaciones: {
+      amorRelaciones: {
+        normal: 'Relación espontánea y emocionante, nuevos encuentros inesperados, libertad en el amor',
+        invertida: 'Relaciones impulsivas sin fundamento, evitar compromisos, comportamiento impredecible'
+      },
+      carreraFinanzas: {
+        normal: 'Nuevas oportunidades profesionales, emprendimientos creativos, seguir la vocación',
+        invertida: 'Decisiones financieras arriesgadas, cambios de carrera sin planificación, oportunidades perdidas'
+      },
+      desarrolloPersonalEspiritual: {
+        normal: 'Liberación de condicionamientos, apertura a nuevas filosofías, viaje de autodescubrimiento',
+        invertida: 'Confusión espiritual, falta de dirección, resistencia al crecimiento personal'
+      },
+      saludBienestar: {
+        normal: 'Vitalidad renovada, enfoque holístico de la salud, liberación de tensiones',
+        invertida: 'Descuido de la salud, comportamientos de riesgo, agotamiento por excesos'
+      }
+    },
+    combinacionesSignificativas: {
+      conArcanosMayores: [
+        {
+          cartaCombinada: 'EL_MAGO',
+          orientacionCombinada: 'cualquiera',
+          significado: 'Creatividad espontánea; nuevos comienzos con recursos inesperados. (Si El Mago está normal) / Habilidades desperdiciadas por impulsividad; necesidad de enfoque. (Si El Mago está invertido y El Loco invertido) / Entusiasmo sin las herramientas necesarias; potencial sin refinamiento. (Si El Mago está invertido y El Loco normal) / Manipulación y engaño; proyectos iniciados con motivos cuestionables. (Ambas invertidas)'
+        },
+        {
+          cartaCombinada: 'LA_SACERDOTISA',
+          orientacionCombinada: 'cualquiera',
+          significado: 'Intuición poderosa guiando saltos de fe; sabiduría en la espontaneidad. (Ambas normales) / Ignorar la intuición por impulsividad; necesidad de escuchar la voz interior. (Loco invertido + Sacerdotisa normal) / Secretos revelados a través de acontecimientos inesperados. (Loco normal + Sacerdotisa invertida) / Desconexión total entre la acción y la intuición; comportamiento errático. (Ambas invertidas)'
+        },
+        {
+          cartaCombinada: 'LA_TORRE',
+          orientacionCombinada: 'cualquiera',
+          significado: 'Liberación a través del caos; abrazar cambios drásticos con espíritu aventurero. (Ambas normales) / Crisis causada por imprudencia; consecuencias de riesgos innecesarios. (Loco invertido + Torre normal) / Evitar un desastre mediante la adaptabilidad y flexibilidad. (Loco normal + Torre invertida) / Resistencia al cambio necesario; imprudencia que prolonga situaciones insostenibles. (Ambas invertidas)'
+        },
+      ],
+      conCopas: [
+        {
+          cartaCombinada: 'AS_DE_COPAS',
+          orientacionCombinada: 'cualquiera',
+          significado: 'Apertura emocional total; nueva relación apasionada y espontánea. (Ambas normales) / Oportunidad emocional desperdiciada por miedo o imprudencia. (Loco invertido + As normal) / Entusiasmo por conexiones que podrían no ser profundas. (Loco normal + As invertido) / Bloqueo emocional; resistencia a nuevas experiencias afectivas. (Ambas invertidas)'
+        },
+        {
+          cartaCombinada: 'REINA_DE_COPAS',
+          orientacionCombinada: 'cualquiera',
+          significado: 'Intuición emocional guiando nuevas aventuras; compasión en situaciones de riesgo. (Ambas normales) / Sabiduría emocional ignorada por impulsividad. (Loco invertido + Reina normal) / Aventuras que despiertan emociones abrumadoras. (Loco normal + Reina invertida) / Inestabilidad emocional; decisiones manipuladoras o codependientes. (Ambas invertidas)'
+        },
+      ],
+      conEspadas: [
+        {
+          cartaCombinada: 'AS_DE_ESPADAS',
+          orientacionCombinada: 'cualquiera',
+          significado: 'Claridad mental repentina; ideas revolucionarias; nuevas perspectivas. (Ambas normales) / Verdad revelada que expone comportamiento imprudente. (Loco invertido + As normal) / Confusión mental durante nuevas experiencias; necesidad de claridad. (Loco normal + As invertido) / Pensamientos autodestructivos; ideas sin fundamento. (Ambas invertidas)'
+        },
+        {
+          cartaCombinada: 'CABALLERO_DE_ESPADAS',
+          orientacionCombinada: 'cualquiera',
+          significado: 'Acción rápida y decidida; aventuras intelectuales. (Ambas normales) / Agresividad impulsiva; precipitación peligrosa. (Loco invertido + Caballero normal) / Entusiasmo sin dirección clara; energía dispersa. (Loco normal + Caballero invertido) / Comportamiento errático y potencialmente destructivo. (Ambas invertidas)'
+        },
+      ],
+      conOros: [
+        {
+          cartaCombinada: 'AS_DE_OROS',
+          orientacionCombinada: 'cualquiera',
+          significado: 'Oportunidad material inesperada; emprendimiento aventurero. (Ambas normales) / Oportunidad financiera perdida por imprudencia. (Loco invertido + As normal) / Entusiasmo por proyectos materiales que requieren más planificación. (Loco normal + As invertido) / Decisiones financieras riesgosas; inversiones sin investigación previa. (Ambas invertidas)'
+        },
+        {
+          cartaCombinada: 'CUATRO_DE_OROS',
+          orientacionCombinada: 'cualquiera',
+          significado: 'Liberarse de la seguridad material para buscar experiencias. (Ambas normales) / Aferrarse a lo seguro por miedo a lo desconocido. (Loco invertido + Cuatro normal) / Aventura que requiere dejar ir posesiones o situaciones seguras. (Loco normal + Cuatro invertido) / Comportamiento financiero contradictorio; gastar impulsivamente y luego aferrarse. (Ambas invertidas)'
+        },
+      ],
+      conBastos: [
+        {
+          cartaCombinada: 'AS_DE_BASTOS',
+          orientacionCombinada: 'cualquiera',
+          significado: 'Inspiración divina; chispa creativa; pasión por nuevas aventuras. (Ambas normales) / Energía creativa desperdiciada por imprudencia. (Loco invertido + As normal) / Entusiasmo que necesita dirección y propósito. (Loco normal + As invertido) / Agotamiento por dispersión de energía; inicios falsos. (Ambas invertidas)'
+        },
+        {
+          cartaCombinada: 'SIETE_DE_BASTOS',
+          orientacionCombinada: 'cualquiera',
+          significado: 'Defender la libertad personal; coraje para seguir un camino no convencional. (Ambas normales) / Luchar batallas innecesarias por impulsividad. (Loco invertido + Siete normal) / Sentirse abrumado por los desafíos en un nuevo camino. (Loco normal + Siete invertido) / Evitar confrontaciones necesarias; huir de desafíos importantes. (Ambas invertidas)'
+        },
+      ],
+    },
   },
   {
     id: 'EL_MAGO',
@@ -39,6 +158,11 @@ export const traditionalMeanings: TraditionalCardMeaning[] = [
     elemento: 'Aire',
     palabrasClaveDerechas: ['Creación', 'Poder', 'Habilidad', 'Concentración', 'Iniciativa'],
     palabrasClaveInvertidas: ['Manipulación', 'Engaño', 'Indecisión', 'Potencial bloqueado', 'Incompetencia']
+    // Nota: Como estas propiedades son opcionales en la interfaz,
+    // no es un error si no las incluyes aquí para 'El Mago' o las demás cartas.
+    // meditacionReflexion: { preguntas: [] },
+    // aplicaciones: { ... },
+    // combinacionesSignificativas: { ... },
   },
   {
     id: 'LA_SACERDOTISA',
@@ -248,6 +372,17 @@ export const traditionalMeanings: TraditionalCardMeaning[] = [
     elemento: 'Fuego',
     palabrasClaveDerechas: ['Despertar', 'Juicio', 'Renacimiento', 'Absolución', 'Llamada'],
     palabrasClaveInvertidas: ['Auto-duda', 'Remordimiento', 'Evasión', 'Culpabilidad', 'Miedo al juicio']
+  },
+  {
+    id: 'EL_MUNDO',
+    nombre: 'El Mundo',
+    significadoDerecho: 'Culminación, éxito, plenitud, integración, logro, realización, cierre de ciclo.',
+    significadoInvertido: 'Incompletitud, retrasos, falta de cierre, atajos, frustración.',
+    detalleDerecho: 'El Mundo representa la culminación, el éxito y la plenitud. Simboliza la realización de un ciclo y la integración de todas las partes. Invita a celebrar los logros y a reconocer la propia perfección.',
+    detalleInvertido: 'Invertido, El Mundo puede indicar incompletitud, retrasos en los proyectos o una falta de cierre. También puede señalar la toma de atajos o una sensación de frustración por no alcanzar la realización deseada.',
+    elemento: 'Tierra',
+    palabrasClaveDerechas: ['Culminación', 'Éxito', 'Plenitud', 'Logro', 'Integración'],
+    palabrasClaveInvertidas: ['Incompletitud', 'Retrasos', 'Falta de cierre', 'Frustración', 'Obstáculos']
   },
   {
     id: 'EL_MUNDO',
