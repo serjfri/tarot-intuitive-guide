@@ -41,7 +41,6 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
   onCambiarBaraja
 }) => {
   const [posicionActual, setPosicionActual] = useState(1);
-  // Mantener categoriaSeleccionada y paloSeleccionado como state local
   const [categoriaSeleccionada, setCategoriaSeleccionada] = useState<'mayores' | 'menores' | null>(null);
   const [letraSeleccionada, setLetraSeleccionada] = useState<string>('');
   const [paloSeleccionado, setPaloSeleccionado] = useState<string>('');
@@ -90,20 +89,9 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
     return [];
   };
 
-  // Función para obtener la abreviatura del palo
-  const getPaloAbreviatura = (palo: string): string => {
-    switch (palo.toLowerCase()) {
-      case 'bastos': return 'BA';
-      case 'copas': return 'CO';
-      case 'espadas': return 'ES';
-      case 'oros': return 'OR';
-      default: return '';
-    }
-  };
-
-  // Función para obtener el número de la carta menor (o el nombre de la figura)
-  const getNumeroCartaMenorDisplay = (name: string): string => {
-    if (name.includes('As')) return '1';
+  // Función para obtener el display de la carta menor (As, 2, 3... Rey)
+  const getCartaMenorDisplay = (name: string): string => {
+    if (name.includes('As')) return 'As';
     if (name.includes('Dos')) return '2';
     if (name.includes('Tres')) return '3';
     if (name.includes('Cuatro')) return '4';
@@ -113,12 +101,11 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
     if (name.includes('Ocho')) return '8';
     if (name.includes('Nueve')) return '9';
     if (name.includes('Diez')) return '10';
-    // Para las figuras, mantenemos el nombre (ej. "Sota", "Caballo", "Reina", "Rey")
     if (name.includes('Sota')) return 'Sota';
-    if (name.includes('Caballo')) return 'Caballo';
+    if (name.includes('Caballo')) return 'Caballero'; // Cambiado a "Caballero"
     if (name.includes('Reina')) return 'Reina';
     if (name.includes('Rey')) return 'Rey';
-    return name; // Fallback, aunque no debería ocurrir con las cartas menores estándar
+    return name; // Fallback
   };
 
 
@@ -176,10 +163,7 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
       setPosicionActual(posicion + 1);
     }
 
-    // Reiniciar selecciones solo si no estamos en modo libre y hemos completado la tirada
-    // O si queremos que cada selección reseteé el filtro
-    // Por ahora, lo mantenemos como estaba para resetear la vista de selección
-    setCategoriaSeleccionada(null); // Esto reinicia la vista para la siguiente selección
+    setCategoriaSeleccionada(null); 
     setLetraSeleccionada('');
     setPaloSeleccionado('');
   };
@@ -194,7 +178,6 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
     if (onCambiarBaraja) {
       onCambiarBaraja(nuevaBaraja);
     }
-    // Resetear las selecciones de categoría, letra y palo al cambiar de baraja
     setCategoriaSeleccionada(null);
     setLetraSeleccionada('');
     setPaloSeleccionado('');
@@ -212,9 +195,8 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
         const nombreDisplay = getCardNameById(carta.carta);
         let prefix = '';
 
-        // MODIFICACIÓN CLAVE: Lógica para el formato de la lista
         if (modoLibre) {
-          prefix = `${index + 1}. `; // Solo el número si es modo libre
+          prefix = `${index + 1}. `;
         } else {
           const posicionData = tirada.posiciones.find(p => p.numero === carta.posicion);
           prefix = `${index + 1}. ${posicionData?.nombre || `Carta ${carta.posicion}`}: `;
@@ -366,7 +348,7 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
                     </Button>
                   </div>
 
-                  {/* Selección de letra para arcanos mayores */}
+                  {/* Sección de Selección de Arcanos Mayores o Menores */}
                   {categoriaSeleccionada === 'mayores' && !letraSeleccionada && (
                     <>
                       <label className="block text-sm font-medium text-emerald-900 mb-2">
@@ -387,7 +369,7 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
                     </>
                   )}
 
-                  {/* Selección de palo para arcanos menores (siempre visibles si menores seleccionados) */}
+                  {/* Botones de palo para Arcanos Menores (siempre visibles si menores seleccionados) */}
                   {categoriaSeleccionada === 'menores' && (
                     <>
                       <label className="block text-sm font-medium text-emerald-900 mb-2">
@@ -398,7 +380,7 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
                           <Button
                             key={palo}
                             variant={paloSeleccionado === palo ? "default" : "outline"}
-                            className="h-9 text-sm p-1" // Ajuste de padding
+                            className="h-9 text-sm p-1"
                             onClick={() => setPaloSeleccionado(palo)}
                           >
                             {palo}
@@ -439,52 +421,53 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
                     <label className="block text-sm font-medium text-emerald-900 mb-2">
                       Cartas disponibles
                     </label>
-                    <div className="grid gap-1 grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-7 justify-items-center">
-                      {/* Cartas por letra (Mayores o Osho) */}
-                      {(letraSeleccionada && (categoriaSeleccionada === 'mayores' || baraja === 'osho')) &&
-                        filtrarCartasPorLetra(
-                          letraSeleccionada,
-                          baraja,
-                          baraja === 'osho' ? null : categoriaSeleccionada as 'mayores' | null
-                        ).map((carta) => (
-                          <Button
-                            key={carta.id}
-                            variant="outline"
-                            className="h-auto w-full max-w-[120px] p-1 text-center hover:bg-emerald-50 hover:border-emerald-400 text-xs truncate"
-                            onClick={() => handleCartaSelect(carta.id)}
-                          >
-                            {carta.name}
-                          </Button>
-                        ))
-                      }
-
-                      {/* Cartas por palo (Menores Tradicionales) */}
-                      {(paloSeleccionado && categoriaSeleccionada === 'menores') &&
-                        filtrarCartasPorPalo(paloSeleccionado).map((carta) => (
-                          <Button
-                            key={carta.id}
-                            variant="outline"
-                            className="h-14 w-full max-w-[80px] p-1 text-center hover:bg-emerald-50 hover:border-emerald-400 flex flex-col items-center justify-center" // Ajustado el tamaño para menor
-                            onClick={() => handleCartaSelect(carta.id)}
-                          >
-                            {/* Mostrar número o nombre de figura */}
-                            <span className="font-bold text-base">
-                                {getNumeroCartaMenorDisplay(carta.name)}
-                            </span>
-                            {/* Mostrar abreviatura del palo solo si no es figura */}
-                            {!['Sota', 'Caballo', 'Reina', 'Rey'].some(figura => carta.name.includes(figura)) && (
-                                <span className="text-[0.6rem] opacity-80 mt-0.5">
-                                    {getPaloAbreviatura(paloSeleccionado)}
-                                </span>
-                            )}
-                          </Button>
-                        ))
-                      }
-                    </div>
+                    {/* Contenedor flexible para Arcanos Menores para una distribución óptima */}
+                    {baraja === 'tradicional' && categoriaSeleccionada === 'menores' && paloSeleccionado ? (
+                       <div className="flex flex-wrap gap-1 justify-center"> {/* Flexbox para mejor distribución */}
+                       {filtrarCartasPorPalo(paloSeleccionado).map((carta) => (
+                         <Button
+                           key={carta.id}
+                           variant="outline"
+                           className="h-14 w-[50px] p-0 text-center hover:bg-emerald-50 hover:border-emerald-400 flex flex-col items-center justify-center text-sm" // Más pequeño y uniforme
+                           onClick={() => handleCartaSelect(carta.id)}
+                         >
+                           {/* Mostrar nombre de la carta menor */}
+                           <span className="font-bold text-base">
+                               {getCartaMenorDisplay(carta.name)}
+                           </span>
+                           {/* Icono del palo en lugar de texto */}
+                           {paloSeleccionado === 'Bastos' && <span className="text-xl">♣</span>}
+                           {paloSeleccionado === 'Copas' && <span className="text-xl">♥</span>}
+                           {paloSeleccionado === 'Espadas' && <span className="text-xl">♠</span>}
+                           {paloSeleccionado === 'Oros' && <span className="text-xl">♦</span>}
+                         </Button>
+                       ))}
+                     </div>
+                    ) : (
+                      <div className="grid gap-1 grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-7 justify-items-center">
+                        {/* Cartas por letra (Mayores o Osho) */}
+                        {(letraSeleccionada && (categoriaSeleccionada === 'mayores' || baraja === 'osho')) &&
+                          filtrarCartasPorLetra(
+                            letraSeleccionada,
+                            baraja,
+                            baraja === 'osho' ? null : categoriaSeleccionada as 'mayores' | null
+                          ).map((carta) => (
+                            <Button
+                              key={carta.id}
+                              variant="outline"
+                              className="h-auto w-full max-w-[120px] p-1 text-center hover:bg-emerald-50 hover:border-emerald-400 text-xs truncate"
+                              onClick={() => handleCartaSelect(carta.id)}
+                            >
+                              {carta.name}
+                            </Button>
+                          ))
+                        }
+                      </div>
+                    )}
                   </div>
                 )}
 
-              {/* Botón para volver a la selección de letra/palo (no de categoría) */}
+              {/* Botón para volver a la selección de letra/palo */}
               {(letraSeleccionada || paloSeleccionado) && (
                 <Button
                   variant="ghost"
@@ -495,7 +478,6 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
                     } else if (letraSeleccionada) {
                       setLetraSeleccionada('');
                     }
-                    // La categoría se mantiene visible, no se reinicia aquí
                   }}
                 >
                   <ChevronLeft className="w-4 h-4 mr-2" />
