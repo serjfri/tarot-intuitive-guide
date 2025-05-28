@@ -4,8 +4,8 @@ import { VitePWA } from 'vite-plugin-pwa';
 import path from 'path'; // <--- IMPORTANTE: Añade esta línea
 
 // Define la URL base de tu aplicación, crucial para GitHub Pages.
-// Para https://serjfri.github.io/tarot-intuitive-guide/, la base es '/tarot-intuitive-guide/'
-const BASE_URL = '/tarot-intuitive-guide/';
+// Para https://serjfri.github.io/lecturas/, la base es '/lecturas/'
+const BASE_URL = '/lecturas/';
 
 export default defineConfig({
   base: BASE_URL, // La base para el despliegue en GitHub Pages
