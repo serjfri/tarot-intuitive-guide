@@ -1,0 +1,1 @@
+if('serviceWorker' in navigator) {window.addEventListener('load', () => {navigator.serviceWorker.register('/tarot-intuitive-guide/sw.js', { scope: '/tarot-intuitive-guide/' })})}
