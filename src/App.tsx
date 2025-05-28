@@ -13,7 +13,8 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      <BrowserRouter basename="/tarot-intuitive-guide"> {/* <--- ¡AQUÍ ESTÁ EL CAMBIO! */}
+      {/* ¡CORRECCIÓN CLAVE AQUÍ! Actualiza el basename al nuevo nombre del repositorio */}
+      <BrowserRouter basename="/lecturas">
         <Routes>
           <Route path="/" element={<Index />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
