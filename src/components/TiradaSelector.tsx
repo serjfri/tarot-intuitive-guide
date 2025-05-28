@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge"; // Todavía útil para la baraja
 import { ChevronLeft, X } from "lucide-react";
 import { Tirada } from '@/pages/Index';
-import tiradasData from '@/data/tiradas'; // Importa las tiradas desde el archivo externo
+import { tiradas } from '@/data/tiradas'; // Importación correcta: con llaves
 
 interface TiradaSelectorProps {
   onTiradaSelect: (tirada: Tirada, baraja: 'tradicional' | 'osho') => void;
@@ -20,7 +20,8 @@ const TiradaSelector: React.FC<TiradaSelectorProps> = ({
 
   // Ordenar y agrupar las tiradas por el número de cartas
   const orderedAndGroupedTiradas = useMemo(() => {
-    const sortedTiradas = [...tiradasData].sort((a, b) => a.numeroCartas - b.numeroCartas);
+    // CAMBIO AQUÍ: Usamos 'tiradas' en lugar de 'tiradasData'
+    const sortedTiradas = [...tiradas].sort((a, b) => a.numeroCartas - b.numeroCartas);
 
     const grouped: { [key: number]: Tirada[] } = {};
     sortedTiradas.forEach(tirada => {
@@ -31,7 +32,7 @@ const TiradaSelector: React.FC<TiradaSelectorProps> = ({
     });
 
     return grouped;
-  }, []);
+  }, []); // Dependencias vacías porque 'tiradas' es una constante estática
 
   const handleTiradaClick = (tirada: Tirada) => {
     setTiradaSeleccionada(tirada); // Muestra la vista previa
@@ -116,7 +117,7 @@ const TiradaSelector: React.FC<TiradaSelectorProps> = ({
               <CardTitle className="text-2xl text-orange-900">
                 {tiradaSeleccionada.nombre}
               </CardTitle>
-              <Button variant="ghost" size="icon" onClick={handleCerrarVistaPrevia}>
+            <Button variant="ghost" size="icon" onClick={handleCerrarVistaPrevia}>
                 <X className="h-6 w-6" />
               </Button>
             </CardHeader>
