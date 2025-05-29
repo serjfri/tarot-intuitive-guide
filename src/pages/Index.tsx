@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+// src/pages/Index.tsx
+import React, { useState, useEffect } from 'react'; // Asegúrate de importar useEffect
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { CreditCard, Layers } from "lucide-react";
-import CartaSelector from '@/components/CartaSelector';
+import CartaSelector from '@/components/CartaSelector'; // Importa directamente como CartaSelector
 import TiradaSelector from '@/components/TiradaSelector';
 import InterpretacionCartas from '@/components/InterpretacionCartas';
-// Ya NO se importa BackButton aquí, lo hemos eliminado para evitar duplicidad
 
 // MODIFICACIÓN CLAVE AQUÍ: x e y son OPCIONALES
 export interface Posicion {
@@ -25,15 +25,14 @@ export interface Tirada {
 }
 
 export interface CartaSeleccionada {
-  posicion: number;
-  carta: string;
+  posicion: number; // Esto será el índice basado en 0 o el número de la posición de la tirada
+  carta: string; // id de la carta
   invertida: boolean;
   baraja: 'tradicional' | 'osho';
 }
 
 // Tirada por defecto para selección libre
-// También se modifican las posiciones aquí para eliminar x e y
-const tiradaLibre: Tirada = {
+const tiradaLibreBase: Tirada = { // Renombrado para evitar conflicto con la variable tiradaLibre del estado
   id: 'libre',
   nombre: 'Selección Libre',
   descripcion: 'Selecciona las cartas que desees sin un patrón específico',
@@ -41,9 +40,8 @@ const tiradaLibre: Tirada = {
   posiciones: [
     {
       numero: 1,
-      nombre: 'Carta',
-      descripcion: 'Selecciona una carta',
-      // x e y eliminadas aquí también, ya no son obligatorias
+      nombre: 'Carta 1', // Nombre por defecto para la primera carta libre
+      descripcion: 'Selecciona la primera carta libre',
     }
   ]
 };
@@ -55,13 +53,34 @@ const Index = () => {
   const [cartasSeleccionadas, setCartasSeleccionadas] = useState<CartaSeleccionada[]>([]);
   const [modoLibre, setModoLibre] = useState(false);
 
+  // Estado para la posición actual que se está seleccionando en la tirada
+  // Este es el que pasaremos como `posicionInicial` al CartaSelector
+  // ¡Este estado ya NO es necesario pasarlo como prop a CartaSelector para su lógica interna de avance,
+  // pero sí para otras comprobaciones o visualizaciones si las tuviera!
+  // Lo mantenemos aquí para otras lógicas de Index.tsx si es necesario.
+  const [posicionActualParaSelector, setPosicionActualParaSelector] = useState(0); // Basado en índice 0
+
+  // Efecto para resetear la posición cuando la tirada o el modo cambian significativamente
+  useEffect(() => {
+    if (vistaActual === 'cartas' && !modoLibre && tiradaSeleccionada) {
+      // Si entramos en modo tirada específica, la posición inicial es 0 (primera carta de la tirada)
+      setPosicionActualParaSelector(0);
+    } else if (vistaActual === 'cartas' && modoLibre) {
+      // En modo libre, la posición inicial es el número de cartas ya seleccionadas
+      setPosicionActualParaSelector(cartasSeleccionadas.length);
+    }
+    // Cuando se vuelve a 'inicio' o se limpia, la posición se reseteará implícitamente al salir de 'cartas'
+  }, [vistaActual, modoLibre, tiradaSeleccionada, cartasSeleccionadas.length]);
+
+
   const handleSeleccionLibre = () => {
     setModoLibre(true);
     // Para modo libre, inicializamos con una "tirada" que crecerá dinámicamente
-    setTiradaSeleccionada({ ...tiradaLibre, numeroCartas: 1, posiciones: [{ numero: 1, nombre: 'Carta', descripcion: 'Selecciona una carta' }] });
+    setTiradaSeleccionada({ ...tiradaLibreBase, numeroCartas: 1 }); // Empezar con 1 carta
     setCartasSeleccionadas([]);
     setBarajaSeleccionada('tradicional'); // Reset to default
     setVistaActual('cartas');
+    setPosicionActualParaSelector(0); // La primera carta en modo libre es la posición 0 (o 1 en UI)
   };
 
   const handleSeleccionTiradas = () => {
@@ -74,47 +93,52 @@ const Index = () => {
     setBarajaSeleccionada(baraja);
     setCartasSeleccionadas([]);
     setVistaActual('cartas');
+    setPosicionActualParaSelector(0); // Siempre comienza en la posición 0 para una nueva tirada
   };
 
-  const handleCambiarBaraja = (baraja: 'tradicional' | 'osho') => {
-    setBarajaSeleccionada(baraja);
-    // Limpiar cartas al cambiar de baraja en modo libre (o cualquier modo, es una buena práctica)
-    setCartasSeleccionadas([]);
-    // Si estás en modo libre, ajusta la tirada para la siguiente carta
+  const handleCambiarBaraja = (nuevaBaraja: 'tradicional' | 'osho') => {
+    setBarajaSeleccionada(nuevaBaraja);
+    setCartasSeleccionadas([]); // Limpiar cartas al cambiar de baraja
     if (modoLibre) {
-      setTiradaSeleccionada({ ...tiradaLibre, numeroCartas: 1, posiciones: [{ numero: 1, nombre: 'Carta', descripcion: 'Selecciona una carta' }] });
+      // Resetear la "tirada" libre al estado inicial (solo la primera posición)
+      setTiradaSeleccionada({ ...tiradaLibreBase, numeroCartas: 1 });
+      setPosicionActualParaSelector(0);
+    } else if (tiradaSeleccionada) {
+        // En tirada específica, la baraja cambia pero la tirada y posiciones se mantienen
+        // Se resetea solo la selección de cartas, la posición vuelve a 0
+        setPosicionActualParaSelector(0);
     }
   };
 
   const handleCartaAdd = (carta: CartaSeleccionada) => {
     if (modoLibre) {
-      // En modo libre, añadir cartas incrementalmente
-      const nuevaPosicion = cartasSeleccionadas.length + 1;
-      const nuevaCarta = { ...carta, posicion: nuevaPosicion };
-      setCartasSeleccionadas([...cartasSeleccionadas, nuevaCarta]);
-      
-      // Actualizar la tirada libre para permitir más cartas (solo si hay más cartas para seleccionar)
-      // La próxima "posición" que se mostrará en CartaSelector
-      const proximaPosicionNum = nuevaPosicion + 1;
-      const nuevaPosicionData = {
-        numero: proximaPosicionNum,
-        nombre: `Carta ${proximaPosicionNum}`,
-        descripcion: 'Selecciona otra carta',
-      };
+      // En modo libre, la 'posicion' de la carta es el índice actual + 1
+      const nuevaCartaConPosicion = { ...carta, posicion: cartasSeleccionadas.length + 1 };
+      setCartasSeleccionadas(prevCartas => [...prevCartas, nuevaCartaConPosicion]);
 
-      if (tiradaSeleccionada) {
-        setTiradaSeleccionada(prevTirada => ({
-          ...(prevTirada || tiradaLibre), // Usar prevTirada o tiradaLibre si es null
-          numeroCartas: proximaPosicionNum, // Incrementa para la siguiente carta
-          posiciones: [
-            ...(prevTirada?.posiciones.filter(p => p.numero <= nuevaPosicion) || []), // Mantener las posiciones ya ocupadas
-            nuevaPosicionData // Añadir la nueva posición para la siguiente selección
-          ]
-        }));
-      }
+      // Actualizar la "tirada libre" para indicar que hay una nueva posición disponible
+      // La "siguiente posición" que debe seleccionar el CartaSelector es la longitud actual de `cartasSeleccionadas` (después de añadir)
+      setTiradaSeleccionada(prevTirada => {
+        const currentNumCartas = prevTirada?.numeroCartas || 0;
+        const nextNumCartas = currentNumCartas + 1; // Incrementamos para la siguiente carta
+        const newPosicionData = {
+          numero: nextNumCartas,
+          nombre: `Carta ${nextNumCartas}`,
+          descripcion: 'Selecciona otra carta',
+        };
+        return {
+          ...(prevTirada || tiradaLibreBase),
+          numeroCartas: nextNumCartas,
+          posiciones: [...(prevTirada?.posiciones || tiradaLibreBase.posiciones), newPosicionData]
+        };
+      });
+      // Actualizar la posición para el CartaSelector en la próxima renderización
+      setPosicionActualParaSelector(prevPos => prevPos + 1);
+
     } else {
-      // En modo tirada específica, si la carta ya existe en esa posición, la reemplazamos, si no, la añadimos
+      // En modo tirada específica, la `carta.posicion` ya viene definida por el CartaSelector
       setCartasSeleccionadas(prevCartas => {
+        // Si ya existe una carta en esa posición, la reemplazamos
         const existe = prevCartas.some(c => c.posicion === carta.posicion);
         if (existe) {
           return prevCartas.map(c => c.posicion === carta.posicion ? carta : c);
@@ -122,12 +146,22 @@ const Index = () => {
           return [...prevCartas, carta];
         }
       });
+      // Avanzar la posición en el selector si no hemos alcanzado el número de cartas de la tirada
+      if (tiradaSeleccionada && (posicionActualParaSelector + 1) < tiradaSeleccionada.numeroCartas) {
+        setPosicionActualParaSelector(prevPos => prevPos + 1);
+      } else if (tiradaSeleccionada && (posicionActualParaSelector + 1) === tiradaSeleccionada.numeroCartas) {
+        // Esto significa que hemos seleccionado la última carta de la tirada.
+        // Aquí podríamos ir directamente a la interpretación si quisiéramos.
+        // Por ahora, simplemente actualizamos la posición para indicar que se han completado.
+        setPosicionActualParaSelector(prevPos => prevPos + 1);
+      }
     }
   };
 
+
   const handleCartaToggle = (posicion: number) => {
-    setCartasSeleccionadas(cartasSeleccionadas.map(carta => 
-      carta.posicion === posicion 
+    setCartasSeleccionadas(cartasSeleccionadas.map(carta =>
+      carta.posicion === posicion
         ? { ...carta, invertida: !carta.invertida }
         : carta
     ));
@@ -139,30 +173,43 @@ const Index = () => {
       setCartasSeleccionadas(nuevasCartas);
 
       if (modoLibre) {
-        // En modo libre, ajustamos la "tirada" para reflejar el estado actual
+        // En modo libre, ajustamos la "tirada" y la posición
         if (nuevasCartas.length === 0) {
-          setTiradaSeleccionada(tiradaLibre);
+          setTiradaSeleccionada(tiradaLibreBase);
+          setPosicionActualParaSelector(0);
         } else {
-          const ultimaPosicionNum = nuevasCartas.length + 1;
+          const ultimaPosicionNum = nuevasCartas.length; // La última carta ahora es la que tiene este número de posición
           setTiradaSeleccionada(prevTirada => ({
-            ...(prevTirada || tiradaLibre),
+            ...(prevTirada || tiradaLibreBase),
             numeroCartas: ultimaPosicionNum,
-            posiciones: prevTirada?.posiciones.slice(0, ultimaPosicionNum) || tiradaLibre.posiciones.slice(0, ultimaPosicionNum)
+            // Ajustar las posiciones para eliminar la última
+            posiciones: prevTirada?.posiciones.slice(0, ultimaPosicionNum) || tiradaLibreBase.posiciones.slice(0, ultimaPosicionNum)
           }));
+          setPosicionActualParaSelector(ultimaPosicionNum);
         }
       } else {
-        // En modo tirada específica, la carta que se deshace es la última añadida por el usuario
-        // No es la de mayor posición, sino la última en el array antes de sortearse.
-        // La lógica de "deshacer la última" en CartaSelector ya debería manejar esto si las cartas se añaden en orden.
-        // Aquí solo la eliminamos del array.
+        // En modo tirada específica, la posición actual debe retroceder para permitir re-seleccionar la última carta
+        if (posicionActualParaSelector > 0) {
+            setPosicionActualParaSelector(prevPos => prevPos - 1);
+        } else {
+            // Si ya estamos en la primera posición y deshacemos, simplemente queda en 0
+            setPosicionActualParaSelector(0);
+        }
       }
+    } else {
+        // Si no hay cartas, asegurar que la posición actual sea 0
+        setPosicionActualParaSelector(0);
     }
   };
 
   const handleLimpiarCartas = () => {
     setCartasSeleccionadas([]);
     if (modoLibre) {
-      setTiradaSeleccionada(tiradaLibre); // Restablecer a la tirada libre inicial
+      setTiradaSeleccionada(tiradaLibreBase); // Restablecer a la tirada libre inicial
+      setPosicionActualParaSelector(0);
+    } else {
+        // En modo tirada específica, al limpiar, volvemos a la primera posición
+        setPosicionActualParaSelector(0);
     }
   };
 
@@ -174,14 +221,21 @@ const Index = () => {
         setModoLibre(false);
         setTiradaSeleccionada(null);
         setCartasSeleccionadas([]);
+        setPosicionActualParaSelector(0); // Resetear al volver a inicio
       } else {
         setVistaActual('tiradas');
         // No limpiar tiradaSeleccionada aquí, TiradaSelector la necesita
+        setCartasSeleccionadas([]); // Limpiar cartas al volver a selector de tiradas
+        setPosicionActualParaSelector(0); // Resetear al volver a selector de tiradas
       }
     } else if (vistaActual === 'interpretacion') {
       setVistaActual('cartas');
-    } else { // Si estamos en 'tiradas' o 'seleccionLibre'
+      // No reseteamos cartas ni posición al volver de interpretación, queremos mantenerlas
+    } else { // Si estamos en 'tiradas'
       setVistaActual('inicio');
+      setTiradaSeleccionada(null); // Asegurarse de limpiar la tirada seleccionada
+      setCartasSeleccionadas([]);
+      setPosicionActualParaSelector(0); // Resetear al volver a inicio
     }
   };
 
@@ -197,38 +251,30 @@ const Index = () => {
     }
   };
 
-  // El botón de volver global ahora solo existe dentro de los componentes CartaSelector y TiradaSelector
-  // No hay un showBackButton global aquí.
-
   return (
-    <div className="relative min-h-screen"> {/* Contenedor relativo para posicionar el botón de volver (en los hijos) */}
-      {/* Ya NO se renderiza un BackButton aquí */}
-
+    <div className="relative min-h-screen">
       {vistaActual === 'interpretacion' && tiradaSeleccionada && (
         <InterpretacionCartas
           tirada={tiradaSeleccionada}
           cartasSeleccionadas={cartasSeleccionadas}
           onVolver={handleVolver}
           modoLibre={modoLibre}
-          baraja={barajaSeleccionada} // Asegurarse de pasar la baraja a InterpretacionCartas
+          baraja={barajaSeleccionada}
         />
       )}
 
       {vistaActual === 'cartas' && tiradaSeleccionada && (
-        <CartaSelector
+        <CartaSelector // <--- Asegúrate de que este es el nombre del componente
           tirada={tiradaSeleccionada}
           baraja={barajaSeleccionada}
-          cartasSeleccionadas={cartasSeleccionadas}
+          cartasSeleccionadas={cartasSeleccionadas} // <--- AÑADE/DESCOMENTA ESTA LÍNEA
           onCartaAdd={handleCartaAdd}
           onCartaToggle={handleCartaToggle}
-          onVolver={handleVolver} // Se pasa la función de volver global
+          onVolver={handleVolver}
           onInterpretarCartas={handleInterpretarCartas}
           onLimpiarCartas={handleLimpiarCartas}
           onDeshacerUltimaCarta={handleDeshacerUltimaCarta}
-          // Asegúrate de que puedeIrAInterpretacion se evalúe correctamente aquí
-          puedeIrAInterpretacion={
-            modoLibre ? cartasSeleccionadas.length > 0 : cartasSeleccionadas.length === tiradaSeleccionada.numeroCartas
-          }
+          puedeIrAInterpretacion={puedeIrAInterpretacion()}
           modoLibre={modoLibre}
           onCambiarBaraja={handleCambiarBaraja}
         />
@@ -237,7 +283,7 @@ const Index = () => {
       {vistaActual === 'tiradas' && (
         <TiradaSelector
           onTiradaSelect={handleTiradaSelect}
-          onVolver={handleVolver} // Se pasa la función de volver global
+          onVolver={handleVolver}
         />
       )}
 
@@ -255,7 +301,7 @@ const Index = () => {
               {/* Opciones principales */}
               <div className="grid md:grid-cols-2 gap-8 max-w-3xl mx-auto">
                 {/* Seleccionar Cartas Directamente */}
-                <Card 
+                <Card
                   className="group bg-white/80 backdrop-blur-sm border-amber-200 hover:border-amber-400 transition-all duration-300 cursor-pointer hover:shadow-xl hover:-translate-y-1"
                   onClick={handleSeleccionLibre}
                 >
@@ -268,8 +314,8 @@ const Index = () => {
                         Seleccionar Cartas
                       </h3>
                     </div>
-                    <Button 
-                      size="lg" 
+                    <Button
+                      size="lg"
                       className="w-full bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-700 hover:to-orange-700 text-white font-medium"
                     >
                       Comenzar Lectura
@@ -278,7 +324,7 @@ const Index = () => {
                 </Card>
 
                 {/* Seleccionar con Tiradas */}
-                <Card 
+                <Card
                   className="group bg-white/80 backdrop-blur-sm border-amber-200 hover:border-amber-400 transition-all duration-300 cursor-pointer hover:shadow-xl hover:-translate-y-1"
                   onClick={handleSeleccionTiradas}
                 >
@@ -291,8 +337,8 @@ const Index = () => {
                         Seleccionar Tiradas
                       </h3>
                     </div>
-                    <Button 
-                      size="lg" 
+                    <Button
+                      size="lg"
                       className="w-full bg-gradient-to-r from-orange-600 to-red-600 hover:from-orange-700 hover:to-red-700 text-white font-medium"
                     >
                       Explorar Tiradas
