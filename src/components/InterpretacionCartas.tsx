@@ -63,19 +63,22 @@ const InterpretacionCartas: React.FC<InterpretacionCartasProps> = ({
         console.log(`>>> DEP_LOG_INTERPRETACION: ID de la carta seleccionada ${index + 1} (${carta.baraja}): "${carta.carta}"`);
 
         // Intenta encontrar la carta en los datos para verificar coincidencia de ID
+        // *** AQUI TAMBIEN NORMALIZAMOS PARA EL LOG DE DEPURACION ***
+        const normalizedIdForDebug = carta.carta.toLowerCase().replace(/_/g, '-');
+
         if (carta.baraja === 'tradicional') {
-          const found = traditionalMeanings.find(c => c.id === carta.carta);
-          console.log(`>>> DEP_LOG_INTERPRETACION: Coincidencia encontrada en traditionalMeanings para "${carta.carta}":`, !!found);
+          const found = traditionalMeanings.find(c => c.id === normalizedIdForDebug);
+          console.log(`>>> DEP_LOG_INTERPRETACION: Coincidencia ENCONTRADA EN traditionalMeanings para "${normalizedIdForDebug}":`, !!found);
           if (!found) {
-            console.warn(`>>> DEP_LOG_INTERPRETACION: ADVERTENCIA: La carta "${carta.carta}" (tradicional) NO SE ENCONTRÓ en traditionalMeanings.`);
-            console.warn(`>>> DEP_LOG_INTERPRETACION: POSIBLE CAUSA: Discrepancia de ID (capitalización, guiones, espacios).`);
+            console.warn(`>>> DEP_LOG_INTERPRETACION: ADVERTENCIA: La carta "${normalizedIdForDebug}" (tradicional) NO SE ENCONTRÓ en traditionalMeanings DESPUÉS DE NORMALIZAR.`);
+            console.warn(`>>> DEP_LOG_INTERPRETACION: POSIBLE CAUSA: El ID NORMALIZADO no existe en los datos.`);
           }
         } else if (carta.baraja === 'osho') {
-          const found = oshoMeanings.find(c => c.id === carta.carta);
-          console.log(`>>> DEP_LOG_INTERPRETACION: Coincidencia encontrada en oshoMeanings para "${carta.carta}":`, !!found);
+          const found = oshoMeanings.find(c => c.id === normalizedIdForDebug);
+          console.log(`>>> DEP_LOG_INTERPRETACION: Coincidencia ENCONTRADA EN oshoMeanings para "${normalizedIdForDebug}":`, !!found);
           if (!found) {
-            console.warn(`>>> DEP_LOG_INTERPRETACION: ADVERTENCIA: La carta "${carta.carta}" (osho) NO SE ENCONTRÓ en oshoMeanings.`);
-            console.warn(`>>> DEP_LOG_INTERPRETACION: POSIBLE CAUSA: Discrepancia de ID (capitalización, guiones, espacios).`);
+            console.warn(`>>> DEP_LOG_INTERPRETACION: ADVERTENCIA: La carta "${normalizedIdForDebug}" (osho) NO SE ENCONTRÓ en oshoMeanings DESPUÉS DE NORMALIZAR.`);
+            console.warn(`>>> DEP_LOG_INTERPRETACION: POSIBLE CAUSA: El ID NORMALIZADO no existe en los datos.`);
           }
         }
       });
@@ -91,9 +94,14 @@ const InterpretacionCartas: React.FC<InterpretacionCartasProps> = ({
   const getInterpretacionCarta = (cartaId: string, invertida: boolean, baraja: 'tradicional' | 'osho'): InterpretacionCartaResult => {
     // console.log(`DEBUG: Buscando carta: ${cartaId}, Invertida: ${invertida}, Baraja: ${baraja}`); // Debug temporal
 
+    // *** MODIFICACIÓN CLAVE AQUÍ: NORMALIZAR EL ID DE LA CARTA ***
+    const normalizedCartaId = cartaId.toLowerCase().replace(/_/g, '-'); 
+    console.log(`>>> DEP_LOG_INTERPRETACION: Carta ID ORIGINAL: "${cartaId}" -> ID NORMALIZADO para búsqueda: "${normalizedCartaId}"`);
+
+
     if (baraja === 'tradicional') {
-      // debugger; // Opcional: Descomenta para pausar aquí y ver los valores de traditionalMeanings en la pestaña Sources
-      const interp = traditionalMeanings.find(c => c.id === cartaId) as TraditionalCardMeaning | undefined;
+      // Usa el ID normalizado para la búsqueda
+      const interp = traditionalMeanings.find(c => c.id === normalizedCartaId) as TraditionalCardMeaning | undefined;
 
       if (interp) {
         return {
@@ -113,7 +121,8 @@ const InterpretacionCartas: React.FC<InterpretacionCartasProps> = ({
         };
       }
     } else { // Baraja Osho
-      const interp = oshoMeanings.find(c => c.id === cartaId) as OshoCardMeaning | undefined;
+      // Haz lo mismo para la baraja Osho
+      const interp = oshoMeanings.find(c => c.id === normalizedCartaId) as OshoCardMeaning | undefined;
 
       if (interp) {
         return {
@@ -134,7 +143,8 @@ const InterpretacionCartas: React.FC<InterpretacionCartasProps> = ({
       }
     }
 
-    // Caso de carta no encontrada
+    // Caso de carta no encontrada (esto debería ocurrir mucho menos ahora)
+    console.error(`>>> DEP_ERROR: Carta con ID normalizado "${normalizedCartaId}" no encontrada en la baraja "${baraja}".`);
     return {
       nombre: 'Carta Desconocida',
       significado: 'Significado no encontrado',

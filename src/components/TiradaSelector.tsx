@@ -1,10 +1,11 @@
 import React, { useState, useMemo } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge"; // Todavía útil para la baraja
-import { ChevronLeft, X } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { ChevronLeft, X, Copy } from "lucide-react"; // Asegúrate de que X y Copy estén importados
 import { Tirada } from '@/pages/Index';
-import { tiradas } from '@/data/tiradas'; // Importación correcta: con llaves
+import { tiradas } from '@/data/tiradas';
+import { useToast } from "@/hooks/use-toast"; // Importar useToast para notificaciones
 
 interface TiradaSelectorProps {
   onTiradaSelect: (tirada: Tirada, baraja: 'tradicional' | 'osho') => void;
@@ -17,10 +18,9 @@ const TiradaSelector: React.FC<TiradaSelectorProps> = ({
 }) => {
   const [barajaSeleccionada, setBarajaSeleccionada] = useState<'tradicional' | 'osho'>('tradicional');
   const [tiradaSeleccionada, setTiradaSeleccionada] = useState<Tirada | null>(null);
+  const { toast } = useToast();
 
-  // Ordenar y agrupar las tiradas por el número de cartas
   const orderedAndGroupedTiradas = useMemo(() => {
-    // CAMBIO AQUÍ: Usamos 'tiradas' en lugar de 'tiradasData'
     const sortedTiradas = [...tiradas].sort((a, b) => a.numeroCartas - b.numeroCartas);
 
     const grouped: { [key: number]: Tirada[] } = {};
@@ -32,10 +32,10 @@ const TiradaSelector: React.FC<TiradaSelectorProps> = ({
     });
 
     return grouped;
-  }, []); // Dependencias vacías porque 'tiradas' es una constante estática
+  }, []);
 
   const handleTiradaClick = (tirada: Tirada) => {
-    setTiradaSeleccionada(tirada); // Muestra la vista previa
+    setTiradaSeleccionada(tirada);
   };
 
   const handleConfirmarTirada = () => {
@@ -48,8 +48,33 @@ const TiradaSelector: React.FC<TiradaSelectorProps> = ({
     setTiradaSeleccionada(null);
   };
 
+  const handleCopiarDetallesTirada = async () => {
+    if (tiradaSeleccionada) {
+      let textoParaCopiar = `Tirada: ${tiradaSeleccionada.nombre}\n`;
+      textoParaCopiar += `Descripción: ${tiradaSeleccionada.descripcion}\n\n`;
+      textoParaCopiar += 'Posiciones:\n';
+      tiradaSeleccionada.posiciones.forEach((posicion, index) => {
+        textoParaCopiar += `${index + 1}. ${posicion.nombre}: ${posicion.descripcion}\n`;
+      });
+
+      try {
+        await navigator.clipboard.writeText(textoParaCopiar);
+        toast({
+          title: "¡Copiado!",
+          description: "Los detalles de la tirada se han copiado al portapapeles.",
+        });
+      } catch (err) {
+        toast({
+          title: "Error al copiar",
+          description: "No se pudo copiar los detalles de la tirada. Inténtalo de nuevo.",
+          variant: "destructive",
+        });
+      }
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-amber-50 to-orange-100">
+    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-amber-50 to-orange-100 pb-20"> {/* Añadir padding-bottom para el botón fijo */}
       <div className="container mx-auto px-4 py-8">
         <div className="max-w-4xl mx-auto space-y-6">
           <div className="text-center">
@@ -98,7 +123,7 @@ const TiradaSelector: React.FC<TiradaSelectorProps> = ({
                   >
                     <div>
                       <p className="font-semibold text-orange-900">{tirada.nombre}</p>
-                      <p className="text-orange-700 text-sm line-clamp-1">{tirada.descripcion}</p> {/* Descripción concisa */}
+                      <p className="text-orange-700 text-sm line-clamp-1">{tirada.descripcion}</p>
                     </div>
                     <Button variant="ghost" size="sm" className="text-orange-600 hover:text-orange-800">Ver Detalles</Button>
                   </div>
@@ -109,7 +134,19 @@ const TiradaSelector: React.FC<TiradaSelectorProps> = ({
         </div>
       </div>
 
-      {/* Vista previa de la tirada - SIN CAMBIOS */}
+      {/* Botón Volver fijo en la parte inferior */}
+      <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 z-50">
+        <Button
+          variant="secondary"
+          className="px-6 py-3 shadow-lg"
+          onClick={onVolver}
+        >
+          <ChevronLeft className="w-5 h-5 mr-2" />
+          Volver al Inicio
+        </Button>
+      </div>
+
+      {/* Vista previa de la tirada */}
       {tiradaSeleccionada && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
           <Card className="max-w-2xl w-full max-h-[90vh] flex flex-col bg-white/90 border-orange-200">
@@ -117,7 +154,7 @@ const TiradaSelector: React.FC<TiradaSelectorProps> = ({
               <CardTitle className="text-2xl text-orange-900">
                 {tiradaSeleccionada.nombre}
               </CardTitle>
-            <Button variant="ghost" size="icon" onClick={handleCerrarVistaPrevia}>
+              <Button variant="ghost" size="icon" onClick={handleCerrarVistaPrevia}>
                 <X className="h-6 w-6" />
               </Button>
             </CardHeader>
@@ -132,7 +169,15 @@ const TiradaSelector: React.FC<TiradaSelectorProps> = ({
                 ))}
               </ul>
             </CardContent>
-            <CardContent className="flex justify-end pt-6 shrink-0">
+            <CardContent className="flex justify-between items-center pt-6 shrink-0">
+              <Button
+                variant="outline"
+                className="text-blue-700 border-blue-300 hover:bg-blue-50"
+                onClick={handleCopiarDetallesTirada}
+              >
+                <Copy className="w-4 h-4 mr-2" />
+                Copiar Detalles
+              </Button>
               <Button onClick={handleConfirmarTirada}>
                 Seleccionar Tirada
               </Button>
