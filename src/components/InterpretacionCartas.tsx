@@ -1,4 +1,5 @@
-import React from 'react';
+// src/components/InterpretacionCartas.tsx
+import React, { useEffect } from 'react'; // Asegúrate de importar useEffect
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -10,18 +11,15 @@ import { traditionalMeanings, TraditionalCardMeaning } from '@/data/traditionalM
 import { oshoMeanings, OshoCardMeaning } from '@/data/oshoMeanings';
 // --- FIN DE IMPORTACIONES DE DATOS Y TIPOS ---
 
-
 // Extiende el tipo de retorno para incluir las nuevas propiedades
-// Este tipo ya está bien, solo necesitamos asegurarnos que TraditionalCardMeaning las provea.
 interface InterpretacionCartaResult {
   nombre: string;
   significado: string;
   interpretacion: string;
   elemento?: string;
   palabrasClave?: string[];
-  arquetipo?: string; // Confirmado que se usa
-  meditacionReflexion?: { preguntas: string[] }; // Confirmado que se usa
-  // Nuevas propiedades de información básica para mostrar
+  arquetipo?: string;
+  meditacionReflexion?: { preguntas: string[] };
   arcano?: string;
   numero?: number;
   planeta?: string;
@@ -43,11 +41,59 @@ const InterpretacionCartas: React.FC<InterpretacionCartasProps> = ({
   onVolver,
   modoLibre
 }) => {
+  // *** INICIO DE BLOQUE DE DEPURACIÓN - NO ELIMINAR HASTA QUE SE RESUELVA EL PROBLEMA ***
+  useEffect(() => {
+    console.log(">>> DEP_LOG_INTERPRETACION: Componente InterpretacionCartas montado o actualizado.");
+    console.log(">>> DEP_LOG_INTERPRETACION: Prop 'cartasSeleccionadas' recibida:", cartasSeleccionadas);
+    console.log(">>> DEP_LOG_INTERPRETACION: Estado de traditionalMeanings (raw):", traditionalMeanings);
+    console.log(">>> DEP_LOG_INTERPRETACION: Longitud de traditionalMeanings:", traditionalMeanings ? traditionalMeanings.length : 'undefined/null');
+    
+    // Si traditionalMeanings no se ha cargado o está vacío
+    if (!traditionalMeanings || traditionalMeanings.length === 0) {
+      console.error(">>> DEP_LOG_INTERPRETACION: ERROR CRÍTICO: traditionalMeanings está vacío o no se cargó correctamente.");
+      // Opcional: debugger; // Descomenta para pausar aquí si quieres inspeccionar
+    } else {
+      console.log(">>> DEP_LOG_INTERPRETACION: Primer elemento de traditionalMeanings:", traditionalMeanings[0]);
+    }
+
+    // Depuración de cada carta seleccionada
+    if (cartasSeleccionadas && cartasSeleccionadas.length > 0) {
+      cartasSeleccionadas.forEach((carta, index) => {
+        console.log(`>>> DEP_LOG_INTERPRETACION: Carta seleccionada ${index + 1}:`, carta);
+        console.log(`>>> DEP_LOG_INTERPRETACION: ID de la carta seleccionada ${index + 1} (${carta.baraja}): "${carta.carta}"`);
+
+        // Intenta encontrar la carta en los datos para verificar coincidencia de ID
+        if (carta.baraja === 'tradicional') {
+          const found = traditionalMeanings.find(c => c.id === carta.carta);
+          console.log(`>>> DEP_LOG_INTERPRETACION: Coincidencia encontrada en traditionalMeanings para "${carta.carta}":`, !!found);
+          if (!found) {
+            console.warn(`>>> DEP_LOG_INTERPRETACION: ADVERTENCIA: La carta "${carta.carta}" (tradicional) NO SE ENCONTRÓ en traditionalMeanings.`);
+            console.warn(`>>> DEP_LOG_INTERPRETACION: POSIBLE CAUSA: Discrepancia de ID (capitalización, guiones, espacios).`);
+          }
+        } else if (carta.baraja === 'osho') {
+          const found = oshoMeanings.find(c => c.id === carta.carta);
+          console.log(`>>> DEP_LOG_INTERPRETACION: Coincidencia encontrada en oshoMeanings para "${carta.carta}":`, !!found);
+          if (!found) {
+            console.warn(`>>> DEP_LOG_INTERPRETACION: ADVERTENCIA: La carta "${carta.carta}" (osho) NO SE ENCONTRÓ en oshoMeanings.`);
+            console.warn(`>>> DEP_LOG_INTERPRETACION: POSIBLE CAUSA: Discrepancia de ID (capitalización, guiones, espacios).`);
+          }
+        }
+      });
+    } else {
+      console.log(">>> DEP_LOG_INTERPRETACION: No hay cartas seleccionadas en el prop 'cartasSeleccionadas'.");
+    }
+
+    console.log(">>> DEP_LOG_INTERPRETACION: Fin de depuración en InterpretacionCartas.");
+  }, [cartasSeleccionadas, tirada]); // Asegurarse de que el efecto se re-ejecute si cambian estas props
+  // *** FIN DE BLOQUE DE DEPURACIÓN ***
+
+
   const getInterpretacionCarta = (cartaId: string, invertida: boolean, baraja: 'tradicional' | 'osho'): InterpretacionCartaResult => {
+    // console.log(`DEBUG: Buscando carta: ${cartaId}, Invertida: ${invertida}, Baraja: ${baraja}`); // Debug temporal
+
     if (baraja === 'tradicional') {
+      // debugger; // Opcional: Descomenta para pausar aquí y ver los valores de traditionalMeanings en la pestaña Sources
       const interp = traditionalMeanings.find(c => c.id === cartaId) as TraditionalCardMeaning | undefined;
-      // Añadido 'as TraditionalCardMeaning | undefined' para asegurar el tipo si 'find' no encuentra nada.
-      // TypeScript ya infiere esto, pero lo hago explícito para claridad.
 
       if (interp) {
         return {
@@ -56,8 +102,8 @@ const InterpretacionCartas: React.FC<InterpretacionCartasProps> = ({
           interpretacion: invertida ? interp.detalleInvertido : interp.detalleDerecho,
           elemento: interp.elemento,
           palabrasClave: invertida ? interp.palabrasClaveInvertidas : interp.palabrasClaveDerechas,
-          arquetipo: interp.arquetipo, // Asegúrate de que existe en TraditionalCardMeaning
-          meditacionReflexion: interp.meditacionReflexion, // Asegúrate de que existe en TraditionalCardMeaning
+          arquetipo: interp.arquetipo,
+          meditacionReflexion: interp.meditacionReflexion,
           arcano: interp.arcano,
           numero: interp.numero,
           planeta: interp.planeta,
@@ -68,14 +114,12 @@ const InterpretacionCartas: React.FC<InterpretacionCartasProps> = ({
       }
     } else { // Baraja Osho
       const interp = oshoMeanings.find(c => c.id === cartaId) as OshoCardMeaning | undefined;
-      // Añadido 'as OshoCardMeaning | undefined' para asegurar el tipo si 'find' no encuentra nada.
 
       if (interp) {
         return {
           nombre: interp.nombre,
           significado: interp.significado,
           interpretacion: interp.detalle,
-          // Para Osho, estas propiedades no existen, por lo tanto, son 'undefined'
           elemento: undefined,
           palabrasClave: undefined,
           arquetipo: undefined,
