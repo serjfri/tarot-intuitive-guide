@@ -5,12 +5,15 @@ import { ChevronLeft, Check, X, Shuffle, ArrowRightCircle, Sparkles, Filter, Ref
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card, CardContent } from "@/components/ui/card";
-import Image from 'next/image';
+// REMOVED: import Image from 'next/image'; // This line is now gone
 
 // Asegúrate de que estas rutas sean correctas para tu proyecto
 import { Tirada, CartaSeleccionada } from '@/pages/Index';
 import { traditionalMeanings, TraditionalCardMeaning } from '@/data/traditionalMeanings';
 import { oshoMeanings, OshoCardMeaning } from '@/data/oshoMeanings';
+
+// Define un tipo union para las cartas disponibles
+type AvailableCard = TraditionalCardMeaning | OshoCardMeaning;
 
 interface CartaSelectorProps {
   tirada: Tirada;
@@ -41,20 +44,15 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
   modoLibre,
   onCambiarBaraja,
 }) => {
-  // Estado para el filtro de arcanos en baraja tradicional
   const [filtroArcano, setFiltroArcano] = useState<'all' | 'major' | 'minor' | 'oros' | 'copas' | 'espadas' | 'bastos'>('all');
-  
-  // Estado para el mazo barajado y la carta aleatoria actual
   const [mazoAleatorio, setMazoAleatorio] = useState<string[]>([]);
   const [cartaActualAleatoria, setCartaActualAleatoria] = useState<string | null>(null);
 
-  // Efecto para barajar el mazo y resetear el filtro cuando la baraja cambia
   useEffect(() => {
     handleBarajarMazo();
-    setFiltroArcano('all'); // Resetea el filtro al cambiar de baraja
+    setFiltroArcano('all');
   }, [baraja]);
 
-  // Función para barajar el mazo
   const handleBarajarMazo = () => {
     const allCardIds = baraja === 'tradicional'
       ? traditionalMeanings.map(c => c.id)
@@ -62,26 +60,24 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
 
     const shuffled = [...allCardIds].sort(() => Math.random() - 0.5);
     setMazoAleatorio(shuffled);
-    setCartaActualAleatoria(null); // Reinicia la carta aleatoria mostrada
+    setCartaActualAleatoria(null);
   };
 
-  // Función para sacar una carta aleatoria del mazo barajado
   const handleSacarCartaAleatoria = () => {
     if (mazoAleatorio.length > 0) {
-      const nextCardId = mazoAleatorio.shift(); // Saca la primera carta del mazo
+      const nextCardId = mazoAleatorio.shift();
       if (nextCardId) {
         setCartaActualAleatoria(nextCardId);
       }
-      setMazoAleatorio([...mazoAleatorio]); // Actualiza el estado para re-renderizar
+      setMazoAleatorio([...mazoAleatorio]);
     } else {
       alert('El mazo se ha agotado. Barajando de nuevo.');
       handleBarajarMazo();
     }
   };
 
-  // Memoización de las cartas disponibles según la baraja y el filtro
-  const availableCards = useMemo(() => {
-    let cards = baraja === 'tradicional' ? traditionalMeanings : oshoMeanings;
+  const availableCards: AvailableCard[] = useMemo(() => {
+    let cards: AvailableCard[] = baraja === 'tradicional' ? traditionalMeanings : oshoMeanings;
 
     if (baraja === 'tradicional' && filtroArcano !== 'all') {
       if (filtroArcano === 'major') {
@@ -99,10 +95,12 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
   const cartasFaltantes = totalCartasNecesarias - cartasSeleccionadas.length;
   const mostrarBotonInterpretar = puedeIrAInterpretacion;
 
-  // Función para obtener la URL de la imagen de la carta
-  const getCardImageUrl = (cardId: string) => {
-    const normalizedId = cardId.toLowerCase().replace(/-/g, '_');
-    return `/images/cards/${baraja}/${normalizedId}.jpg`;
+  // Función auxiliar para obtener el nombre de la carta para visualización
+  const getCardNameForDisplay = (cardId: string, currentBaraja: 'tradicional' | 'osho') => {
+    const cardData = currentBaraja === 'tradicional'
+      ? traditionalMeanings.find(c => c.id === cardId)
+      : oshoMeanings.find(c => c.id === cardId);
+    return cardData?.nombre || cardId;
   };
 
   return (
@@ -123,7 +121,6 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
             </h2>
           </div>
 
-          {/* Selector de Baraja */}
           <div className="flex justify-center mb-4 space-x-4">
             <Button
               variant={baraja === 'tradicional' ? 'default' : 'outline'}
@@ -149,7 +146,6 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
             )}
           </p>
 
-          {/* Botones de acción */}
           <div className="flex flex-wrap justify-center gap-3 mb-6">
             <Button
               onClick={handleBarajarMazo}
@@ -192,18 +188,13 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
             </Button>
           </div>
 
-          {/* Carta Aleatoria Mostrada */}
           {cartaActualAleatoria && (
             <div className="text-center mb-6">
               <h3 className="text-xl font-semibold text-green-800 mb-2">Carta Sacada del Mazo:</h3>
-              <div className="inline-block relative w-32 h-56 border-2 border-yellow-500 rounded-lg overflow-hidden shadow-lg">
-                <Image
-                  src={getCardImageUrl(cartaActualAleatoria)}
-                  alt={cartaActualAleatoria}
-                  layout="fill"
-                  objectFit="cover"
-                  className="rounded-md"
-                />
+              <div className="inline-block relative w-32 h-56 border-2 border-yellow-500 rounded-lg overflow-hidden shadow-lg flex items-center justify-center bg-gray-100 p-2">
+                <p className="text-center text-lg font-bold text-green-900 leading-tight">
+                  {getCardNameForDisplay(cartaActualAleatoria, baraja)}
+                </p>
               </div>
               <Button
                 onClick={() => {
@@ -214,10 +205,10 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
                   onCartaAdd({
                     posicion: posicionAsignada,
                     carta: cartaActualAleatoria,
-                    invertida: Math.random() < 0.5 && baraja === 'tradicional', // Aleatorio solo para tradicional
+                    invertida: Math.random() < 0.5 && baraja === 'tradicional',
                     baraja: baraja,
                   });
-                  setCartaActualAleatoria(null); // Limpiar la carta aleatoria después de añadirla
+                  setCartaActualAleatoria(null);
                 }}
                 className="mt-4 bg-yellow-500 hover:bg-yellow-600 text-white"
               >
@@ -226,8 +217,6 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
             </div>
           )}
 
-
-          {/* BLOQUE DE FILTROS */}
           {baraja === 'tradicional' && (
             <div className="flex flex-wrap justify-center items-center gap-2 mb-6 p-4 bg-white/70 rounded-lg shadow-inner border border-green-200">
               <span className="text-green-800 font-medium self-center mr-2">Filtrar por:</span>
@@ -248,15 +237,12 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
               </Select>
             </div>
           )}
-          {/* FIN BLOQUE DE FILTROS */}
 
-          {/* Display de las cartas disponibles */}
           <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-7 gap-4">
             {availableCards.map((cardData) => {
               const isSelected = cartasSeleccionadas.some(
                 (sc) => sc.carta === cardData.id && sc.baraja === baraja
               );
-              const cardImageSrc = getCardImageUrl(cardData.id);
 
               return (
                 <Card
@@ -268,27 +254,24 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
                   onClick={() => {
                     if (modoLibre || cartasSeleccionadas.length < totalCartasNecesarias || isSelected) {
                       const posicionAsignada = modoLibre
-                        ? cartasSeleccionadas.length + 1 // Para modo libre, asigna la siguiente posición
-                        : tirada.posiciones.find(p => !cartasSeleccionadas.some(sc => sc.posicion === p.numero))?.numero || 1; // Para tirada, encuentra la primera posición libre
+                        ? cartasSeleccionadas.length + 1
+                        : tirada.posiciones.find(p => !cartasSeleccionadas.some(sc => sc.posicion === p.numero))?.numero ||
+                          (cartasSeleccionadas.length > 0 ? Math.max(...cartasSeleccionadas.map(c => c.posicion)) + 1 : 1);
 
                       onCartaAdd({
                         posicion: posicionAsignada,
                         carta: cardData.id,
-                        invertida: Math.random() < 0.5 && baraja === 'tradicional', // Solo invertida para tradicional
+                        invertida: Math.random() < 0.5 && baraja === 'tradicional',
                         baraja: baraja,
                       });
                     }
                   }}
                 >
                   <CardContent className="p-2 flex flex-col items-center justify-center h-full">
-                    <div className="relative w-full h-32 md:h-40 lg:h-48 rounded-md overflow-hidden mb-2">
-                      <Image
-                        src={cardImageSrc}
-                        alt={cardData.nombre}
-                        layout="fill"
-                        objectFit="cover"
-                        className="rounded-md"
-                      />
+                    <div className="relative w-full h-32 md:h-40 lg:h-48 rounded-md overflow-hidden mb-2 flex items-center justify-center bg-gray-100 p-2">
+                      <p className="text-center text-sm font-semibold text-green-800 line-clamp-3">
+                        {cardData.nombre}
+                      </p>
                     </div>
                     <p className="text-xs text-center font-medium text-green-800 line-clamp-2">
                       {cardData.nombre}
@@ -304,39 +287,33 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
             })}
           </div>
 
-          {/* Cartas Seleccionadas para la Tirada (Visor) */}
           <h3 className="text-2xl font-serif text-green-900 mt-8 mb-4 text-center">
             Cartas en tu Lectura ({cartasSeleccionadas.length}/{modoLibre ? '∞' : totalCartasNecesarias})
           </h3>
           <div className="flex flex-wrap justify-center gap-4 p-4 bg-white/70 rounded-lg shadow-inner border border-green-200">
             {cartasSeleccionadas
-              .sort((a, b) => a.posicion - b.posicion) // Asegura el orden por posición
+              .sort((a, b) => a.posicion - b.posicion)
               .map((cartaSeleccionada) => {
-                const cardData = baraja === 'tradicional'
+                const currentCardData = cartaSeleccionada.baraja === 'tradicional'
                   ? traditionalMeanings.find(c => c.id === cartaSeleccionada.carta)
                   : oshoMeanings.find(c => c.id === cartaSeleccionada.carta);
-                const cardImageSrc = getCardImageUrl(cartaSeleccionada.carta);
 
                 const posicionNombre = tirada.posiciones.find(p => p.numero === cartaSeleccionada.posicion)?.nombre || `Carta ${cartaSeleccionada.posicion}`;
 
                 return (
                   <div key={cartaSeleccionada.posicion} className="relative w-32 md:w-36 lg:w-40 flex flex-col items-center">
-                    <div className="relative w-full h-48 md:h-56 lg:h-64 rounded-md overflow-hidden shadow-lg border border-green-300">
-                      <Image
-                        src={cardImageSrc}
-                        alt={cardData?.nombre || 'Carta'}
-                        layout="fill"
-                        objectFit="cover"
-                        className={`rounded-md ${cartaSeleccionada.invertida ? 'rotate-180' : ''}`}
-                      />
+                    <div className="relative w-full h-48 md:h-56 lg:h-64 rounded-md overflow-hidden shadow-lg border border-green-300 flex items-center justify-center bg-gray-100 p-2">
+                      <p className={`text-center text-lg font-bold text-green-900 leading-tight ${cartaSeleccionada.invertida ? 'rotate-180' : ''}`}>
+                        {currentCardData?.nombre || 'Carta'}
+                      </p>
                     </div>
                     <p className="mt-2 text-sm text-center font-semibold text-green-900">
                       {posicionNombre}
                     </p>
                     <p className="text-xs text-center text-green-700">
-                      {cardData?.nombre}
+                      {currentCardData?.nombre}
                     </p>
-                    {baraja === 'tradicional' && ( // Solo mostrar el botón de invertir para baraja tradicional
+                    {cartaSeleccionada.baraja === 'tradicional' && (
                       <Button
                         size="sm"
                         variant="ghost"
