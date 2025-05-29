@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ChevronLeft, Copy, Trash, Undo2 } from "lucide-react";
-import { Tirada, CartaSeleccionada } from '@/pages/Index';
+import { Tirada, CartaSeleccionada } from '@/pages/Index'; // Corregido: '=>' a 'from'
 import { useToast } from "@/hooks/use-toast";
 
 // --- IMPORTACIONES DE DATOS DESDE cardNames.ts ---
@@ -200,6 +200,7 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
     if (onCambiarBaraja) {
       onCambiarBaraja(nuevaBaraja);
     }
+    // Resetear todos los filtros al cambiar de baraja
     setCategoriaSeleccionada(null);
     setLetraSeleccionada('');
     setPaloSeleccionado('');
@@ -307,6 +308,86 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
     );
   };
 
+  // Nueva función para centralizar la lógica de renderizado de los controles de selección
+  const renderSelectionControls = () => {
+    if (baraja === 'osho') {
+      if (!letraSeleccionada) {
+        return (
+          <>
+            <label className="block text-sm font-medium text-emerald-900 mb-2 text-center">
+              Primera letra de la carta
+            </label>
+            {renderOshoLetterButtons()}
+          </>
+        );
+      }
+    } else if (baraja === 'tradicional') {
+      if (!categoriaSeleccionada) {
+        return (
+          <div className="flex justify-center gap-2">
+            <Button
+              variant={"outline"}
+              className={"h-10 text-sm border-emerald-300 text-emerald-700 hover:bg-emerald-50"}
+              onClick={() => {
+                setCategoriaSeleccionada('mayores');
+                setLetraSeleccionada('');
+                setPaloSeleccionado('');
+              }}
+            >
+              Arcanos Mayores
+            </Button>
+            <Button
+              variant={"outline"}
+              className={"h-10 text-sm border-emerald-300 text-emerald-700 hover:bg-emerald-50"}
+              onClick={() => {
+                setCategoriaSeleccionada('menores');
+                setLetraSeleccionada('');
+                setPaloSeleccionado('');
+              }}
+            >
+              Arcanos Menores
+            </Button>
+          </div>
+        );
+      } else if (categoriaSeleccionada === 'mayores') {
+        if (!letraSeleccionada) {
+          return (
+            <>
+              <label className="block text-sm font-medium text-emerald-900 mb-2 text-center">
+                Primera letra de la carta
+              </label>
+              {renderMayoresLetterButtons()}
+            </>
+          );
+        }
+      } else if (categoriaSeleccionada === 'menores') {
+        if (!paloSeleccionado) {
+          return (
+            <>
+              <label className="block text-sm font-medium text-emerald-900 mb-2 text-center">
+                Palo
+              </label>
+              <div className="flex justify-center gap-1 flex-wrap">
+                {palos.map((palo) => (
+                  <Button
+                    key={palo}
+                    variant={paloSeleccionado === palo ? "default" : "outline"}
+                    className={paloSeleccionado === palo ? "h-9 text-sm p-1 bg-emerald-600 text-white hover:bg-emerald-700" : "h-9 text-sm p-1 border-emerald-300 text-emerald-700 hover:bg-emerald-50"}
+                    onClick={() => setPaloSeleccionado(palo)}
+                  >
+                    {palo}
+                  </Button>
+                ))}
+              </div>
+            </>
+          );
+        }
+      }
+    }
+    return null; // No renderizar nada si las condiciones no se cumplen
+  };
+
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-teal-50 to-emerald-100">
       <div className="container mx-auto px-4 py-8">
@@ -401,79 +482,8 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
               </div>
             </CardHeader>
             <CardContent className="space-y-4">
-              {/* Controles para Tarot Tradicional */}
-              {baraja === 'tradicional' && (
-                <div className="space-y-4">
-                  {/* Botones de categoría: Visibles si no hay selección de letra o palo NI categoría seleccionada */}
-                  {!letraSeleccionada && !paloSeleccionado && !categoriaSeleccionada && (
-                    <div className="flex justify-center gap-2">
-                      <Button
-                        variant={"outline"}
-                        className={"h-10 text-sm border-emerald-300 text-emerald-700 hover:bg-emerald-50"}
-                        onClick={() => {
-                          setCategoriaSeleccionada('mayores');
-                          setLetraSeleccionada('');
-                          setPaloSeleccionado('');
-                        }}
-                      >
-                        Arcanos Mayores
-                      </Button>
-                      <Button
-                        variant={"outline"}
-                        className={"h-10 text-sm border-emerald-300 text-emerald-700 hover:bg-emerald-50"}
-                        onClick={() => {
-                          setCategoriaSeleccionada('menores');
-                          setLetraSeleccionada('');
-                          setPaloSeleccionado('');
-                        }}
-                      >
-                        Arcanos Menores
-                      </Button>
-                    </div>
-                  )}
-
-                  {/* Botones de Letra para Arcanos Mayores: Visibles si Arcanos Mayores seleccionados y ninguna letra ni palo */}
-                  {categoriaSeleccionada === 'mayores' && !letraSeleccionada && !paloSeleccionado && (
-                    <>
-                      <label className="block text-sm font-medium text-emerald-900 mb-2 text-center">
-                        Primera letra de la carta
-                      </label>
-                      {renderMayoresLetterButtons()}
-                    </>
-                  )}
-
-                  {/* Botones de Palo para Arcanos Menores: Visibles si Arcanos Menores seleccionados y ningún palo ni letra */}
-                  {categoriaSeleccionada === 'menores' && !paloSeleccionado && !letraSeleccionada && (
-                    <>
-                      <label className="block text-sm font-medium text-emerald-900 mb-2 text-center">
-                        Palo
-                      </label>
-                      <div className="flex justify-center gap-1 flex-wrap">
-                        {palos.map((palo) => (
-                          <Button
-                            key={palo}
-                            variant={paloSeleccionado === palo ? "default" : "outline"}
-                            className={paloSeleccionado === palo ? "h-9 text-sm p-1 bg-emerald-600 text-white hover:bg-emerald-700" : "h-9 text-sm p-1 border-emerald-300 text-emerald-700 hover:bg-emerald-50"}
-                            onClick={() => setPaloSeleccionado(palo)}
-                          >
-                            {palo}
-                          </Button>
-                        ))}
-                      </div>
-                    </>
-                  )}
-                </div>
-              )}
-
-              {/* Controles para Tarot de Osho */}
-              {baraja === 'osho' && !letraSeleccionada && (
-                <>
-                  <label className="block text-sm font-medium text-emerald-900 mb-2 text-center">
-                    Primera letra de la carta
-                  </label>
-                  {renderOshoLetterButtons()}
-                </>
-              )}
+              {/* Aquí se renderizan los controles de selección */}
+              {renderSelectionControls()}
 
               {/* LISTADO DE CARTAS: Visible solo si un filtro (letra o palo) ha sido aplicado */}
               {((baraja === 'tradicional' && categoriaSeleccionada === 'mayores' && letraSeleccionada) ||
@@ -570,22 +580,22 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
                   </div>
                 )}
 
-              {/* Botón "Volver a seleccionar": Visible solo si hay un filtro aplicado (letra, palo o categoría) */}
+              {/* Botón "Volver a seleccionar" */}
               {(letraSeleccionada || paloSeleccionado || categoriaSeleccionada) && (
                 <div className="flex justify-center mt-4">
                   <Button
                     variant="ghost"
                     className="text-emerald-700 hover:bg-emerald-50"
                     onClick={() => {
-                      if (letraSeleccionada) { // Si hay letra seleccionada, la quita
+                      if (letraSeleccionada) {
                         setLetraSeleccionada('');
-                      } else if (paloSeleccionado) { // Si hay palo seleccionado, lo quita
+                      } else if (paloSeleccionado) {
                         setPaloSeleccionado('');
-                      } else if (categoriaSeleccionada) { // Si hay categoría seleccionada, la quita
+                      } else if (categoriaSeleccionada) {
                         setCategoriaSeleccionada(null);
+                        setLetraSeleccionada(''); // Asegurar que la letra también se resetea al volver de categoría
+                        setPaloSeleccionado(''); // Asegurar que el palo también se resetea al volver de categoría
                       }
-                      // Si no hay nada seleccionado, este botón podría llevar a la selección de baraja si Modo Libre
-                      // o simplemente no hacer nada si ya estamos en el inicio de la selección
                     }}
                   >
                     <ChevronLeft className="w-4 h-4 mr-2" />
