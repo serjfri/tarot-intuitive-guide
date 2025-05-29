@@ -410,12 +410,13 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
                   <label className="block text-sm font-medium text-emerald-900 mb-2">
                     Primera letra
                   </label>
-                  <div className="grid grid-cols-6 sm:grid-cols-8 md:grid-cols-10 lg:grid-cols-12 gap-1 justify-items-center">
+                  {/* MODIFICACIÓN APLICADA AQUÍ: Organización de los botones de letra */}
+                  <div className="flex flex-wrap justify-center gap-2">
                     {getLetrasOsho.map((letra) => (
                       <Button
                         key={letra}
                         variant="outline"
-                        className="h-8 w-8 p-0 text-center text-xs flex items-center justify-center"
+                        className="h-10 w-10 p-0 text-center text-sm font-semibold flex items-center justify-center rounded-full"
                         onClick={() => setLetraSeleccionada(letra)}
                       >
                         {letra}
@@ -429,12 +430,12 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
               {((baraja === 'tradicional' && categoriaSeleccionada === 'mayores' && letraSeleccionada) ||
                 (baraja === 'tradicional' && categoriaSeleccionada === 'menores' && paloSeleccionado) ||
                 (baraja === 'osho' && letraSeleccionada)) && (
-                  <div>
-                    <label className="block text-sm font-medium text-emerald-900 mb-2">
-                      Cartas disponibles
-                    </label>
-                    {/* Contenedor flexible para Arcanos Menores para una distribución óptima */}
-                    {baraja === 'tradicional' && categoriaSeleccionada === 'menores' && paloSeleccionado && cartasPorGruposDePalo ? (
+                <div>
+                  <label className="block text-sm font-medium text-emerald-900 mb-2">
+                    Cartas disponibles
+                  </label>
+                  {/* Contenedor flexible para Arcanos Menores para una distribución óptima */}
+                  {baraja === 'tradicional' && categoriaSeleccionada === 'menores' && paloSeleccionado && cartasPorGruposDePalo ? (
                        <div className="space-y-2">
                         {/* Fila: As, 2, 3, 4, 5 */}
                         {cartasPorGruposDePalo.asToFive.length > 0 && (

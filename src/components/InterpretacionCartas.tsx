@@ -6,34 +6,28 @@ import { ChevronLeft } from "lucide-react";
 import { Tirada, CartaSeleccionada } from '@/pages/Index';
 
 // --- IMPORTACIONES DE DATOS Y TIPOS DESDE LOS ARCHIVOS DE DATOS ---
-import { traditionalMeanings, TraditionalCardMeaning, ApplicationMeaning, CombinationMeaning } from '@/data/traditionalMeanings';
+import { traditionalMeanings, TraditionalCardMeaning } from '@/data/traditionalMeanings';
 import { oshoMeanings, OshoCardMeaning } from '@/data/oshoMeanings';
 // --- FIN DE IMPORTACIONES DE DATOS Y TIPOS ---
 
 
-// Extiende el tipo de retorno para incluir las nuevas propiedades opcionales
+// Extiende el tipo de retorno para incluir las nuevas propiedades
+// Este tipo ya está bien, solo necesitamos asegurarnos que TraditionalCardMeaning las provea.
 interface InterpretacionCartaResult {
   nombre: string;
   significado: string;
   interpretacion: string;
   elemento?: string;
   palabrasClave?: string[];
-  arquetipo?: string;
-  // Nuevas propiedades opcionales para TraditionalCardMeaning
-  meditacionReflexion?: { preguntas: string[] };
-  aplicaciones?: {
-    amorRelaciones: ApplicationMeaning;
-    carreraFinanzas: ApplicationMeaning;
-    desarrolloPersonalEspiritual: ApplicationMeaning;
-    saludBienestar: ApplicationMeaning;
-  };
-  combinacionesSignificativas?: {
-    conArcanosMayores?: CombinationMeaning[];
-    conCopas?: CombinationMeaning[];
-    conEspadas?: CombinationMeaning[];
-    conOros?: CombinationMeaning[];
-    conBastos?: CombinationMeaning[];
-  };
+  arquetipo?: string; // Confirmado que se usa
+  meditacionReflexion?: { preguntas: string[] }; // Confirmado que se usa
+  // Nuevas propiedades de información básica para mostrar
+  arcano?: string;
+  numero?: number;
+  planeta?: string;
+  signoAstrologico?: string;
+  numerologia?: string;
+  simbolismo?: string;
 }
 
 interface InterpretacionCartasProps {
@@ -51,7 +45,10 @@ const InterpretacionCartas: React.FC<InterpretacionCartasProps> = ({
 }) => {
   const getInterpretacionCarta = (cartaId: string, invertida: boolean, baraja: 'tradicional' | 'osho'): InterpretacionCartaResult => {
     if (baraja === 'tradicional') {
-      const interp = traditionalMeanings.find(c => c.id === cartaId);
+      const interp = traditionalMeanings.find(c => c.id === cartaId) as TraditionalCardMeaning | undefined;
+      // Añadido 'as TraditionalCardMeaning | undefined' para asegurar el tipo si 'find' no encuentra nada.
+      // TypeScript ya infiere esto, pero lo hago explícito para claridad.
+
       if (interp) {
         return {
           nombre: interp.nombre,
@@ -59,27 +56,36 @@ const InterpretacionCartas: React.FC<InterpretacionCartasProps> = ({
           interpretacion: invertida ? interp.detalleInvertido : interp.detalleDerecho,
           elemento: interp.elemento,
           palabrasClave: invertida ? interp.palabrasClaveInvertidas : interp.palabrasClaveDerechas,
-          arquetipo: interp.arquetipo,
-          // Incluir las nuevas propiedades opcionales aquí
-          meditacionReflexion: interp.meditacionReflexion,
-          aplicaciones: interp.aplicaciones,
-          combinacionesSignificativas: interp.combinacionesSignificativas,
+          arquetipo: interp.arquetipo, // Asegúrate de que existe en TraditionalCardMeaning
+          meditacionReflexion: interp.meditacionReflexion, // Asegúrate de que existe en TraditionalCardMeaning
+          arcano: interp.arcano,
+          numero: interp.numero,
+          planeta: interp.planeta,
+          signoAstrologico: interp.signoAstrologico,
+          numerologia: interp.numerologia,
+          simbolismo: interp.simbolismo,
         };
       }
     } else { // Baraja Osho
-      const interp = oshoMeanings.find(c => c.id === cartaId);
+      const interp = oshoMeanings.find(c => c.id === cartaId) as OshoCardMeaning | undefined;
+      // Añadido 'as OshoCardMeaning | undefined' para asegurar el tipo si 'find' no encuentra nada.
+
       if (interp) {
         return {
           nombre: interp.nombre,
           significado: interp.significado,
           interpretacion: interp.detalle,
-          // Para Osho, estas propiedades no existen, por lo que son 'undefined'
+          // Para Osho, estas propiedades no existen, por lo tanto, son 'undefined'
           elemento: undefined,
           palabrasClave: undefined,
           arquetipo: undefined,
           meditacionReflexion: undefined,
-          aplicaciones: undefined,
-          combinacionesSignificativas: undefined,
+          arcano: undefined,
+          numero: undefined,
+          planeta: undefined,
+          signoAstrologico: undefined,
+          numerologia: undefined,
+          simbolismo: undefined,
         };
       }
     }
@@ -93,8 +99,12 @@ const InterpretacionCartas: React.FC<InterpretacionCartasProps> = ({
       palabrasClave: undefined,
       arquetipo: undefined,
       meditacionReflexion: undefined,
-      aplicaciones: undefined,
-      combinacionesSignificativas: undefined,
+      arcano: undefined,
+      numero: undefined,
+      planeta: undefined,
+      signoAstrologico: undefined,
+      numerologia: undefined,
+      simbolismo: undefined,
     };
   };
 
@@ -198,6 +208,29 @@ const InterpretacionCartas: React.FC<InterpretacionCartasProps> = ({
                     </CardHeader>
                     <CardContent>
                       <div className="space-y-3">
+                        {/* Nueva sección: Información Básica */}
+                        {carta.baraja === 'tradicional' && (interpretacion.arcano || interpretacion.numero !== undefined || interpretacion.elemento || interpretacion.planeta || interpretacion.signoAstrologico || interpretacion.numerologia) && (
+                          <div>
+                            <h4 className="font-medium text-purple-900 mb-1">Información Básica:</h4>
+                            <ul className="text-purple-700 text-sm space-y-0.5">
+                              {interpretacion.arcano && <li><strong>Arcano:</strong> {interpretacion.arcano}</li>}
+                              {interpretacion.numero !== undefined && <li><strong>Número:</strong> {interpretacion.numero}</li>}
+                              {interpretacion.elemento && <li><strong>Elemento:</strong> {interpretacion.elemento}</li>}
+                              {interpretacion.planeta && <li><strong>Planeta:</strong> {interpretacion.planeta}</li>}
+                              {interpretacion.signoAstrologico && <li><strong>Signo Astrológico:</strong> {interpretacion.signoAstrologico}</li>}
+                              {interpretacion.numerologia && <li><strong>Numerología:</strong> {interpretacion.numerologia}</li>}
+                            </ul>
+                          </div>
+                        )}
+
+                        {/* Simbolismo */}
+                        {carta.baraja === 'tradicional' && interpretacion.simbolismo && (
+                          <div>
+                            <h4 className="font-medium text-purple-900 mb-1">Simbolismo:</h4>
+                            <p className="text-purple-700" dangerouslySetInnerHTML={{ __html: interpretacion.simbolismo }}></p>
+                          </div>
+                        )}
+
                         <div>
                           <h4 className="font-medium text-purple-900 mb-1">Significado Principal:</h4>
                           <p className="text-purple-700">{interpretacion.significado}</p>
@@ -219,7 +252,7 @@ const InterpretacionCartas: React.FC<InterpretacionCartasProps> = ({
                           </div>
                         )}
 
-                        {/* Nuevas secciones para TraditionalCardMeaning */}
+                        {/* Sección de Meditación y Reflexión */}
                         {carta.baraja === 'tradicional' && interpretacion.meditacionReflexion && interpretacion.meditacionReflexion.preguntas.length > 0 && (
                           <div>
                             <h4 className="font-medium text-purple-900 mb-1">Meditación y Reflexión:</h4>
@@ -228,50 +261,6 @@ const InterpretacionCartas: React.FC<InterpretacionCartasProps> = ({
                                 <li key={index}>{pregunta}</li>
                               ))}
                             </ul>
-                          </div>
-                        )}
-
-                        {carta.baraja === 'tradicional' && interpretacion.aplicaciones && (
-                          <div>
-                            <h4 className="font-medium text-purple-900 mb-1">Aplicaciones en la Vida:</h4>
-                            <div className="space-y-2 text-purple-700">
-                              {interpretacion.aplicaciones.amorRelaciones && (
-                                <p><strong>Amor y Relaciones:</strong> {carta.invertida ? interpretacion.aplicaciones.amorRelaciones.invertida : interpretacion.aplicaciones.amorRelaciones.normal}</p>
-                              )}
-                              {interpretacion.aplicaciones.carreraFinanzas && (
-                                <p><strong>Carrera y Finanzas:</strong> {carta.invertida ? interpretacion.aplicaciones.carreraFinanzas.invertida : interpretacion.aplicaciones.carreraFinanzas.normal}</p>
-                              )}
-                              {interpretacion.aplicaciones.desarrolloPersonalEspiritual && (
-                                <p><strong>Desarrollo Personal y Espiritual:</strong> {carta.invertida ? interpretacion.aplicaciones.desarrolloPersonalEspiritual.invertida : interpretacion.aplicaciones.desarrolloPersonalEspiritual.normal}</p>
-                              )}
-                              {interpretacion.aplicaciones.saludBienestar && (
-                                <p><strong>Salud y Bienestar:</strong> {carta.invertida ? interpretacion.aplicaciones.saludBienestar.invertida : interpretacion.aplicaciones.saludBienestar.normal}</p>
-                              )}
-                            </div>
-                          </div>
-                        )}
-
-                        {carta.baraja === 'tradicional' && interpretacion.combinacionesSignificativas && (
-                          <div>
-                            <h4 className="font-medium text-purple-900 mb-1">Combinaciones Significativas:</h4>
-                            <div className="space-y-2">
-                              {Object.entries(interpretacion.combinacionesSignificativas).map(([tipo, combinaciones]) => (
-                                combinaciones && combinaciones.length > 0 && (
-                                  <div key={tipo}>
-                                    <h5 className="font-semibold text-purple-800 text-sm capitalize mb-1">
-                                      {tipo.replace('con', 'Con ').replace(/([A-Z])/g, ' $1').trim()}:
-                                    </h5>
-                                    <ul className="list-disc list-inside text-purple-700 text-sm space-y-0.5">
-                                      {combinaciones.map((comb, idx) => (
-                                        <li key={idx}>
-                                          **{traditionalMeanings.find(c => c.id === comb.cartaCombinada)?.nombre || comb.cartaCombinada}** ({comb.orientacionCombinada === 'normal' ? 'Normal' : comb.orientacionCombinada === 'invertida' ? 'Invertida' : 'Cualquiera'}): {comb.significado}
-                                        </li>
-                                      ))}
-                                    </ul>
-                                  </div>
-                                )
-                              ))}
-                            </div>
                           </div>
                         )}
                       </div>

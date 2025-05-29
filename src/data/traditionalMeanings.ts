@@ -1,1022 +1,2450 @@
-// src/data/traditionalMeanings.ts
+// traditionalMeanings.ts
 
-export interface CombinationMeaning {
-  cartaCombinada: string; // ID de la carta con la que se combina (ej. 'EL_MAGO')
-  orientacionCombinada: 'normal' | 'invertida' | 'cualquiera'; // Orientación de la carta combinada
-  significado: string; // Breve significado de la combinación
-}
-
-export interface ApplicationMeaning {
-  normal: string;
-  invertida: string;
-}
-
+// Definición del tipo para las cartas tradicionales
 export interface TraditionalCardMeaning {
   id: string;
   nombre: string;
+  arcano: "Mayor" | "Menor"; // Puede ser Mayor o Menor
+  numero?: number; // Opcional, ya que las figuras de la corte no tienen un número literal como los pips
+  palo?: string; // Opcional para Arcanos Mayores
+  elemento?: string;
+  planeta?: string;
+  signoAstrologico?: string;
+  numerologia?: string;
+  simbolismo?: string; // Puede contener HTML para formateo
+  palabrasClaveDerechas: string[];
+  palabrasClaveInvertidas: string[];
   significadoDerecho: string;
   significadoInvertido: string;
   detalleDerecho: string;
   detalleInvertido: string;
-  elemento?: string;
-  palabrasClaveDerechas?: string[];
-  palabrasClaveInvertidas?: string[];
-  arquetipo?: string;
-  meditacionReflexion?: { // Propiedad opcional
-    preguntas: string[];
-  };
-  aplicaciones?: { // Propiedad opcional
-    amorRelaciones: ApplicationMeaning;
-    carreraFinanzas: ApplicationMeaning;
-    desarrolloPersonalEspiritual: ApplicationMeaning;
-    saludBienestar: ApplicationMeaning;
-  };
-  combinacionesSignificativas?: { // Propiedad opcional
-    conArcanosMayores?: CombinationMeaning[];
-    conCopas?: CombinationMeaning[];
-    conEspadas?: CombinationMeaning[];
-    conOros?: CombinationMeaning[];
-    conBastos?: CombinationMeaning[];
-  };
+  meditacionReflexion?: { preguntas: string[] }; // Opcional
+  arquetipo?: string; // Opcional
 }
 
-// ¡IMPORTANTE! Asegúrate de que TODAS tus cartas estén dentro de este array.
 export const traditionalMeanings: TraditionalCardMeaning[] = [
+  // --- Arcanos Mayores ---
   {
-    id: 'EL_LOCO',
-    nombre: 'El Loco',
-    significadoDerecho: 'Nuevos comienzos, espontaneidad, espíritu libre, fe en el futuro, inexperiencia.',
-    significadoInvertido: 'Imprudencia, insensatez, temeridad, falta de dirección, riesgo innecesario.',
-    detalleDerecho: 'El Loco en posición normal representa un espíritu libre y aventurero, dispuesto a lanzarse a lo desconocido con entusiasmo y confianza. Simboliza nuevos comienzos, decisiones espontáneas y un enfoque de vida sin preocupaciones. Esta carta sugiere que es momento de tomar un salto de fe, confiar en el universo y seguir tu intuición aunque el camino no esté completamente definido.<br>El Loco encarna la energía pura y el potencial ilimitado, recordándonos la importancia de mantener una mente abierta y una actitud de asombro ante la vida. Representa el inicio del viaje espiritual, donde aún no hay restricciones ni expectativas. A menudo aparece cuando necesitamos liberarnos de convenciones, actuar con espontaneidad y abrazar lo impredecible.',
-    detalleInvertido: 'En posición invertida, El Loco advierte sobre imprudencia y decisiones precipitadas sin considerar las consecuencias. Puede indicar que estás tomando riesgos innecesarios o ignorando advertencias importantes. Esta posición sugiere descuido, comportamiento errático o una falta de dirección que podría resultar perjudicial.<br>También puede señalar que te resistes a nuevas experiencias por miedo, quedándote estancado en situaciones familiares pero limitantes. Alternativamente, puede reflejar una tendencia a huir de las responsabilidades o a actuar de manera infantil ante los desafíos. El Loco invertido te invita a encontrar un equilibrio entre la libertad y la responsabilidad.',
-    elemento: 'Aire',
-    palabrasClaveDerechas: ['Comienzos', 'Libertad', 'Aventura', 'Inocencia', 'Espontaneidad', 'Fe', 'Riesgos'],
-    palabrasClaveInvertidas: ['Imprudencia', 'Descuido', 'Riesgo innecesario', 'Ingenuidad peligrosa', 'Malas decisiones', 'Falta de dirección'],
-    arquetipo: 'El Viajero Sin Ruta',
+    id: "el-loco",
+    nombre: "El Loco",
+    arcano: "Mayor",
+    numero: 0,
+    palo: "N/A",
+    elemento: "Aire",
+    planeta: "Urano",
+    signoAstrologico: "N/A (asociado con la libertad y la imprevisibilidad)",
+    numerologia: "0 (Potencial ilimitado, nuevos comienzos, salto de fe)",
+    simbolismo: `Un joven con una mochila al hombro y una rosa blanca en la mano, a punto de caer por un precipicio. Un pequeño perro le ladra a sus pies. Mira hacia el cielo, ignorante del peligro. El sol brilla intensamente. La mochila representa las experiencias y herramientas necesarias, la rosa blanca, la pureza y la inocencia. El perro es la intuición o la lealtad que advierte del peligro. El precipicio simboliza el salto de fe o el umbral hacia lo desconocido.`,
+    palabrasClaveDerechas: ["Nuevos comienzos", "oportunidad", "salto de fe", "espontaneidad", "libertad", "inocencia", "aventura", "potencial ilimitado"],
+    palabrasClaveInvertidas: ["Imprudencia", "irresponsabilidad", "caos", "ingenuidad", "miedo a lo desconocido", "falta de dirección"],
+    significadoDerecho: `El Loco representa el inicio de un viaje, una aventura hacia lo desconocido, llena de potencial ilimitado. Esta carta te invita a dar un salto de fe, a liberarte de las convenciones y a abrazar la espontaneidad. Simboliza la inocencia, la curiosidad y la apertura a nuevas experiencias.
+    
+    Cuando aparece El Loco, es un llamado a confiar en el universo y en tu intuición, incluso si el camino no está claro. Es el momento de ser audaz, de dejar atrás lo viejo y de explorar nuevas posibilidades sin miedo.`,
+    significadoInvertido: `En posición invertida, El Loco advierte sobre la imprudencia, la irresponsabilidad o el miedo a dar el paso necesario. Puede indicar que estás actuando sin pensar en las consecuencias, o que estás siendo demasiado ingenuo ante una situación.
+    
+    También puede señalar una falta de dirección, un estancamiento por miedo a lo desconocido, o la resistencia a un cambio que es inevitable. Te invita a reevaluar tu camino y a encontrar un equilibrio entre la libertad y la responsabilidad.`,
+    detalleDerecho: `El Loco en posición normal es una energía refrescante que te impulsa a salir de tu zona de confort. Te anima a ser fiel a ti mismo y a seguir tu propio camino, incluso si eso significa ir contra la corriente. Disfruta de la libertad y la emoción de lo nuevo.`,
+    detalleInvertido: `Cuando El Loco aparece invertido, te pide que examines dónde estás siendo demasiado impulsivo o dónde te estás resistiendo a un cambio necesario. Es un recordatorio de que la verdadera libertad viene con la responsabilidad.`,
     meditacionReflexion: {
       preguntas: [
-        '¿Qué me impide dar un salto de fe en mi vida?',
-        '¿Dónde necesito más espontaneidad y menos preocupación por el futuro?',
-        '¿Estoy considerando todas las advertencias importantes antes de embarcarme en una nueva aventura?',
-        '¿Cómo puedo mantener mi espíritu libre sin caer en la imprudencia?',
-        '¿Qué equipaje emocional o mental puedo dejar atrás para emprender mi viaje con más ligereza?'
+        "¿Qué salto de fe me está pidiendo la vida?",
+        "¿Estoy abrazando nuevas experiencias con una mente abierta?",
+        "¿Estoy siendo imprudente o valiente?",
+        "¿Qué miedos me impiden avanzar hacia lo desconocido?",
+        "¿Cómo puedo encontrar el equilibrio entre la libertad y la responsabilidad?"
       ]
-    },
-    aplicaciones: {
-      amorRelaciones: {
-        normal: 'Relación espontánea y emocionante, nuevos encuentros inesperados, libertad en el amor',
-        invertida: 'Relaciones impulsivas sin fundamento, evitar compromisos, comportamiento impredecible'
-      },
-      carreraFinanzas: {
-        normal: 'Nuevas oportunidades profesionales, emprendimientos creativos, seguir la vocación',
-        invertida: 'Decisiones financieras arriesgadas, cambios de carrera sin planificación, oportunidades perdidas'
-      },
-      desarrolloPersonalEspiritual: {
-        normal: 'Liberación de condicionamientos, apertura a nuevas filosofías, viaje de autodescubrimiento',
-        invertida: 'Confusión espiritual, falta de dirección, resistencia al crecimiento personal'
-      },
-      saludBienestar: {
-        normal: 'Vitalidad renovada, enfoque holístico de la salud, liberación de tensiones',
-        invertida: 'Descuido de la salud, comportamientos de riesgo, agotamiento por excesos'
-      }
-    },
-    combinacionesSignificativas: {
-      conArcanosMayores: [
-        {
-          cartaCombinada: 'EL_MAGO',
-          orientacionCombinada: 'cualquiera',
-          significado: 'Creatividad espontánea; nuevos comienzos con recursos inesperados. (Si El Mago está normal) / Habilidades desperdiciadas por impulsividad; necesidad de enfoque. (Si El Mago está invertido y El Loco invertido) / Entusiasmo sin las herramientas necesarias; potencial sin refinamiento. (Si El Mago está invertido y El Loco normal) / Manipulación y engaño; proyectos iniciados con motivos cuestionables. (Ambas invertidas)'
-        },
-        {
-          cartaCombinada: 'LA_SACERDOTISA',
-          orientacionCombinada: 'cualquiera',
-          significado: 'Intuición poderosa guiando saltos de fe; sabiduría en la espontaneidad. (Ambas normales) / Ignorar la intuición por impulsividad; necesidad de escuchar la voz interior. (Loco invertido + Sacerdotisa normal) / Secretos revelados a través de acontecimientos inesperados. (Loco normal + Sacerdotisa invertida) / Desconexión total entre la acción y la intuición; comportamiento errático. (Ambas invertidas)'
-        },
-        {
-          cartaCombinada: 'LA_TORRE',
-          orientacionCombinada: 'cualquiera',
-          significado: 'Liberación a través del caos; abrazar cambios drásticos con espíritu aventurero. (Ambas normales) / Crisis causada por imprudencia; consecuencias de riesgos innecesarios. (Loco invertido + Torre normal) / Evitar un desastre mediante la adaptabilidad y flexibilidad. (Loco normal + Torre invertida) / Resistencia al cambio necesario; imprudencia que prolonga situaciones insostenibles. (Ambas invertidas)'
-        },
-      ],
-      conCopas: [
-        {
-          cartaCombinada: 'AS_DE_COPAS',
-          orientacionCombinada: 'cualquiera',
-          significado: 'Apertura emocional total; nueva relación apasionada y espontánea. (Ambas normales) / Oportunidad emocional desperdiciada por miedo o imprudencia. (Loco invertido + As normal) / Entusiasmo por conexiones que podrían no ser profundas. (Loco normal + As invertido) / Bloqueo emocional; resistencia a nuevas experiencias afectivas. (Ambas invertidas)'
-        },
-        {
-          cartaCombinada: 'REINA_DE_COPAS',
-          orientacionCombinada: 'cualquiera',
-          significado: 'Intuición emocional guiando nuevas aventuras; compasión en situaciones de riesgo. (Ambas normales) / Sabiduría emocional ignorada por impulsividad. (Loco invertido + Reina normal) / Aventuras que despiertan emociones abrumadoras. (Loco normal + Reina invertida) / Inestabilidad emocional; decisiones manipuladoras o codependientes. (Ambas invertidas)'
-        },
-      ],
-      conEspadas: [
-        {
-          cartaCombinada: 'AS_DE_ESPADAS',
-          orientacionCombinada: 'cualquiera',
-          significado: 'Claridad mental repentina; ideas revolucionarias; nuevas perspectivas. (Ambas normales) / Verdad revelada que expone comportamiento imprudente. (Loco invertido + As normal) / Confusión mental durante nuevas experiencias; necesidad de claridad. (Loco normal + As invertido) / Pensamientos autodestructivos; ideas sin fundamento. (Ambas invertidas)'
-        },
-        {
-          cartaCombinada: 'CABALLERO_DE_ESPADAS',
-          orientacionCombinada: 'cualquiera',
-          significado: 'Acción rápida y decidida; aventuras intelectuales. (Ambas normales) / Agresividad impulsiva; precipitación peligrosa. (Loco invertido + Caballero normal) / Entusiasmo sin dirección clara; energía dispersa. (Loco normal + Caballero invertido) / Comportamiento errático y potencialmente destructivo. (Ambas invertidas)'
-        },
-      ],
-      conOros: [
-        {
-          cartaCombinada: 'AS_DE_OROS',
-          orientacionCombinada: 'cualquiera',
-          significado: 'Oportunidad material inesperada; emprendimiento aventurero. (Ambas normales) / Oportunidad financiera perdida por imprudencia. (Loco invertido + As normal) / Entusiasmo por proyectos materiales que requieren más planificación. (Loco normal + As invertido) / Decisiones financieras riesgosas; inversiones sin investigación previa. (Ambas invertidas)'
-        },
-        {
-          cartaCombinada: 'CUATRO_DE_OROS',
-          orientacionCombinada: 'cualquiera',
-          significado: 'Liberarse de la seguridad material para buscar experiencias. (Ambas normales) / Aferrarse a lo seguro por miedo a lo desconocido. (Loco invertido + Cuatro normal) / Aventura que requiere dejar ir posesiones o situaciones seguras. (Loco normal + Cuatro invertido) / Comportamiento financiero contradictorio; gastar impulsivamente y luego aferrarse. (Ambas invertidas)'
-        },
-      ],
-      conBastos: [
-        {
-          cartaCombinada: 'AS_DE_BASTOS',
-          orientacionCombinada: 'cualquiera',
-          significado: 'Inspiración divina; chispa creativa; pasión por nuevas aventuras. (Ambas normales) / Energía creativa desperdiciada por imprudencia. (Loco invertido + As normal) / Entusiasmo que necesita dirección y propósito. (Loco normal + As invertido) / Agotamiento por dispersión de energía; inicios falsos. (Ambas invertidas)'
-        },
-        {
-          cartaCombinada: 'SIETE_DE_BASTOS',
-          orientacionCombinada: 'cualquiera',
-          significado: 'Defender la libertad personal; coraje para seguir un camino no convencional. (Ambas normales) / Luchar batallas innecesarias por impulsividad. (Loco invertido + Siete normal) / Sentirse abrumado por los desafíos en un nuevo camino. (Loco normal + Siete invertido) / Evitar confrontaciones necesarias; huir de desafíos importantes. (Ambas invertidas)'
-        },
-      ],
-    },
-  },
-  {
-    id: 'EL_MAGO',
-    nombre: 'El Mago',
-    significadoDerecho: 'Iniciativa, poder personal, habilidad, manifestación, concentración, recursos.',
-    significadoInvertido: 'Manipulación, engaño, falta de poder, indecisión, habilidades no utilizadas.',
-    detalleDerecho: 'El Mago simboliza la capacidad de manifestar los deseos a través de la voluntad, la habilidad y la concentración. Representa el dominio de los recursos disponibles y la iniciativa para crear la realidad propia.',
-    detalleInvertido: 'Invertido, El Mago puede señalar manipulación, engaño o el uso de habilidades para propósitos egoístas. También puede indicar indecisión, falta de concentración o el desaprovechamiento del propio potencial.',
-    elemento: 'Aire',
-    palabrasClaveDerechas: ['Creación', 'Poder', 'Habilidad', 'Concentración', 'Iniciativa'],
-    palabrasClaveInvertidas: ['Manipulación', 'Engaño', 'Indecisión', 'Potencial bloqueado', 'Incompetencia']
-    // Nota: Como estas propiedades son opcionales en la interfaz,
-    // no es un error si no las incluyes aquí para 'El Mago' o las demás cartas.
-    // meditacionReflexion: { preguntas: [] },
-    // aplicaciones: { ... },
-    // combinacionesSignificativas: { ... },
-  },
-  {
-    id: 'LA_SACERDOTISA',
-    nombre: 'La Sacerdotisa',
-    significadoDerecho: 'Intuición, misterio, sabiduría interior, subconsciente, conocimiento oculto.',
-    significadoInvertido: 'Secretos revelados, superficialidad, ignorancia, represión de la intuición.',
-    detalleDerecho: 'La Sacerdotisa es el arquetipo de la sabiduría oculta y la intuición. Invita a escuchar la voz interior, a confiar en los presentimientos y a explorar los misterios del subconsciente. Representa lo que está por desvelarse.',
-    detalleInvertido: 'Invertida, La Sacerdotisa puede indicar secretos que salen a la luz, una superficialidad emocional o un bloqueo de la intuición. Advierte contra ignorar los mensajes del subconsciente o la necesidad de confrontar verdades ocultas.',
-    elemento: 'Agua',
-    palabrasClaveDerechas: ['Intuición', 'Misterio', 'Sabiduría', 'Subconsciente', 'Conocimiento oculto'],
-    palabrasClaveInvertidas: ['Secretos expuestos', 'Superficialidad', 'Ignorancia', 'Intuición bloqueada', 'Desconexión']
-  },
-  {
-    id: 'LA_EMPERATRIZ',
-    nombre: 'La Emperatriz',
-    significadoDerecho: 'Fertilidad, maternidad, creatividad, abundancia, naturaleza, sensualidad.',
-    significadoInvertido: 'Bloqueos creativos, dependencia, infertilidad, negligencia, falta de armonía.',
-    detalleDerecho: 'La Emperatriz simboliza la abundancia en todas sus formas: fertilidad (literal o creativa), crecimiento, belleza y conexión con la naturaleza. Es una figura nutricia que invita a disfrutar de los placeres de la vida y a manifestar la creatividad.',
-    detalleInvertido: 'Invertida, La Emperatriz puede indicar bloqueos creativos, dependencia excesiva, o problemas relacionados con la fertilidad. También puede señalar negligencia en el cuidado personal o una desconexión con la naturaleza y la armonía.',
-    elemento: 'Tierra',
-    palabrasClaveDerechas: ['Abundancia', 'Fertilidad', 'Creatividad', 'Naturaleza', 'Maternidad'],
-    palabrasClaveInvertidas: ['Bloqueo creativo', 'Dependencia', 'Infertilidad', 'Negligencia', 'Desarmonía']
-  },
-  {
-    id: 'EL_EMPERADOR',
-    nombre: 'El Emperador',
-    significadoDerecho: 'Autoridad, estructura, control, liderazgo, estabilidad, paternidad, orden.',
-    significadoInvertido: 'Tiranía, control excesivo, rigidez, abuso de poder, falta de disciplina, caos.',
-    detalleDerecho: 'El Emperador representa el orden, la autoridad y el control. Simboliza la figura paterna, la ley y la estructura que proporciona estabilidad y seguridad. Invita a tomar las riendas y a establecer límites claros.',
-    detalleInvertido: 'Invertido, El Emperador puede indicar tiranía, control excesivo, rigidez o abuso de poder. También puede señalar una falta de disciplina, caos o debilidad en el liderazgo, con problemas de autoridad.',
-    elemento: 'Fuego',
-    palabrasClaveDerechas: ['Autoridad', 'Estructura', 'Control', 'Liderazgo', 'Orden'],
-    palabrasClaveInvertidas: ['Tiranía', 'Control excesivo', 'Caos', 'Abuso de poder', 'Falta de disciplina']
-  },
-  {
-    id: 'EL_SUMO_SACERDOTE',
-    nombre: 'El Sumo Sacerdote',
-    significadoDerecho: 'Espiritualidad, tradición, conformidad, guía, moralidad, enseñanza, mentoría.',
-    significadoInvertido: 'Rebelión, no conformidad, valores personales, dogmatismo, instituciones represivas.',
-    detalleDerecho: 'El Sumo Sacerdote representa las instituciones, las tradiciones y la búsqueda de conocimiento espiritual o moral. Es un guía, un mentor, que ofrece sabiduría y estructura. Invita a seguir el camino establecido o a buscar un maestro.',
-    detalleInvertido: 'Invertido, El Sumo Sacerdote puede sugerir rebelión contra la tradición, la necesidad de encontrar valores personales o un rechazo a la conformidad. También puede indicar dogmatismo, instituciones represivas o falsos guías.',
-    elemento: 'Tierra',
-    palabrasClaveDerechas: ['Tradición', 'Guía', 'Espiritualidad', 'Moralidad', 'Enseñanza'],
-    palabrasClaveInvertidas: ['Rebelión', 'No conformidad', 'Dogmatismo', 'Falsos guías', 'Restricciones']
-  },
-  {
-    id: 'LOS_ENAMORADOS',
-    nombre: 'Los Enamorados',
-    significadoDerecho: 'Elecciones, uniones, relaciones, valores, amor, armonía, alineación.',
-    significadoInvertido: 'Desarmonía, conflicto, malas elecciones, indecisión, separación.',
-    detalleDerecho: 'Los Enamorados simbolizan una elección crucial, a menudo relacionada con el amor o las relaciones, pero también con los valores personales. Representa la necesidad de tomar una decisión que resuene con el corazón y el espíritu.',
-    detalleInvertido: 'Invertida, Los Enamorados pueden indicar desarmonía en las relaciones, conflictos internos o malas elecciones. También puede señalar indecisión prolongada o la inminente separación.',
-    elemento: 'Aire',
-    palabrasClaveDerechas: ['Elección', 'Amor', 'Relación', 'Armonía', 'Valores'],
-    palabrasClaveInvertidas: ['Desarmonía', 'Conflicto', 'Malas elecciones', 'Indecisión', 'Separación']
-  },
-  {
-    id: 'EL_CARRO',
-    nombre: 'El Carro',
-    significadoDerecho: 'Victoria, control, determinación, voluntad, dirección, progreso.',
-    significadoInvertido: 'Falta de control, derrota, dirección errónea, agresividad, obstáculos.',
-    detalleDerecho: 'El Carro es la carta del triunfo y la determinación. Simboliza el avance a través de la fuerza de voluntad y el control de las pasiones. Invita a tomar las riendas y a seguir adelante con confianza hacia el objetivo.',
-    detalleInvertido: 'Invertido, El Carro puede indicar una falta de control, derrota o dirección errónea. También puede señalar agresividad descontrolada, obstáculos insuperables o la necesidad de reevaluar el camino.',
-    elemento: 'Agua',
-    palabrasClaveDerechas: ['Victoria', 'Control', 'Determinación', 'Voluntad', 'Progreso'],
-    palabrasClaveInvertidas: ['Derrota', 'Falta de control', 'Dirección errónea', 'Agresividad', 'Obstáculos']
-  },
-  {
-    id: 'LA_JUSTICIA',
-    nombre: 'La Justicia',
-    significadoDerecho: 'Justicia, equilibrio, verdad, ley, causa y efecto, objetividad.',
-    significadoInvertido: 'Injusticia, desequilibrio, prejuicio, corrupción, legalismos.',
-    detalleDerecho: 'La Justicia representa el equilibrio, la verdad y la equidad. Simboliza las consecuencias de las acciones y la necesidad de tomar decisiones imparciales. Invita a la responsabilidad y a la rendición de cuentas.',
-    detalleInvertido: 'Invertida, La Justicia puede advertir sobre injusticia, desequilibrio o prejuicio. También puede señalar corrupción, legalismos excesivos o la necesidad de examinar decisiones pasadas que no fueron equitativas.',
-    elemento: 'Aire',
-    palabrasClaveDerechas: ['Equilibrio', 'Verdad', 'Justicia', 'Responsabilidad', 'Ley'],
-    palabrasClaveInvertidas: ['Injusticia', 'Desequilibrio', 'Prejuicio', 'Corrupción', 'Sesgo']
-  },
-  {
-    id: 'EL_ERMITAÑO',
-    nombre: 'El Ermitaño',
-    significadoDerecho: 'Introspección, soledad, guía interior, sabiduría, búsqueda de la verdad.',
-    significadoInvertido: 'Aislamiento, soledad, retirada, terquedad, rechazo a la ayuda.',
-    detalleDerecho: 'El Ermitaño simboliza la búsqueda interior, la introspección y la sabiduría. Invita a retirarse del bullicio externo para encontrar respuestas dentro de uno mismo. Representa la guía y la iluminación personal.',
-    detalleInvertido: 'Invertido, El Ermitaño puede indicar aislamiento autoimpuesto, soledad forzada o una retirada excesiva. También puede señalar terquedad en los propios pensamientos o un rechazo a buscar ayuda externa.',
-    elemento: 'Tierra',
-    palabrasClaveDerechas: ['Introspección', 'Soledad', 'Sabiduría', 'Búsqueda', 'Guía interior'],
-    palabrasClaveInvertidas: ['Aislamiento', 'Retraimiento', 'Terquedad', 'Miedo a la soledad', 'Rechazo a la ayuda']
-  },
-  {
-    id: 'LA_RUEDA_DE_LA_FORTUNA',
-    nombre: 'La Rueda de la Fortuna',
-    significadoDerecho: 'Cambio, ciclos, suerte, destino, punto de inflexión, oportunidades.',
-    significadoInvertido: 'Mala suerte, ciclos descendentes, resistencia al cambio, estancamiento.',
-    detalleDerecho: 'La Rueda de la Fortuna representa los ciclos de la vida, el cambio y el destino. Simboliza los altibajos y las oportunidades que se presentan. Invita a adaptarse al flujo de la vida y a reconocer el momento oportuno.',
-    detalleInvertido: 'Invertida, La Rueda de la Fortuna puede indicar mala suerte, ciclos descendentes o resistencia al cambio inevitable. También puede señalar estancamiento o la percepción de que la suerte está en contra.',
-    elemento: 'Fuego',
-    palabrasClaveDerechas: ['Cambio', 'Destino', 'Suerte', 'Oportunidades', 'Ciclos'],
-    palabrasClaveInvertidas: ['Mala suerte', 'Estancamiento', 'Resistencia al cambio', 'Inflexibilidad', 'Adversidad']
-  },
-  {
-    id: 'LA_FUERZA',
-    nombre: 'La Fuerza',
-    significadoDerecho: 'Fuerza interior, coraje, compasión, autocontrol, dominio, paciencia.',
-    significadoInvertido: 'Debilidad, falta de control, miedo, agresividad, duda, auto-duda.',
-    detalleDerecho: 'La Fuerza simboliza la fortaleza interior, el coraje y la capacidad de dominar las pasiones a través de la compasión y el autocontrol. Invita a enfrentar los desafíos con valentía y a confiar en la propia resistencia.',
-    detalleInvertido: 'Invertida, La Fuerza puede indicar debilidad, falta de control sobre las emociones, miedo o agresividad. También puede señalar auto-duda, falta de confianza o la necesidad de recuperar el poder personal.',
-    elemento: 'Fuego',
-    palabrasClaveDerechas: ['Coraje', 'Fuerza interior', 'Autocontrol', 'Paciencia', 'Compasión'],
-    palabrasClaveInvertidas: ['Debilidad', 'Falta de control', 'Miedo', 'Inseguridad', 'Agresividad']
-  },
-  {
-    id: 'EL_COLGADO',
-    nombre: 'El Colgado',
-    significadoDerecho: 'Perspectiva, sacrificio, suspensión, nuevas visiones, entrega, introspección.',
-    significadoInvertido: 'Estancamiento, martirio, resistencia al sacrificio, indecisión.',
-    detalleDerecho: 'El Colgado representa una pausa necesaria para obtener una nueva perspectiva. Simboliza el sacrificio voluntario y la entrega para ver las cosas desde un ángulo diferente. Invita a la reflexión y a soltar el control.',
-    detalleInvertido: 'Invertido, El Colgado puede indicar estancamiento, martirio autoimpuesto o una resistencia a hacer los sacrificios necesarios. También puede señalar indecisión prolongada o la incapacidad de cambiar de perspectiva.',
-    elemento: 'Agua',
-    palabrasClaveDerechas: ['Perspectiva', 'Sacrificio', 'Pausa', 'Entrega', 'Visión'],
-    palabrasClaveInvertidas: ['Estancamiento', 'Martirio', 'Resistencia', 'Indecisión', 'Falta de sacrificio']
-  },
-  {
-    id: 'LA_MUERTE',
-    nombre: 'La Muerte',
-    significadoDerecho: 'Fin de un ciclo, transformación, cambio radical, liberación, renacimiento.',
-    significadoInvertido: 'Resistencia al cambio, estancamiento, miedo a lo desconocido, final doloroso.',
-    detalleDerecho: 'La Muerte simboliza el fin inevitable de un ciclo y el comienzo de otro. Representa la transformación profunda, la liberación de lo viejo para dar paso a lo nuevo. Invita a aceptar el cambio y a soltar lo que ya no sirve.',
-    detalleInvertido: 'Invertida, La Muerte puede indicar resistencia al cambio, estancamiento o un miedo profundo a lo desconocido. También puede señalar un final doloroso o la dificultad para dejar ir lo que ya no es funcional.',
-    elemento: 'Agua',
-    palabrasClaveDerechas: ['Transformación', 'Cambio', 'Final', 'Renacimiento', 'Liberación'],
-    palabrasClaveInvertidas: ['Resistencia al cambio', 'Estancamiento', 'Miedo a lo desconocido', 'Bloqueo', 'Final prolongado']
-  },
-  {
-    id: 'LA_TEMPLANZA',
-    nombre: 'La Templanza',
-    significadoDerecho: 'Equilibrio, moderación, armonía, paciencia, fusión, sanación.',
-    significadoInvertido: 'Desequilibrio, exceso, falta de moderación, impaciencia, desarmonía.',
-    detalleDerecho: 'La Templanza representa el equilibrio, la moderación y la armonía. Simboliza la capacidad de integrar diferentes aspectos y encontrar el punto medio. Invita a la paciencia, la adaptación y la sanación interna.',
-    detalleInvertido: 'Invertida, La Templanza puede señalar desequilibrio, exceso o falta de moderación. También puede indicar impaciencia, desarmonía o la incapacidad para encontrar un punto de acuerdo.',
-    elemento: 'Fuego',
-    palabrasClaveDerechas: ['Equilibrio', 'Moderación', 'Armonía', 'Paciencia', 'Sanación'],
-    palabrasClaveInvertidas: ['Desequilibrio', 'Exceso', 'Immoderación', 'Impaciencia', 'Desarmonía']
-  },
-  {
-    id: 'EL_DIABLO',
-    nombre: 'El Diablo',
-    significadoDerecho: 'Sombra, adicción, materialismo, tentación, esclavitud, obsesión.',
-    significadoInvertido: 'Liberación, desapego, superación de adicciones, despertar, control.',
-    detalleDerecho: 'El Diablo representa las ataduras, las adicciones, el materialismo y las tentaciones. Simboliza la sombra y los aspectos oscuros de la psique. Invita a reconocer las cadenas que uno mismo ha creado y a buscar la liberación.',
-    detalleInvertido: 'Invertido, El Diablo puede indicar liberación de adicciones, desapego material o la superación de obsesiones. Sugiere un despertar a la propia fuerza para romper cadenas y retomar el control.',
-    elemento: 'Tierra',
-    palabrasClaveDerechas: ['Adicción', 'Sombra', 'Materialismo', 'Tentación', 'Esclavitud'],
-    palabrasClaveInvertidas: ['Liberación', 'Desapego', 'Superación', 'Despertar', 'Control recuperado']
-  },
-  {
-    id: 'LA_TORRE',
-    nombre: 'La Torre',
-    significadoDerecho: 'Destrucción, cambio repentino, revelación, colapso, liberación, despertar.',
-    significadoInvertido: 'Desastre evitado, resistencia al cambio, destrucción incompleta, caos continuo.',
-    detalleDerecho: 'La Torre simboliza la destrucción repentina de estructuras falsas o ilusiones. Representa una liberación abrupta que, aunque dolorosa, es necesaria para la verdad. Invita a reconstruir sobre cimientos sólidos.',
-    detalleInvertido: 'Invertida, La Torre puede indicar un desastre evitado o una resistencia persistente al cambio necesario. También puede señalar una destrucción incompleta, dejando un caos continuo, o la necesidad de prepararse para una revelación inevitable.',
-    elemento: 'Fuego',
-    palabrasClaveDerechas: ['Destrucción', 'Cambio repentino', 'Colapso', 'Liberación', 'Revelación'],
-    palabrasClaveInvertidas: ['Desastre evitado', 'Resistencia', 'Caos prolongado', 'Destrucción parcial', 'Alerta']
-  },
-  {
-    id: 'LA_ESTRELLA',
-    nombre: 'La Estrella',
-    significadoDerecho: 'Esperanza, inspiración, serenidad, renovación, guía espiritual, sanación.',
-    significadoInvertido: 'Desesperanza, desilusión, falta de inspiración, pesimismo, desconexión.',
-    detalleDerecho: 'La Estrella representa la esperanza, la inspiración y la serenidad. Simboliza la guía divina y la renovación después de tiempos difíciles. Invita a la fe, a la curación y a la conexión con el universo.',
-    detalleInvertido: 'Invertida, La Estrella puede indicar desesperanza, desilusión o una falta de inspiración. También puede señalar pesimismo, desconexión espiritual o la necesidad de buscar la propia luz interior.',
-    elemento: 'Aire',
-    palabrasClaveDerechas: ['Esperanza', 'Inspiración', 'Serenidad', 'Renovación', 'Guía'],
-    palabrasClaveInvertidas: ['Desesperanza', 'Desilusión', 'Falta de inspiración', 'Pesimismo', 'Desconexión']
-  },
-  {
-    id: 'LA_LUNA',
-    nombre: 'La Luna',
-    significadoDerecho: 'Intuición, ilusión, subconsciente, misterio, sueños, miedo, engaño.',
-    significadoInvertido: 'Confusión, claridad parcial, miedo superado, verdades ocultas, engaño revelado.',
-    detalleDerecho: 'La Luna simboliza el reino del subconsciente, los sueños, las ilusiones y los miedos. Representa la intuición y los misterios. Invita a explorar las profundidades del ser y a discernir entre la realidad y la fantasía.',
-    detalleInvertido: 'Invertida, La Luna puede indicar confusión, claridad parcial o miedos que están siendo superados. También puede señalar verdades ocultas que están por revelarse o engaños que salen a la luz, trayendo alivio o perturbación.',
-    elemento: 'Agua',
-    palabrasClaveDerechas: ['Intuición', 'Ilusión', 'Misterio', 'Miedo', 'Sueños'],
-    palabrasClaveInvertidas: ['Confusión', 'Engaño revelado', 'Miedo superado', 'Claridad incipiente', 'Secretos desvelados']
-  },
-  {
-    id: 'EL_SOL',
-    nombre: 'El Sol',
-    significadoDerecho: 'Alegría, éxito, vitalidad, iluminación, verdad, optimismo, celebración.',
-    significadoInvertido: 'Falta de claridad, pesimismo, infelicidad, éxito pospuesto, ego.',
-    detalleDerecho: 'El Sol representa la alegría, el éxito, la vitalidad y la iluminación. Simboliza la verdad, la claridad y el optimismo. Invita a celebrar la vida, a compartir la felicidad y a brillar con luz propia.',
-    detalleInvertido: 'Invertido, El Sol puede indicar una falta de claridad, pesimismo o infelicidad. También puede señalar un éxito pospuesto, problemas con el ego o la necesidad de encontrar la luz interior.',
-    elemento: 'Fuego',
-    palabrasClaveDerechas: ['Alegría', 'Éxito', 'Vitalidad', 'Iluminación', 'Optimismo'],
-    palabrasClaveInvertidas: ['Falta de claridad', 'Pesimismo', 'Infelicidad', 'Egoísmo', 'Retraso']
-  },
-  {
-    id: 'EL_JUICIO',
-    nombre: 'El Juicio',
-    significadoDerecho: 'Juicio, despertar, renacimiento, absolución, llamado, evaluación.',
-    significadoInvertido: 'Auto-duda, no aceptar el juicio, remordimiento, evadir responsabilidades.',
-    detalleDerecho: 'El Juicio simboliza un despertar, una evaluación o una llamada a la acción. Representa la absolución y el renacimiento espiritual. Invita a reflexionar sobre el pasado y a avanzar con una nueva comprensión.',
-    detalleInvertido: 'Invertido, El Juicio puede indicar auto-duda, la negación a aceptar un juicio o un remordimiento persistente. También puede señalar la evasión de responsabilidades o la dificultad para perdonarse a uno mismo o a otros.',
-    elemento: 'Fuego',
-    palabrasClaveDerechas: ['Despertar', 'Juicio', 'Renacimiento', 'Absolución', 'Llamada'],
-    palabrasClaveInvertidas: ['Auto-duda', 'Remordimiento', 'Evasión', 'Culpabilidad', 'Miedo al juicio']
-  },
-  {
-    id: 'EL_MUNDO',
-    nombre: 'El Mundo',
-    significadoDerecho: 'Culminación, éxito, plenitud, integración, logro, realización, cierre de ciclo.',
-    significadoInvertido: 'Incompletitud, retrasos, falta de cierre, atajos, frustración.',
-    detalleDerecho: 'El Mundo representa la culminación, el éxito y la plenitud. Simboliza la realización de un ciclo y la integración de todas las partes. Invita a celebrar los logros y a reconocer la propia perfección.',
-    detalleInvertido: 'Invertido, El Mundo puede indicar incompletitud, retrasos en los proyectos o una falta de cierre. También puede señalar la toma de atajos o una sensación de frustración por no alcanzar la realización deseada.',
-    elemento: 'Tierra',
-    palabrasClaveDerechas: ['Culminación', 'Éxito', 'Plenitud', 'Logro', 'Integración'],
-    palabrasClaveInvertidas: ['Incompletitud', 'Retrasos', 'Falta de cierre', 'Frustración', 'Obstáculos']
-  },
-  {
-    id: 'EL_MUNDO',
-    nombre: 'El Mundo',
-    significadoDerecho: 'Culminación, éxito, plenitud, integración, logro, realización, cierre de ciclo.',
-    significadoInvertido: 'Incompletitud, retrasos, falta de cierre, atajos, frustración.',
-    detalleDerecho: 'El Mundo representa la culminación, el éxito y la plenitud. Simboliza la realización de un ciclo y la integración de todas las partes. Invita a celebrar los logros y a reconocer la propia perfección.',
-    detalleInvertido: 'Invertido, El Mundo puede indicar incompletitud, retrasos en los proyectos o una falta de cierre. También puede señalar la toma de atajos o una sensación de frustración por no alcanzar la realización deseada.',
-    elemento: 'Tierra', 
-    palabrasClaveDerechas: ['Culminación', 'Éxito', 'Plenitud', 'Logro', 'Integración'],
-    palabrasClaveInvertidas: ['Incompletitud', 'Retrasos', 'Falta de cierre', 'Frustración', 'Obstáculos']
-  },
-
-  // ARCANOS MENORES - BASTOS
-  {
-    id: 'AS_DE_BASTOS',
-    nombre: 'As de Bastos',
-    significadoDerecho: 'Inspiración, nuevos comienzos, creatividad, potencial, entusiasmo, aventura.',
-    significadoInvertido: 'Falta de inspiración, indecisión, oportunidades perdidas, frustración, retrasos.',
-    detalleDerecho: 'Representa una chispa de inspiración, un nuevo comienzo lleno de energía y entusiasmo. Sugiere el inicio de un proyecto creativo o una aventura emocionante.',
-    detalleInvertido: 'Invertido, el As de Bastos puede indicar falta de inspiración, indecisión o la pérdida de oportunidades. Puede señalar frustración por el estancamiento o retrasos en el inicio de nuevos proyectos.',
-    elemento: 'Fuego',
-    palabrasClaveDerechas: ['Inspiración', 'Comienzo', 'Creatividad', 'Potencial', 'Entusiasmo'],
-    palabrasClaveInvertidas: ['Falta de inspiración', 'Indecisión', 'Oportunidades perdidas', 'Frustración', 'Retrasos']
-  },
-  {
-    id: 'DOS_DE_BASTOS',
-    nombre: 'Dos de Bastos',
-    significadoDerecho: 'Planificación, decisiones futuras, progreso, visión, atrevimiento.',
-    significadoInvertido: 'Miedo al cambio, indecisión, falta de planificación, permanecer en la zona de confort.',
-    detalleDerecho: 'Simboliza la fase de planificación antes de dar el siguiente gran paso. Invita a la reflexión estratégica sobre el futuro y a considerar nuevas oportunidades.',
-    detalleInvertido: 'Invertido, el Dos de Bastos puede indicar miedo al cambio, indecisión prolongada o una falta de planificación. Sugiere permanecer en la zona de confort por temor a lo desconocido o una visión limitada del futuro.',
-    elemento: 'Fuego',
-    palabrasClaveDerechas: ['Planificación', 'Visión', 'Decisión', 'Progreso', 'Opciones'],
-    palabrasClaveInvertidas: ['Miedo al cambio', 'Indecisión', 'Falta de planificación', 'Estancamiento', 'Zonificación']
-  },
-  {
-    id: 'TRES_DE_BASTOS',
-    nombre: 'Tres de Bastos',
-    significadoDerecho: 'Expansión, visión a largo plazo, colaboración, esperar resultados, emprendimiento.',
-    significadoInvertido: 'Demoras, frustración, falta de crecimiento, traición, expectativas irrealistas.',
-    detalleDerecho: 'Representa el momento en que se empiezan a ver los frutos de un esfuerzo inicial. Sugiere expansión, colaboración y la visión de un futuro prometedor, a menudo con viajes o comercio.',
-    detalleInvertido: 'Invertido, el Tres de Bastos puede señalar demoras, frustración o una falta de crecimiento. También puede advertir sobre traiciones o expectativas irrealistas que no se cumplirán, impidiendo el progreso.',
-    elemento: 'Fuego',
-    palabrasClaveDerechas: ['Expansión', 'Colaboración', 'Resultados', 'Visión', 'Emprendimiento'],
-    palabrasClaveInvertidas: ['Demoras', 'Frustración', 'Falta de crecimiento', 'Traición', 'Expectativas irrealistas']
-  },
-  {
-    id: 'CUATRO_DE_BASTOS',
-    nombre: 'Cuatro de Bastos',
-    significadoDerecho: 'Celebración, armonía, hogar, comunidad, estabilidad, seguridad, reencuentro.',
-    significadoInvertido: 'Inestabilidad, falta de armonía, transiciones, seguridad cuestionada, conflicto.',
-    detalleDerecho: 'Una carta de alegría, celebración y estabilidad en el hogar o la comunidad. Simboliza la finalización exitosa de un proyecto o el disfrute de la paz y la seguridad.',
-    detalleInvertido: 'Invertido, el Cuatro de Bastos puede indicar inestabilidad, falta de armonía o transiciones difíciles en el hogar. También puede señalar que la seguridad está siendo cuestionada o la presencia de conflictos internos/externos.',
-    elemento: 'Fuego',
-    palabrasClaveDerechas: ['Celebración', 'Hogar', 'Estabilidad', 'Armonía', 'Comunidad'],
-    palabrasClaveInvertidas: ['Inestabilidad', 'Desarmonía', 'Conflicto', 'Transición', 'Inseguridad']
-  },
-  {
-    id: 'CINCO_DE_BASTOS',
-    nombre: 'Cinco de Bastos',
-    significadoDerecho: 'Conflicto, competencia, desacuerdo, rivalidad, desafíos, aprendizaje.',
-    significadoInvertido: 'Evitar el conflicto, resolución, conformidad, lucha interna, tensión disipada.',
-    detalleDerecho: 'Representa un conflicto o competencia. Sugiere desacuerdos, pero también la oportunidad de aprender y crecer a través de la confrontación constructiva. Es una lucha que no necesariamente es negativa.',
-    detalleInvertido: 'Invertido, el Cinco de Bastos puede indicar el deseo de evitar el conflicto, la resolución de tensiones o una conformidad forzada. También puede señalar una lucha interna o la disipación de la tensión después de un período de conflicto.',
-    elemento: 'Fuego',
-    palabrasClaveDerechas: ['Conflicto', 'Competencia', 'Desacuerdo', 'Desafíos', 'Lucha'],
-    palabrasClaveInvertidas: ['Evitar conflicto', 'Resolución', 'Conformidad', 'Lucha interna', 'Tensión disipada']
-  },
-  {
-    id: 'SEIS_DE_BASTOS',
-    nombre: 'Seis de Bastos',
-    significadoDerecho: 'Victoria, reconocimiento, progreso, confianza, éxito público.',
-    significadoInvertido: 'Fracaso, falta de reconocimiento, orgullo, arrogancia, metas inalcanzables.',
-    detalleDerecho: 'Simboliza el triunfo y el reconocimiento público. Es una carta de confianza y autoestima elevada, que indica que se han superado los desafíos y se está disfrutando del éxito.',
-    detalleInvertido: 'Invertido, el Seis de Bastos puede indicar fracaso, falta de reconocimiento o un orgullo excesivo que lleva a la arrogancia. También puede señalar la imposibilidad de alcanzar metas o la necesidad de reevaluar las expectativas.',
-    elemento: 'Fuego',
-    palabrasClaveDerechas: ['Victoria', 'Reconocimiento', 'Progreso', 'Confianza', 'Éxito'],
-    palabrasClaveInvertidas: ['Fracaso', 'Falta de reconocimiento', 'Orgullo', 'Arrogancia', 'Metas inalcanzables']
-  },
-  {
-    id: 'SIETE_DE_BASTOS',
-    nombre: 'Siete de Bastos',
-    significadoDerecho: 'Defensa, valentía, desafío, protección, perseverancia, posición fuerte.',
-    significadoInvertido: 'Ceder, rendirse, miedo, debilidad, indecisión, sentirse abrumado.',
-    detalleDerecho: 'Representa la necesidad de defender una posición o un principio. Sugiere que se está enfrentando un desafío y se necesita valentía y perseverancia para mantener la postura.',
-    detalleInvertido: 'Invertido, el Siete de Bastos puede indicar ceder ante la presión, rendirse ante un desafío o una sensación de miedo y debilidad. También puede señalar indecisión o sentirse abrumado por la situación.',
-    elemento: 'Fuego',
-    palabrasClaveDerechas: ['Defensa', 'Valentía', 'Desafío', 'Perseverancia', 'Protección'],
-    palabrasClaveInvertidas: ['Ceder', 'Rendirse', 'Miedo', 'Debilidad', 'Indecisión']
-  },
-  {
-    id: 'OCHO_DE_BASTOS',
-    nombre: 'Ocho de Bastos',
-    significadoDerecho: 'Rapidez, acción, movimiento, noticias, comunicación, viaje, progreso acelerado.',
-    significadoInvertido: 'Retrasos, estancamiento, lentitud, falta de comunicación, confusión.',
-    detalleDerecho: 'Indica movimiento rápido, noticias y acción. Sugiere que los eventos se están desarrollando a gran velocidad y que las cosas están progresando sin impedimentos.',
-    detalleInvertido: 'Invertido, el Ocho de Bastos puede señalar retrasos, estancamiento o lentitud en los acontecimientos. También puede indicar falta de comunicación, confusión o impedimentos en el progreso.',
-    elemento: 'Fuego',
-    palabrasClaveDerechas: ['Rapidez', 'Movimiento', 'Noticias', 'Acción', 'Progreso acelerado'],
-    palabrasClaveInvertidas: ['Retrasos', 'Estancamiento', 'Lentitud', 'Falta de comunicación', 'Confusión']
-  },
-  {
-    id: 'NUEVE_DE_BASTOS',
-    nombre: 'Nueve de Bastos',
-    significadoDerecho: 'Resistencia, perseverancia, resiliencia, valentía, cautela, agotamiento.',
-    significadoInvertido: 'Paranoia, miedo, agotamiento, terquedad, falta de resistencia, rendición.',
-    detalleDerecho: 'Simboliza la resistencia y la resiliencia después de un largo período de lucha. Sugiere que se está agotado, pero se tiene la fuerza para soportar un último desafío.',
-    detalleInvertido: 'Invertido, el Nueve de Bastos puede indicar paranoia, miedo o un agotamiento extremo que lleva a la rendición. También puede señalar terquedad en una situación insostenible o una falta de resistencia ante las adversidades.',
-    elemento: 'Fuego',
-    palabrasClaveDerechas: ['Resistencia', 'Perseverancia', 'Resiliencia', 'Valentía', 'Cansancio'],
-    palabrasClaveInvertidas: ['Paranoia', 'Miedo', 'Agotamiento', 'Terquedad', 'Rendición']
-  },
-  {
-    id: 'DIEZ_DE_BASTOS',
-    nombre: 'Diez de Bastos',
-    significadoDerecho: 'Carga, responsabilidad, agotamiento, deber, agobio, fin de un ciclo pesado.',
-    significadoInvertido: 'Alivio, delegación, liberación de cargas, sobrecarga continua, agotamiento.',
-    detalleDerecho: 'Representa una carga pesada, responsabilidades abrumadoras o el agotamiento. Sugiere que se está llevando demasiado peso, pero que el final del esfuerzo está cerca.',
-    detalleInvertido: 'Invertido, el Diez de Bastos puede indicar la necesidad de encontrar alivio, delegar responsabilidades o la liberación de cargas. También puede señalar una sobrecarga continua que lleva al agotamiento total, o la dificultad para soltar.',
-    elemento: 'Fuego',
-    palabrasClaveDerechas: ['Carga', 'Responsabilidad', 'Agotamiento', 'Deber', 'Agobio'],
-    palabrasClaveInvertidas: ['Alivio', 'Delegación', 'Liberación', 'Sobrecarga', 'Colapso']
-  },
-  {
-    id: 'SOTA_DE_BASTOS',
-    nombre: 'Sota de Bastos',
-    significadoDerecho: 'Nuevas ideas, inspiración, entusiasmo, mensajes, creatividad, aventura.',
-    significadoInvertido: 'Falta de entusiasmo, indecisión, inmadurez, mala noticia, retraso.',
-    detalleDerecho: 'La Sota de Bastos es un mensajero de nuevas ideas y oportunidades. Representa la energía juvenil, la curiosidad y la chispa para iniciar algo nuevo. Puede ser una persona entusiasta.',
-    detalleInvertido: 'Invertida, la Sota de Bastos puede indicar falta de entusiasmo, indecisión o inmadurez en los nuevos proyectos. También puede señalar una mala noticia o retrasos inesperados que frustran el avance.',
-    elemento: 'Fuego',
-    palabrasClaveDerechas: ['Mensaje', 'Novedad', 'Entusiasmo', 'Creatividad', 'Aventura'],
-    palabrasClaveInvertidas: ['Falta de entusiasmo', 'Indecisión', 'Inmadurez', 'Mala noticia', 'Retraso']
-  },
-  {
-    id: 'CABALLO_DE_BASTOS',
-    nombre: 'Caballo de Bastos',
-    significadoDerecho: 'Acción, aventura, pasión, viaje, impetuosidad, energía, avance rápido.',
-    significadoInvertido: 'Retrasos, impulsividad, frustración, falta de dirección, escapismo.',
-    detalleDerecho: 'El Caballo de Bastos simboliza la acción, la aventura y la pasión. Representa un viaje o un avance rápido, a menudo con una energía impetuosa. Puede ser una persona audaz y aventurera.',
-    detalleInvertido: 'Invertido, el Caballo de Bastos puede indicar retrasos, impulsividad que lleva a errores o frustración por la falta de progreso. También puede señalar una falta de dirección clara o una tendencia al escapismo.',
-    elemento: 'Fuego',
-    palabrasClaveDerechas: ['Acción', 'Aventura', 'Pasión', 'Viaje', 'Impulsividad'],
-    palabrasClaveInvertidas: ['Retrasos', 'Impulsividad', 'Frustración', 'Falta de dirección', 'Escapismo']
-  },
-  {
-    id: 'REINA_DE_BASTOS',
-    nombre: 'Reina de Bastos',
-    significadoDerecho: 'Creatividad, confianza, independencia, carisma, optimismo, vitalidad.',
-    significadoInvertido: 'Egoísmo, celos, arrogancia, dominancia, superficialidad, falta de confianza.',
-    detalleDerecho: 'La Reina de Bastos encarna la creatividad, la confianza y la independencia. Es una persona carismática y optimista que irradia vitalidad y alegría. Invita a tomar las riendas de la propia vida con pasión.',
-    detalleInvertido: 'Invertida, la Reina de Bastos puede indicar egoísmo, celos, arrogancia o una tendencia a ser dominante. También puede señalar superficialidad o una falta de confianza en las propias capacidades.',
-    elemento: 'Fuego',
-    palabrasClaveDerechas: ['Creatividad', 'Confianza', 'Independencia', 'Carisma', 'Optimismo'],
-    palabrasClaveInvertidas: ['Egoísmo', 'Celos', 'Arrogancia', 'Dominancia', 'Superficialidad']
-  },
-  {
-    id: 'REY_DE_BASTOS',
-    nombre: 'Rey de Bastos',
-    significadoDerecho: 'Liderazgo, visión, autoridad, inspiración, carisma, honor, emprendedor.',
-    significadoInvertido: 'Tiranía, impulsividad, autoritarismo, falta de visión, arrogancia, ira.',
-    detalleDerecho: 'El Rey de Bastos representa un líder visionario, carismático y con autoridad. Simboliza la inspiración y la capacidad de guiar a otros con honor y pasión. Invita a tomar un rol de liderazgo.',
-    detalleInvertido: 'Invertido, el Rey de Bastos puede indicar tiranía, impulsividad, autoritarismo o una falta de visión. También puede señalar arrogancia o ira descontrolada, afectando su liderazgo.',
-    elemento: 'Fuego',
-    palabrasClaveDerechas: ['Liderazgo', 'Visión', 'Autoridad', 'Inspiración', 'Emprendedor'],
-    palabrasClaveInvertidas: ['Tiranía', 'Impulsividad', 'Autoritarismo', 'Falta de visión', 'Arrogancia']
-  },
-
-  // ARCANOS MENORES - COPAS
-  {
-    id: 'AS_DE_COPAS',
-    nombre: 'As de Copas',
-    significadoDerecho: 'Nuevas emociones, amor, intuición, compasión, alegría, creatividad emocional.',
-    significadoInvertido: 'Emociones reprimidas, amor no correspondido, infelicidad, creatividad bloqueada.',
-    detalleDerecho: 'Representa el comienzo de una nueva emoción, un nuevo amor o una explosión de alegría y creatividad. Simboliza la apertura del corazón y la abundancia emocional.',
-    detalleInvertido: 'Invertido, el As de Copas puede indicar emociones reprimidas, amor no correspondido o una sensación de infelicidad. También puede señalar una creatividad emocional bloqueada o la dificultad para expresar los sentimientos.',
-    elemento: 'Agua',
-    palabrasClaveDerechas: ['Amor', 'Emoción', 'Alegría', 'Intuición', 'Comienzo'],
-    palabrasClaveInvertidas: ['Emociones reprimidas', 'Amor no correspondido', 'Infelicidad', 'Creatividad bloqueada', 'Bloqueo emocional']
-  },
-  {
-    id: 'DOS_DE_COPAS',
-    nombre: 'Dos de Copas',
-    significadoDerecho: 'Unión, amor, asociación, armonía, conexión, alma gemela, respeto mutuo.',
-    significadoInvertido: 'Desarmonía, ruptura, desequilibrio, desconfianza, separación, conflicto.',
-    detalleDerecho: 'Simboliza una unión armoniosa, ya sea en el amor, la amistad o los negocios. Representa el respeto mutuo, la conexión profunda y la reciprocidad en las relaciones.',
-    detalleInvertido: 'Invertido, el Dos de Copas puede indicar desarmonía, ruptura en las relaciones o un desequilibrio. También puede señalar desconfianza, separación o conflictos que afectan la conexión.',
-    elemento: 'Agua',
-    palabrasClaveDerechas: ['Unión', 'Amor', 'Armonía', 'Conexión', 'Asociación'],
-    palabrasClaveInvertidas: ['Desarmonía', 'Ruptura', 'Desequilibrio', 'Desconfianza', 'Conflicto']
-  },
-  {
-    id: 'TRES_DE_COPAS',
-    nombre: 'Tres de Copas',
-    significadoDerecho: 'Celebración, amistad, comunidad, reunión, alegría, trabajo en equipo.',
-    significadoInvertido: 'Exceso, chismes, aislamiento, fin de la amistad, sobreindulgencia.',
-    detalleDerecho: 'Una carta de celebración, alegría y amistad. Representa reuniones sociales, bodas o cualquier evento donde la comunidad y la felicidad compartida son el centro.',
-    detalleInvertido: 'Invertido, el Tres de Copas puede advertir sobre excesos, chismes o aislamiento social. También puede señalar el fin de una amistad o una tendencia a la sobreindulgencia que afecta las relaciones.',
-    elemento: 'Agua',
-    palabrasClaveDerechas: ['Celebración', 'Amistad', 'Comunidad', 'Alegría', 'Reunión'],
-    palabrasClaveInvertidas: ['Exceso', 'Chismes', 'Aislamiento', 'Fin de amistad', 'Sobreindulgencia']
-  },
-  {
-    id: 'CUATRO_DE_COPAS',
-    nombre: 'Cuatro de Copas',
-    significadoDerecho: 'Apatía, aburrimiento, reevaluación, oportunidades perdidas, introspección.',
-    significadoInvertido: 'Nuevas oportunidades, aburrimiento superado, elección, motivación.',
-    detalleDerecho: 'Simboliza la apatía o el aburrimiento, a menudo por no apreciar lo que se tiene o por estar demasiado absorto en uno mismo. Advierte sobre oportunidades que se están ignorando.',
-    detalleInvertido: 'Invertido, el Cuatro de Copas puede indicar la aparición de nuevas oportunidades, la superación del aburrimiento o la necesidad de tomar una decisión. También puede señalar un resurgimiento de la motivación después de un período de estancamiento.',
-    elemento: 'Agua',
-    palabrasClaveDerechas: ['Apatía', 'Aburrimiento', 'Reevaluación', 'Ignorancia', 'Oportunidades perdidas'],
-    palabrasClaveInvertidas: ['Nuevas oportunidades', 'Motivación', 'Elección', 'Aburrimiento superado', 'Despertar']
-  },
-  {
-    id: 'CINCO_DE_COPAS',
-    nombre: 'Cinco de Copas',
-    significadoDerecho: 'Pérdida, arrepentimiento, dolor, duelo, desilusión, enfoque en lo negativo.',
-    significadoInvertido: 'Aceptación, superación de la pérdida, esperanza, perdón, seguir adelante.',
-    detalleDerecho: 'Representa la tristeza y el dolor por una pérdida, a menudo enfocándose en lo que se ha perdido en lugar de lo que aún queda. Es una carta de duelo y desilusión.',
-    detalleInvertido: 'Invertido, el Cinco de Copas puede indicar aceptación de la pérdida, superación del dolor o el surgimiento de la esperanza. También puede señalar el perdón, la capacidad de seguir adelante o un enfoque renovado en lo positivo.',
-    elemento: 'Agua',
-    palabrasClaveDerechas: ['Pérdida', 'Duelo', 'Arrepentimiento', 'Desilusión', 'Tristeza'],
-    palabrasClaveInvertidas: ['Aceptación', 'Superación', 'Esperanza', 'Perdón', 'Seguir adelante']
-  },
-  {
-    id: 'SEIS_DE_COPAS',
-    nombre: 'Seis de Copas',
-    significadoDerecho: 'Nostalgia, recuerdos, infancia, pasado, inocencia, reencuentros.',
-    significadoInvertido: 'Vivir en el pasado, estancamiento, inmadurez, aferrarse a lo viejo.',
-    detalleDerecho: 'Simboliza la nostalgia, los recuerdos de la infancia y la inocencia. Puede indicar un reencuentro con alguien del pasado o un momento de reflexión sobre las raíces.',
-    detalleInvertido: 'Invertido, el Seis de Copas puede advertir sobre vivir excesivamente en el pasado, estancamiento por no soltar viejas costumbres o inmadurez emocional. También puede señalar la dificultad para liberarse de lo antiguo.',
-    elemento: 'Agua',
-    palabrasClaveDerechas: ['Nostalgia', 'Infancia', 'Recuerdos', 'Reencuentro', 'Inocencia'],
-    palabrasClaveInvertidas: ['Vivir en el pasado', 'Estancamiento', 'Inmadurez', 'Aferrarse a lo viejo', 'Liberación']
-  },
-  {
-    id: 'SIETE_DE_COPAS',
-    nombre: 'Siete de Copas',
-    significadoDerecho: 'Elecciones, ilusiones, fantasía, sueños, indecisión, muchas opciones.',
-    significadoInvertido: 'Claridad, decisión, tentación, exceso de realidad, enfoque.',
-    detalleDerecho: 'Representa la abundancia de opciones, a menudo ilusorias o confusas. Advierte sobre la fantasía y la indecisión. Invita a la claridad y a elegir con sabiduría entre las posibilidades.',
-    detalleInvertido: 'Invertido, el Siete de Copas puede indicar el logro de claridad, la toma de decisiones o la superación de ilusiones. También puede señalar una tentación real, un exceso de enfoque en la realidad o la necesidad de discernir verdaderamente las opciones.',
-    elemento: 'Agua',
-    palabrasClaveDerechas: ['Opciones', 'Ilusión', 'Fantasía', 'Indecisión', 'Sueños'],
-    palabrasClaveInvertidas: ['Claridad', 'Decisión', 'Tentación', 'Enfoque', 'Realismo']
-  },
-  {
-    id: 'OCHO_DE_COPAS',
-    nombre: 'Ocho de Copas',
-    significadoDerecho: 'Abandono, búsqueda, viaje espiritual, dejar atrás, insatisfacción, cambio.',
-    significadoInvertido: 'Miedo al cambio, aferrarse, estancamiento, regreso, seguir adelante.',
-    detalleDerecho: 'Simboliza el acto de dejar atrás una situación que ya no satisface, a menudo por una búsqueda espiritual o emocional más profunda. Es un viaje de desapego y búsqueda de un nuevo propósito.',
-    detalleInvertido: 'Invertido, el Ocho de Copas puede indicar miedo al cambio, aferrarse a lo conocido o estancamiento. También puede señalar el regreso a una situación anterior o la dificultad para dar el siguiente paso y seguir adelante.',
-    elemento: 'Agua',
-    palabrasClaveDerechas: ['Abandono', 'Búsqueda', 'Desapego', 'Viaje', 'Insatisfacción'],
-    palabrasClaveInvertidas: ['Miedo al cambio', 'Aferrarse', 'Estancamiento', 'Regreso', 'Dificultad de avanzar']
-  },
-  {
-    id: 'NUEVE_DE_COPAS',
-    nombre: 'Nueve de Copas',
-    significadoDerecho: 'Satisfacción, deseos cumplidos, bienestar, indulgencia, autocomplacencia.',
-    significadoInvertido: 'Insatisfacción, deseos no cumplidos, materialismo, autocomplacencia excesiva.',
-    detalleDerecho: 'La carta de los deseos cumplidos y la satisfacción personal. Representa la alegría de haber logrado lo que se anhelaba y el disfrute de los placeres de la vida.',
-    detalleInvertido: 'Invertido, el Nueve de Copas puede indicar insatisfacción, deseos no cumplidos o un enfoque excesivo en el materialismo. También puede señalar una autocomplacencia excesiva que impide el crecimiento o la dificultad para encontrar la verdadera alegría.',
-    elemento: 'Agua',
-    palabrasClaveDerechas: ['Satisfacción', 'Deseos cumplidos', 'Bienestar', 'Alegría', 'Indulgencia'],
-    palabrasClaveInvertidas: ['Insatisfacción', 'Deseos no cumplidos', 'Materialismo', 'Autocomplacencia excesiva', 'Infelicidad']
-  },
-  {
-    id: 'DIEZ_DE_COPAS',
-    nombre: 'Diez de Copas',
-    significadoDerecho: 'Felicidad, plenitud, armonía familiar, alegría, hogar, paz emocional.',
-    significadoInvertido: 'Familia disfuncional, falta de armonía, tristeza, ruptura, alienación.',
-    detalleDerecho: 'Simboliza la máxima felicidad y plenitud emocional. Representa la armonía en el hogar, la familia y las relaciones. Es una carta de paz duradera y realización emocional.',
-    detalleInvertido: 'Invertido, el Diez de Copas puede indicar una familia disfuncional, falta de armonía o tristeza profunda. También puede señalar una ruptura en las relaciones o una sensación de alienación.',
-    elemento: 'Agua',
-    palabrasClaveDerechas: ['Felicidad', 'Plenitud', 'Familia', 'Armonía', 'Paz'],
-    palabrasClaveInvertidas: ['Familia disfuncional', 'Desarmonía', 'Tristeza', 'Ruptura', 'Alienación']
-  },
-  {
-    id: 'SOTA_DE_COPAS',
-    nombre: 'Sota de Copas',
-    significadoDerecho: 'Mensajes emocionales, creatividad, intuición, sensibilidad, nuevos sentimientos.',
-    significadoInvertido: 'Inmadurez emocional, fantasía, engaño, sensibilidad excesiva, manipulación.',
-    detalleDerecho: 'La Sota de Copas trae mensajes relacionados con las emociones, el amor o la creatividad. Representa una persona sensible, intuitiva y con nuevas ideas artísticas o emocionales.',
-    detalleInvertido: 'Invertida, la Sota de Copas puede indicar inmadurez emocional, fantasía desmedida o engaño. También puede señalar una sensibilidad excesiva que dificulta el discernimiento o una tendencia a la manipulación emocional.',
-    elemento: 'Agua',
-    palabrasClaveDerechas: ['Mensaje', 'Emoción', 'Creatividad', 'Sensibilidad', 'Intuición'],
-    palabrasClaveInvertidas: ['Inmadurez emocional', 'Fantasía', 'Engaño', 'Sensibilidad excesiva', 'Manipulación']
-  },
-  {
-    id: 'CABALLO_DE_COPAS',
-    nombre: 'Caballo de Copas',
-    significadoDerecho: 'Propuestas, invitaciones, romance, idealismo, encanto, mensajero.',
-    significadoInvertido: 'Propuestas fallidas, desilusión, superficialidad, celos, engaño, inmadurez.',
-    detalleDerecho: 'El Caballo de Copas es un mensajero de propuestas, invitaciones o romance. Representa el idealismo y el encanto, a menudo relacionado con un enfoque emocional o artístico.',
-    detalleInvertido: 'Invertido, el Caballo de Copas puede indicar propuestas fallidas, desilusión o superficialidad en las relaciones. También puede señalar celos, engaño o una inmadurez emocional que afecta las interacciones.',
-    elemento: 'Agua',
-    palabrasClaveDerechas: ['Propuesta', 'Invitación', 'Romance', 'Idealismo', 'Mensajero'],
-    palabrasClaveInvertidas: ['Propuestas fallidas', 'Desilusión', 'Superficialidad', 'Celos', 'Engaño']
-  },
-  {
-    id: 'REINA_DE_COPAS',
-    nombre: 'Reina de Copas',
-    significadoDerecho: 'Intuición, compasión, empatía, amor, sanación, emocionalidad, sensibilidad.',
-    significadoInvertido: 'Inseguridad, co-dependencia, emocionalidad excesiva, manipulación, inestabilidad.',
-    detalleDerecho: 'La Reina de Copas encarna la intuición, la compasión y el amor incondicional. Es una persona empática, sanadora y profundamente conectada con sus emociones y las de los demás. Invita a escuchar el corazón.',
-    detalleInvertido: 'Invertida, la Reina de Copas puede indicar inseguridad, co-dependencia o una emocionalidad excesiva. También puede señalar manipulación o inestabilidad emocional que afecta sus relaciones y bienestar.',
-    elemento: 'Agua',
-    palabrasClaveDerechas: ['Intuición', 'Compasión', 'Empatía', 'Amor', 'Sanación'],
-    palabrasClaveInvertidas: ['Inseguridad', 'Co-dependencia', 'Emocionalidad excesiva', 'Manipulación', 'Inestabilidad']
-  },
-  {
-    id: 'REY_DE_COPAS',
-    nombre: 'Rey de Copas',
-    significadoDerecho: 'Equilibrio emocional, compasión, sabiduría, diplomacia, control de emociones.',
-    significadoInvertido: 'Inestabilidad emocional, manipulación, frialdad, adicción, represión.',
-    detalleDerecho: 'El Rey de Copas representa el equilibrio emocional, la compasión y la sabiduría. Es una persona que domina sus emociones y puede ofrecer apoyo y consejo de forma diplomática y madura. Invita a la calma y la comprensión.',
-    detalleInvertido: 'Invertido, el Rey de Copas puede indicar inestabilidad emocional, manipulación o frialdad. También puede señalar adicciones, represión emocional o la dificultad para manejar sus propios sentimientos de forma saludable.',
-    elemento: 'Agua',
-    palabrasClaveDerechas: ['Equilibrio', 'Compasión', 'Sabiduría', 'Diplomacia', 'Control'],
-    palabrasClaveInvertidas: ['Inestabilidad emocional', 'Manipulación', 'Frialdad', 'Adicción', 'Represión']
-  },
-
-  // ARCANOS MENORES - ESPADAS
-  {
-    id: 'AS_DE_ESPADAS',
-    nombre: 'As de Espadas',
-    significadoDerecho: 'Claridad mental, verdad, nueva idea, avance, victoria, justicia, decisión.',
-    significadoInvertido: 'Confusión, caos, idea destructiva, injusticia, tiranía, malas decisiones.',
-    detalleDerecho: 'Representa una nueva idea brillante, una revelación o un momento de claridad mental. Simboliza el poder del intelecto y la capacidad de cortar la confusión para encontrar la verdad.',
-    detalleInvertido: 'Invertido, el As de Espadas puede indicar confusión, caos mental o una idea destructiva. También puede señalar injusticia, tiranía o malas decisiones que se toman bajo presión.',
-    elemento: 'Aire',
-    palabrasClaveDerechas: ['Claridad', 'Verdad', 'Idea', 'Decisión', 'Victoria'],
-    palabrasClaveInvertidas: ['Confusión', 'Caos', 'Idea destructiva', 'Injusticia', 'Tiranía']
-  },
-  {
-    id: 'DOS_DE_ESPADAS',
-    nombre: 'Dos de Espadas',
-    significadoDerecho: 'Indecisión, punto muerto, equilibrio, evitar la verdad, tregua.',
-    significadoInvertido: 'Engaño, doblez, indecisión superada, liberación de la tensión, verdad.',
-    detalleDerecho: 'Simboliza la indecisión y un punto muerto. Representa la necesidad de tomar una decisión importante, a menudo porque se está evitando una verdad o un conflicto. Invita a la objetividad.',
-    detalleInvertido: 'Invertido, el Dos de Espadas puede revelar engaño, doblez o una indecisión que está siendo superada. También puede señalar la liberación de la tensión al enfrentar la verdad o la necesidad de ser más transparente.',
-    elemento: 'Aire',
-    palabrasClaveDerechas: ['Indecisión', 'Punto muerto', 'Equilibrio', 'Evitación', 'Elección'],
-    palabrasClaveInvertidas: ['Engaño', 'Doble moral', 'Indecisión superada', 'Liberación de tensión', 'Verdad incómoda']
-  },
-  {
-    id: 'TRES_DE_ESPADAS',
-    nombre: 'Tres de Espadas',
-    significadoDerecho: 'Dolor, pena, desamor, separación, traición, duelo, tristeza.',
-    significadoInvertido: 'Superar el dolor, perdón, reconciliación, recuperación, alivio.',
-    detalleDerecho: 'Una carta de dolor, pena y desilusión, a menudo por un desamor o una traición. Representa el impacto emocional de la verdad o una situación difícil, invitando a procesar el duelo.',
-    detalleInvertido: 'Invertido, el Tres de Espadas puede indicar la superación del dolor, el perdón o la posibilidad de reconciliación. También puede señalar una recuperación emocional o un alivio después de un período de sufrimiento intenso.',
-    elemento: 'Aire',
-    palabrasClaveDerechas: ['Dolor', 'Pena', 'Desamor', 'Separación', 'Duelo'],
-    palabrasClaveInvertidas: ['Superar dolor', 'Perdón', 'Reconciliación', 'Recuperación', 'Alivio']
-  },
-  {
-    id: 'CUATRO_DE_ESPADAS',
-    nombre: 'Cuatro de Espadas',
-    significadoDerecho: 'Descanso, recuperación, meditación, retiro, paz, contemplación, sanación.',
-    significadoInvertido: 'Inquietud, agotamiento, estancamiento, reincorporación, falta de descanso.',
-    detalleDerecho: 'Simboliza la necesidad de descanso y recuperación. Representa un retiro temporal para la meditación y la sanación después de un período de estrés. Invita a recargar energías.',
-    detalleInvertido: 'Invertido, el Cuatro de Espadas puede indicar inquietud, agotamiento persistente o estancamiento. También puede señalar la necesidad de reincorporarse a la actividad o la dificultad para encontrar un descanso verdadero.',
-    elemento: 'Aire',
-    palabrasClaveDerechas: ['Descanso', 'Recuperación', 'Meditación', 'Paz', 'Retiro'],
-    palabrasClaveInvertidas: ['Inquietud', 'Agotamiento', 'Estancamiento', 'Reincorporación', 'Falta de descanso']
-  },
-  {
-    id: 'CINCO_DE_ESPADAS',
-    nombre: 'Cinco de Espadas',
-    significadoDerecho: 'Derrota, rendición, conflicto amargo, pérdida, deshonor, victoria pírrica.',
-    significadoInvertido: 'Reconciliación, superación de conflictos, rendición aceptada, victoria moral.',
-    detalleDerecho: 'Representa una situación de conflicto donde hay una clara derrota o victoria amarga. Puede indicar deshonor, pérdida de respeto o una victoria pírrica que deja a todos los involucrados heridos.',
-    detalleInvertido: 'Invertido, el Cinco de Espadas puede indicar la posibilidad de reconciliación, la superación de conflictos o la aceptación de una rendición. También puede señalar una victoria moral, aunque no sea material, o el fin de una lucha destructiva.',
-    elemento: 'Aire',
-    palabrasClaveDerechas: ['Derrota', 'Conflicto', 'Pérdida', 'Deshonor', 'Victoria pírrica'],
-    palabrasClaveInvertidas: ['Reconciliación', 'Superación', 'Aceptación', 'Victoria moral', 'Fin de conflicto']
-  },
-  {
-    id: 'SEIS_DE_ESPADAS',
-    nombre: 'Seis de Espadas',
-    significadoDerecho: 'Transición, cambio, movimiento, viaje, dejar atrás dificultades, esperanza.',
-    significadoInvertido: 'Estancamiento, regreso a problemas, resistencia al cambio, viaje fallido.',
-    detalleDerecho: 'Simboliza una transición necesaria, un viaje para dejar atrás dificultades o una situación problemática. Representa el movimiento hacia aguas más tranquilas y la esperanza de un nuevo comienzo.',
-    detalleInvertido: 'Invertido, el Seis de Espadas puede indicar estancamiento, el regreso a viejos problemas o una resistencia al cambio. También puede señalar un viaje fallido o la dificultad para avanzar y dejar el pasado atrás.',
-    elemento: 'Aire',
-    palabrasClaveDerechas: ['Transición', 'Cambio', 'Movimiento', 'Dejar atrás', 'Esperanza'],
-    palabrasClaveInvertidas: ['Estancamiento', 'Regreso a problemas', 'Resistencia al cambio', 'Viaje fallido', 'Dificultad para avanzar']
-  },
-  {
-    id: 'SIETE_DE_ESPADAS',
-    nombre: 'Siete de Espadas',
-    significadoDerecho: 'Engaño, astucia, evasión, robo, estrategias, deshonestidad, tomar atajos.',
-    significadoInvertido: 'Confesión, remordimiento, ser descubierto, honestidad, enfrentar la verdad.',
-    detalleDerecho: 'Representa la astucia, el engaño o la evasión. Puede indicar que alguien está tomando atajos, actuando deshonestamente o robando algo, ya sea material o inmaterial. Advierte sobre la necesidad de ser vigilante.',
-    detalleInvertido: 'Invertido, el Siete de Espadas puede indicar una confesión, remordimiento o el acto de ser descubierto. También puede señalar un compromiso con la honestidad o la necesidad de enfrentar la verdad de frente.',
-    elemento: 'Aire',
-    palabrasClaveDerechas: ['Engaño', 'Astucia', 'Evasión', 'Deshonestidad', 'Atajo'],
-    palabrasClaveInvertidas: ['Confesión', 'Remordimiento', 'Ser descubierto', 'Honestidad', 'Enfrentar la verdad']
-  },
-  {
-    id: 'OCHO_DE_ESPADAS',
-    nombre: 'Ocho de Espadas',
-    significadoDerecho: 'Restricción, limitación, miedo, auto-imposición, impotencia, victimización.',
-    significadoInvertido: 'Liberación, superación de límites, auto-empoderamiento, visión clara, escape.',
-    detalleDerecho: 'Simboliza la sensación de estar atrapado o limitado, a menudo por miedos autoimpuestos o una perspectiva victimista. Representa la impotencia y la falta de visión clara para encontrar una salida.',
-    detalleInvertido: 'Invertido, el Ocho de Espadas puede indicar liberación de restricciones, superación de límites o un momento de auto-empoderamiento. También puede señalar el logro de una visión clara o un escape de una situación opresiva.',
-    elemento: 'Aire',
-    palabrasClaveDerechas: ['Restricción', 'Limitación', 'Miedo', 'Auto-imposición', 'Impotencia'],
-    palabrasClaveInvertidas: ['Liberación', 'Superación', 'Auto-empoderamiento', 'Claridad', 'Escape']
-  },
-  {
-    id: 'NUEVE_DE_ESPADAS',
-    nombre: 'Nueve de Espadas',
-    significadoDerecho: 'Ansiedad, pesadillas, preocupación, culpa, depresión, desesperación.',
-    significadoInvertido: 'Recuperación, superación de la ansiedad, esperanza, confrontación de miedos.',
-    detalleDerecho: 'Una carta de profunda ansiedad, preocupación y sufrimiento mental. Representa pesadillas, culpa, depresión y una sensación de desesperación que te mantiene despierto por la noche.',
-    detalleInvertido: 'Invertido, el Nueve de Espadas puede indicar recuperación de la ansiedad, superación de miedos o el surgimiento de la esperanza. También puede señalar la confrontación exitosa de los problemas mentales o la búsqueda de ayuda.',
-    elemento: 'Aire',
-    palabrasClaveDerechas: ['Ansiedad', 'Preocupación', 'Pesadillas', 'Culpa', 'Desesperación'],
-    palabrasClaveInvertidas: ['Recuperación', 'Superación de ansiedad', 'Esperanza', 'Confrontación de miedos', 'Alivio']
-  },
-  {
-    id: 'DIEZ_DE_ESPADAS',
-    nombre: 'Diez de Espadas',
-    significadoDerecho: 'Final, ruina, colapso, traición, fin doloroso, punto más bajo, inevitabilidad.',
-    significadoInvertido: 'Recuperación, evadir lo inevitable, renacimiento, fin inminente, nuevos comienzos.',
-    detalleDerecho: 'Representa el final definitivo y doloroso de una situación, a menudo sintiéndose como una traición o una ruina total. Es el punto más bajo, pero también la señal de que no se puede caer más y que un nuevo ciclo es inevitable.',
-    detalleInvertido: 'Invertido, el Diez de Espadas puede indicar la recuperación inminente, el intento de evadir lo inevitable o la conciencia de un final cercano. También puede señalar un renacimiento después de una gran pérdida o la necesidad de aceptar un cierre para avanzar.',
-    elemento: 'Aire',
-    palabrasClaveDerechas: ['Final', 'Ruina', 'Colapso', 'Traición', 'Punto más bajo'],
-    palabrasClaveInvertidas: ['Recuperación', 'Evadir lo inevitable', 'Renacimiento', 'Final inminente', 'Superación de la adversidad']
-  },
-  {
-    id: 'SOTA_DE_ESPADAS',
-    nombre: 'Sota de Espadas',
-    significadoDerecho: 'Curiosidad, verdad, comunicación, vigilancia, nueva perspectiva, honestidad.',
-    significadoInvertido: 'Chismes, espionaje, mentiras, impaciencia, falta de tacto, errores de comunicación.',
-    detalleDerecho: 'La Sota de Espadas es un mensajero de verdad y nuevas perspectivas. Representa la curiosidad intelectual, la vigilancia y la comunicación honesta. Puede ser una persona joven con ideas agudas y una mente inquisitiva.',
-    detalleInvertido: 'Invertida, la Sota de Espadas puede advertir sobre chismes, espionaje o mentiras. También puede señalar impaciencia, falta de tacto en la comunicación o errores que surgen de la precipitación.',
-    elemento: 'Aire',
-    palabrasClaveDerechas: ['Curiosidad', 'Verdad', 'Comunicación', 'Vigilancia', 'Nueva perspectiva'],
-    palabrasClaveInvertidas: ['Chismes', 'Espionaje', 'Mentiras', 'Impaciencia', 'Falta de tacto']
-  },
-  {
-    id: 'CABALLO_DE_ESPADAS',
-    nombre: 'Caballo de Espadas',
-    significadoDerecho: 'Acción rápida, ambición, determinación, confrontación, intelecto agudo, impetuosidad.',
-    significadoInvertido: 'Impulsividad, agresividad, precipitación, arrogancia, caos, derrota.',
-    detalleDerecho: 'El Caballo de Espadas simboliza la acción rápida y la ambición. Representa una persona con intelecto agudo, determinación y dispuesta a la confrontación para alcanzar sus objetivos. Puede ser impetuoso pero efectivo.',
-    detalleInvertido: 'Invertido, el Caballo de Espadas puede indicar impulsividad, agresividad o precipitación que lleva a errores. También puede señalar arrogancia, caos o una derrota debido a la falta de consideración.',
-    elemento: 'Aire',
-    palabrasClaveDerechas: ['Acción rápida', 'Ambición', 'Determinación', 'Confrontación', 'Intelecto'],
-    palabrasClaveInvertidas: ['Impulsividad', 'Agresividad', 'Precipitación', 'Arrogancia', 'Caos']
-  },
-  {
-    id: 'REINA_DE_ESPADAS',
-    nombre: 'Reina de Espadas',
-    significadoDerecho: 'Independencia, intelecto, honestidad, agudeza, juicio claro, viudez, dolor superado.',
-    significadoInvertido: 'Frialdad, amargura, intolerancia, crueldad, crítica, pensamiento confuso.',
-    detalleDerecho: 'La Reina de Espadas encarna la independencia intelectual y la honestidad brutal. Es una persona con agudeza mental y juicio claro, que ha superado el dolor y habla la verdad, a veces con dureza.',
-    detalleInvertido: 'Invertida, la Reina de Espadas puede indicar frialdad, amargura, intolerancia o crueldad. También puede señalar una mente excesivamente crítica o un pensamiento confuso que nubla el juicio.',
-    elemento: 'Aire',
-    palabrasClaveDerechas: ['Intelecto', 'Independencia', 'Honestidad', 'Agudeza', 'Juicio claro'],
-    palabrasClaveInvertidas: ['Frialdad', 'Amargura', 'Intolerancia', 'Crueldad', 'Crítica excesiva']
-  },
-  {
-    id: 'REY_DE_ESPADAS',
-    nombre: 'Rey de Espadas',
-    significadoDerecho: 'Autoridad intelectual, verdad, objetividad, disciplina, lógica, liderazgo justo.',
-    significadoInvertido: 'Tiranía, abuso de poder, intelectualismo frío, dogmatismo, injusticia.',
-    detalleDerecho: 'El Rey de Espadas representa la autoridad intelectual, la verdad y la objetividad. Es una persona lógica, disciplinada y un líder justo que toma decisiones basadas en hechos y razón. Invita a la claridad mental.',
-    detalleInvertido: 'Invertido, el Rey de Espadas puede indicar tiranía, abuso de poder o un intelectualismo frío y sin empatía. También puede señalar dogmatismo, injusticia o la falta de claridad mental que lleva a malas decisiones.',
-    elemento: 'Aire',
-    palabrasClaveDerechas: ['Autoridad', 'Lógica', 'Justicia', 'Objetividad', 'Intelecto'],
-    palabrasClaveInvertidas: ['Tiranía', 'Abuso de poder', 'Frialdad', 'Dogmatismo', 'Injusticia']
-  },
-
-  // ARCANOS MENORES - OROS
-  {
-    id: 'AS_DE_OROS',
-    nombre: 'As de Oros',
-    significadoDerecho: 'Nuevas oportunidades, prosperidad, seguridad, manifestación, nuevos comienzos materiales.',
-    significadoInvertido: 'Oportunidades perdidas, inestabilidad financiera, malas inversiones, materialismo.',
-    detalleDerecho: 'Representa una nueva oportunidad en el ámbito material o financiero, una chispa de prosperidad y seguridad. Simboliza la manifestación de ideas en la realidad y el potencial para el crecimiento económico.',
-    detalleInvertido: 'Invertido, el As de Oros puede indicar oportunidades perdidas, inestabilidad financiera o malas inversiones. También puede señalar un enfoque excesivo en el materialismo o la dificultad para manifestar los deseos en la realidad.',
-    elemento: 'Tierra',
-    palabrasClaveDerechas: ['Oportunidad', 'Prosperidad', 'Seguridad', 'Manifestación', 'Comienzos materiales'],
-    palabrasClaveInvertidas: ['Oportunidades perdidas', 'Inestabilidad', 'Malas inversiones', 'Materialismo', 'Bloqueo']
-  },
-  {
-    id: 'DOS_DE_OROS',
-    nombre: 'Dos de Oros',
-    significadoDerecho: 'Equilibrio, adaptabilidad, malabarismo, prioridades, flexibilidad, cambios menores.',
-    significadoInvertido: 'Desequilibrio, desorganización, prioridades confusas, sobrecarga, indecisión.',
-    detalleDerecho: 'Simboliza el equilibrio entre diferentes áreas de la vida, la adaptabilidad y la capacidad de malabarear con prioridades. Representa la flexibilidad para manejar los cambios y mantener la estabilidad.',
-    detalleInvertido: 'Invertido, el Dos de Oros puede indicar desequilibrio, desorganización o prioridades confusas. También puede señalar una sobrecarga, indecisión o la dificultad para adaptarse a los cambios, llevando al caos.',
-    elemento: 'Tierra',
-    palabrasClaveDerechas: ['Equilibrio', 'Adaptabilidad', 'Malabarismo', 'Prioridades', 'Flexibilidad'],
-    palabrasClaveInvertidas: ['Desequilibrio', 'Desorganización', 'Sobrecarga', 'Indecisión', 'Rigidez']
-  },
-  {
-    id: 'TRES_DE_OROS',
-    nombre: 'Tres de Oros',
-    significadoDerecho: 'Colaboración, trabajo en equipo, aprendizaje, maestría, reconocimiento, habilidad.',
-    significadoInvertido: 'Falta de trabajo en equipo, desorganización, mediocridad, falta de habilidad, competencia.',
-    detalleDerecho: 'Representa la colaboración, el trabajo en equipo y el aprendizaje a través de la práctica. Sugiere que se está desarrollando una habilidad o que se está logrando reconocimiento por la maestría en un área. Invita a la cooperación.',
-    detalleInvertido: 'Invertido, el Tres de Oros puede indicar falta de trabajo en equipo, desorganización o mediocridad en el desempeño. También puede señalar una falta de habilidad, la necesidad de más formación o la existencia de competencia desleal.',
-    elemento: 'Tierra',
-    palabrasClaveDerechas: ['Colaboración', 'Trabajo en equipo', 'Aprendizaje', 'Maestría', 'Reconocimiento'],
-    palabrasClaveInvertidas: ['Desorganización', 'Mediocridad', 'Falta de habilidad', 'Incompetencia', 'Conflicto de equipo']
-  },
-  {
-    id: 'CUATRO_DE_OROS',
-    nombre: 'Cuatro de Oros',
-    significadoDerecho: 'Estabilidad, seguridad, control, posesividad, ahorro, protección, límites.',
-    significadoInvertido: 'Inseguridad, rigidez, pérdida de control, avaricia, gastos excesivos, soltar.',
-    detalleDerecho: 'Simboliza la estabilidad, la seguridad y el control sobre los recursos materiales. Puede indicar posesividad o la necesidad de proteger lo que se tiene. Invita a la prudencia y a establecer límites.',
-    detalleInvertido: 'Invertido, el Cuatro de Oros puede indicar inseguridad, rigidez o una pérdida de control. También puede señalar avaricia, gastos excesivos o la necesidad de soltar las posesiones materiales o el control para avanzar.',
-    elemento: 'Tierra',
-    palabrasClaveDerechas: ['Estabilidad', 'Seguridad', 'Control', 'Posesividad', 'Ahorro'],
-    palabrasClaveInvertidas: ['Inseguridad', 'Avaricia', 'Rigidez', 'Pérdida de control', 'Desapego']
-  },
-  {
-    id: 'CINCO_DE_OROS',
-    nombre: 'Cinco de Oros',
-    significadoDerecho: 'Pobreza, dificultad, marginación, enfermedad, pérdida, necesidad de ayuda.',
-    significadoInvertido: 'Recuperación, superación de la adversidad, encontrar ayuda, esperanza, mejoría.',
-    detalleDerecho: 'Representa la dificultad, la pobreza, la marginación o la enfermedad. Sugiere una sensación de pérdida y la necesidad de ayuda, a menudo cuando se siente excluido o desprotegido.',
-    detalleInvertido: 'Invertido, el Cinco de Oros puede indicar recuperación de la adversidad, superación de dificultades o el acto de encontrar ayuda. También puede señalar el surgimiento de la esperanza o una mejoría en la situación material o de salud.',
-    elemento: 'Tierra',
-    palabrasClaveDerechas: ['Pobreza', 'Dificultad', 'Marginación', 'Pérdida', 'Enfermedad'],
-    palabrasClaveInvertidas: ['Recuperación', 'Superación', 'Ayuda encontrada', 'Esperanza', 'Mejoría']
-  },
-  {
-    id: 'SEIS_DE_OROS',
-    nombre: 'Seis de Oros',
-    significadoDerecho: 'Generosidad, caridad, dar y recibir, equilibrio, compartir, apoyo, justicia.',
-    significadoInvertido: 'Deuda, desigualdad, egoísmo, caridad falsa, dependencia, abuso de poder.',
-    detalleDerecho: 'Simboliza la generosidad, la caridad y el equilibrio entre dar y recibir. Representa el acto de compartir los recursos o de recibir apoyo cuando es necesario. Invita a la justicia en las transacciones.',
-    detalleInvertido: 'Invertido, el Seis de Oros puede indicar deuda, desigualdad, egoísmo o una caridad falsa. También puede señalar dependencia excesiva, abuso de poder o la necesidad de equilibrar las relaciones financieras.',
-    elemento: 'Tierra',
-    palabrasClaveDerechas: ['Generosidad', 'Caridad', 'Dar y recibir', 'Equilibrio', 'Apoyo'],
-    palabrasClaveInvertidas: ['Deuda', 'Desigualdad', 'Egoísmo', 'Falsa caridad', 'Dependencia']
-  },
-  {
-    id: 'SIETE_DE_OROS',
-    nombre: 'Siete de Oros',
-    significadoDerecho: 'Paciencia, inversión, espera, reevaluación, recompensa a largo plazo, cosecha.',
-    significadoInvertido: 'Impaciencia, malas inversiones, frustración, falta de recompensa, cosecha fallida.',
-    detalleDerecho: 'Representa la paciencia y la espera por los frutos de una inversión. Simboliza la necesidad de reevaluar el progreso y comprender que las recompensas a largo plazo requieren tiempo y cuidado.',
-    detalleInvertido: 'Invertido, el Siete de Oros puede indicar impaciencia, malas inversiones o frustración por la falta de recompensa. También puede señalar una cosecha fallida o la necesidad de reevaluar si el esfuerzo vale la pena.',
-    elemento: 'Tierra',
-    palabrasClaveDerechas: ['Paciencia', 'Inversión', 'Espera', 'Reevaluación', 'Cosecha'],
-    palabrasClaveInvertidas: ['Impaciencia', 'Malas inversiones', 'Frustración', 'Falta de recompensa', 'Fallo']
-  },
-  {
-    id: 'OCHO_DE_OROS',
-    nombre: 'Ocho de Oros',
-    significadoDerecho: 'Habilidad, artesanía, dedicación, aprendizaje, perfección, detalle, trabajo duro.',
-    significadoInvertido: 'Perfeccionismo, falta de ambición, estancamiento, chapucería, descuido, falta de detalle.',
-    detalleDerecho: 'Simboliza la habilidad, la artesanía y la dedicación al trabajo. Representa el aprendizaje constante, la perfección en los detalles y el trabajo duro para dominar una disciplina. Invita a la diligencia.',
-    detalleInvertido: 'Invertido, el Ocho de Oros puede indicar perfeccionismo excesivo, falta de ambición o estancamiento en el aprendizaje. También puede señalar chapucería, descuido en los detalles o la falta de dedicación necesaria para la maestría.',
-    elemento: 'Tierra',
-    palabrasClaveDerechas: ['Habilidad', 'Dedicación', 'Aprendizaje', 'Perfección', 'Trabajo duro'],
-    palabrasClaveInvertidas: ['Perfeccionismo', 'Falta de ambición', 'Estancamiento', 'Chapucería', 'Descuido']
-  },
-  {
-    id: 'NUEVE_DE_OROS',
-    nombre: 'Nueve de Oros',
-    significadoDerecho: 'Independencia, autosuficiencia, lujo, éxito material, disfrute, riqueza, gratitud.',
-    significadoInvertido: 'Dependencia, pérdida financiera, exceso de trabajo, soledad, inseguridad.',
-    detalleDerecho: 'La carta de la independencia y la autosuficiencia material. Representa el disfrute de los lujos y el éxito económico ganado con esfuerzo. Invita a la gratitud por las bendiciones materiales y la tranquilidad.',
-    detalleInvertido: 'Invertido, el Nueve de Oros puede indicar dependencia, pérdida financiera o exceso de trabajo sin recompensa. También puede señalar soledad, inseguridad material o la incapacidad para disfrutar de la riqueza.',
-    elemento: 'Tierra',
-    palabrasClaveDerechas: ['Independencia', 'Autosuficiencia', 'Lujo', 'Éxito material', 'Disfrute'],
-    palabrasClaveInvertidas: ['Dependencia', 'Pérdida financiera', 'Exceso de trabajo', 'Soledad', 'Inseguridad']
-  },
-  {
-    id: 'DIEZ_DE_OROS',
-    nombre: 'Diez de Oros',
-    significadoDerecho: 'Riqueza, seguridad, herencia, familia, legado, estabilidad a largo plazo, éxito.',
-    significadoInvertido: 'Inestabilidad, pérdida de patrimonio, conflicto familiar, fracaso, herencia problemática.',
-    detalleDerecho: 'Simboliza la máxima riqueza, seguridad y estabilidad a largo plazo. Representa la herencia, el legado familiar y el éxito generacional. Es una carta de plenitud material y bienestar duradero.',
-    detalleInvertido: 'Invertido, el Diez de Oros puede indicar inestabilidad financiera, pérdida de patrimonio o conflictos familiares relacionados con dinero. También puede señalar fracaso, una herencia problemática o la dificultad para establecer un legado duradero.',
-    elemento: 'Tierra',
-    palabrasClaveDerechas: ['Riqueza', 'Seguridad', 'Herencia', 'Familia', 'Estabilidad a largo plazo'],
-    palabrasClaveInvertidas: ['Inestabilidad', 'Pérdida de patrimonio', 'Conflicto familiar', 'Fracaso', 'Herencia problemática']
-  },
-  {
-    id: 'SOTA_DE_OROS',
-    nombre: 'Sota de Oros',
-    significadoDerecho: 'Nuevas oportunidades materiales, aprendizaje, estudio, disciplina, ambición práctica.',
-    significadoInvertido: 'Inmadurez, falta de ambición, negligencia, noticias financieras malas, oportunidades perdidas.',
-    detalleDerecho: 'La Sota de Oros trae nuevas oportunidades materiales, relacionadas con el estudio, el trabajo o las finanzas. Representa la disciplina, la ambición práctica y la disposición para aprender y crecer en el mundo real.',
-    detalleInvertido: 'Invertida, la Sota de Oros puede indicar inmadurez en asuntos financieros, falta de ambición o negligencia en el trabajo. También puede señalar malas noticias financieras o el desaprovechamiento de oportunidades prácticas.',
-    elemento: 'Tierra',
-    palabrasClaveDerechas: ['Oportunidad material', 'Aprendizaje', 'Disciplina', 'Ambición práctica', 'Estudio'],
-    palabrasClaveInvertidas: ['Inmadurez', 'Falta de ambición', 'Negligencia', 'Malas noticias financieras', 'Oportunidades perdidas']
-  },
-  {
-    id: 'CABALLO_DE_OROS',
-    nombre: 'Caballo de Oros',
-    significadoDerecho: 'Diligencia, trabajo duro, paciencia, responsabilidad, fiabilidad, avance lento y constante.',
-    significadoInvertido: 'Pereza, irresponsabilidad, estancamiento, ineficacia, falta de ambición, lentitud excesiva.',
-    detalleDerecho: 'El Caballo de Oros simboliza la diligencia, el trabajo duro y la paciencia. Representa un avance lento pero constante y una persona fiable y responsable en asuntos materiales. Es la encarnación de la perseverancia y la dedicación a los objetivos prácticos.',
-    detalleInvertido: 'Cuando el Caballo de Oros aparece invertido, advierte sobre pereza, falta de compromiso o estancamiento. Puede indicar irresponsabilidad, ineficacia en el trabajo o una resistencia al avance, mostrando una persona que evita las tareas prácticas o avanza con lentitud excesiva.',
-    elemento: 'Tierra',
-    palabrasClaveDerechas: ['Diligencia', 'Trabajo duro', 'Paciencia', 'Responsabilidad', 'Avance lento'],
-    palabrasClaveInvertidas: ['Pereza', 'Irresponsabilidad', 'Estancamiento', 'Ineficacia', 'Falta de ambición']
-  },
-  {
-    id: 'REINA_DE_OROS',
-    nombre: 'Reina de Oros',
-    significadoDerecho: 'Nutrición, practicidad, seguridad, prosperidad, hogar, generosidad, confianza.',
-    significadoInvertido: 'Materialismo, superficialidad, negligencia, inseguridad, egoísmo, falta de apoyo.',
-    detalleDerecho: 'La Reina de Oros encarna la nutrición, la practicidad y la seguridad. Es una persona próspera, generosa y arraigada que se preocupa por el hogar y el bienestar de los demás. Inspira confianza y estabilidad.',
-    detalleInvertido: 'Invertida, la Reina de Oros puede indicar materialismo excesivo, superficialidad o negligencia en el hogar y las finanzas. También puede señalar inseguridad, egoísmo o una falta de apoyo hacia los demás.',
-    elemento: 'Tierra',
-    palabrasClaveDerechas: ['Nutrición', 'Practicidad', 'Seguridad', 'Prosperidad', 'Generosidad'],
-    palabrasClaveInvertidas: ['Materialismo', 'Superficialidad', 'Negligencia', 'Inseguridad', 'Egoísmo']
-  },
-  {
-    id: 'REY_DE_OROS',
-    nombre: 'Rey de Oros',
-    significadoDerecho: 'Estabilidad, seguridad financiera, éxito, fiabilidad, generosidad, liderazgo empresarial.',
-    significadoInvertido: 'Corrupción, tiranía, avaricia, materialismo, inestabilidad financiera, especulación.',
-    detalleDerecho: 'El Rey de Oros representa la estabilidad, la seguridad financiera y el éxito duradero. Es una persona fiable, generosa y un líder empresarial que sabe cómo construir y mantener la riqueza. Invita a la prosperidad y la prudencia.',
-    detalleInvertido: 'Invertido, el Rey de Oros puede indicar corrupción, tiranía en los negocios o avaricia. También puede señalar un materialismo excesivo, inestabilidad financiera o una tendencia a la especulación arriesgada.',
-    elemento: 'Tierra',
-    palabrasClaveDerechas: ['Estabilidad', 'Seguridad financiera', 'Éxito', 'Fiabilidad', 'Generosidad'],
-    palabrasClaveInvertidas: ['Corrupción', 'Avaricia', 'Materialismo', 'Inestabilidad', 'Especulación']
+    }
+  },
+  {
+    id: "el-mago",
+    nombre: "El Mago",
+    arcano: "Mayor",
+    numero: 1,
+    palo: "N/A",
+    elemento: "Aire",
+    planeta: "Mercurio",
+    signoAstrologico: "Géminis",
+    numerologia: "1 (Comienzo, iniciativa, potencial, manifestación)",
+    simbolismo: `Un hombre de pie con un brazo apuntando al cielo y el otro a la tierra, simbolizando la conexión entre el mundo espiritual y el material ("como es arriba, es abajo"). Sobre su mesa, tiene los cuatro elementos del Tarot (copa, basto, espada, oro), representando las herramientas y el dominio sobre ellos. Un halo de infinito sobre su cabeza y flores a sus pies simbolizan su potencial ilimitado y la fertilidad de sus ideas.`,
+    palabrasClaveDerechas: ["Habilidad", "maestría", "manifestación", "iniciativa", "poder personal", "recursos", "comunicación", "creatividad"],
+    palabrasClaveInvertidas: ["Manipulación", "engaño", "falta de propósito", "poder mal utilizado", "ineficacia", "dispersión de energía"],
+    significadoDerecho: `El Mago representa el poder de manifestación y la capacidad de transformar ideas en realidad. Esta carta indica que tienes todas las herramientas, talentos y recursos necesarios para lograr tus objetivos. Es un momento de gran potencial donde tu voluntad y habilidad creativa están en su punto máximo.
+    
+    Cuando aparece El Mago, te anima a tomar la iniciativa, a confiar en tus capacidades y a usar tu inteligencia y comunicación para construir lo que deseas. Es el momento de poner tus planes en acción y demostrar tu maestría.`,
+    significadoInvertido: `En posición invertida, El Mago advierte sobre la manipulación, el engaño o el uso ineficaz de tus habilidades. Puede indicar una falta de propósito, la dispersión de energía en demasiadas direcciones, o el abuso de poder personal.
+    
+    También puede señalar que estás sintiendo una falta de confianza en tus capacidades o que estás permitiendo que otros te manipulen. Te invita a reevaluar tus intenciones y a usar tu poder de manera ética y constructiva.`,
+    detalleDerecho: `El Mago en posición normal te recuerda que eres el creador de tu realidad. Tienes el poder de dar forma a tu vida con tus pensamientos y acciones. Confía en tus habilidades y da el primer paso audaz.`,
+    detalleInvertido: `Cuando El Mago aparece invertido, te pide que revises cómo estás utilizando tu influencia y tus recursos. Asegúrate de que tus intenciones sean puras y que no estés perdiendo el foco.`,
+    meditacionReflexion: {
+      preguntas: [
+        "¿Qué recursos y habilidades poseo para manifestar mis deseos?",
+        "¿Estoy tomando la iniciativa en mi vida o esperando que las cosas sucedan?",
+        "¿Estoy usando mi poder de manera ética y constructiva?",
+        "¿Qué ideas estoy listo para transformar en realidad?",
+        "¿Cómo puedo mejorar mi comunicación para lograr mis objetivos?"
+      ]
+    }
+  },
+  {
+    id: "la-sacerdotisa",
+    nombre: "La Sacerdotisa",
+    arcano: "Mayor",
+    numero: 2,
+    palo: "N/A",
+    elemento: "Agua",
+    planeta: "Luna",
+    signoAstrologico: "Cáncer",
+    numerologia: "2 (Dualidad, intuición, misterio, equilibrio)",
+    simbolismo: `Una figura femenina sentada entre dos pilares (Boaz y Jakin, que representan la dualidad). Detrás de ella, un velo cubierto de granadas (frutos de la diosa Perséfone, que simbolizan el subconsciente y el misterio) oculta un cuerpo de agua. Sostiene un pergamino con la palabra "TORA" (ley, sabiduría) parcialmente oculto. Una luna creciente a sus pies simboliza el subconsciente y la intuición.`,
+    palabrasClaveDerechas: ["Intuición", "misterio", "conocimiento oculto", "subconsciente", "receptividad", "paciencia", "sabiduría interior", "secretos"],
+    palabrasClaveInvertidas: ["Secretos revelados", "información oculta", "intuición bloqueada", "superficialidad", "juicios equivocados", "falta de fe"],
+    significadoDerecho: `La Sacerdotisa representa el reino de la intuición, el conocimiento oculto y el subconsciente. Esta carta te invita a escuchar tu voz interior, a confiar en tus instintos y a buscar respuestas en la quietud de tu ser. Simboliza la paciencia, la receptividad y la sabiduría que reside más allá de la lógica.
+    
+    Cuando aparece La Sacerdotisa, es un llamado a la introspección, a la meditación y a la exploración de los misterios de la vida. Te anima a prestar atención a tus sueños, a tus sentimientos y a los mensajes sutiles que el universo te envía.`,
+    significadoInvertido: `En posición invertida, La Sacerdotisa puede indicar que estás ignorando tu intuición, o que hay secretos que están siendo revelados o que necesitan ser expuestos. Puede señalar una falta de receptividad, una superficialidad en tu enfoque, o la incapacidad de confiar en tu sabiduría interior.
+    
+    También puede advertir sobre información oculta que te está perjudicando, o la necesidad de ser más discreto con tus propios secretos. Te invita a reconectar con tu mundo interior y a ser más honesto contigo mismo.`,
+    detalleDerecho: `La Sacerdotisa en posición normal te guía hacia tu fuente más profunda de sabiduría. Es un recordatorio de que no todas las respuestas se encuentran en el mundo exterior. Confía en tu intuición y permite que el misterio se despliegue.`,
+    detalleInvertido: `Cuando La Sacerdotisa aparece invertida, te pide que observes dónde estás resistiendo tu verdad interior o dónde la información te está siendo ocultada. Busca la claridad y confía en tu percepción, incluso si es incómoda.`,
+    meditacionReflexion: {
+      preguntas: [
+        "¿Qué mensajes me está enviando mi intuición?",
+        "¿Estoy prestando atención a mi sabiduría interior?",
+        "¿Qué secretos (míos o de otros) están afectando mi vida?",
+        "¿Cómo puedo profundizar mi conexión con mi subconsciente?",
+        "¿Estoy siendo demasiado superficial en mi búsqueda de conocimiento?"
+      ]
+    }
+  },
+  {
+    id: "la-emperatriz",
+    nombre: "La Emperatriz",
+    arcano: "Mayor",
+    numero: 3,
+    palo: "N/A",
+    elemento: "Tierra",
+    planeta: "Venus",
+    signoAstrologico: "Tauro / Libra",
+    numerologia: "3 (Creación, fertilidad, abundancia, expresión)",
+    simbolismo: `Una mujer sentada en un trono en medio de un campo de trigo, rodeada de naturaleza exuberante y un río. Lleva una corona de estrellas y un cetro, símbolo de su conexión con el universo y su autoridad creativa. Un escudo con el símbolo de Venus a sus pies representa el amor y la fertilidad. El trigo simboliza la cosecha y la abundancia, el río el flujo de la vida.`,
+    palabrasClaveDerechas: ["Fertilidad", "abundancia", "creatividad", "naturaleza", "maternidad", "belleza", "sensualidad", "cuidado"],
+    palabrasClaveInvertidas: ["Esterilidad", "bloqueo creativo", "dependencia", "negligencia", "inseguridad", "excesos", "falta de armonía"],
+    significadoDerecho: `La Emperatriz representa la fertilidad, la abundancia y la creatividad en su máxima expresión. Esta carta simboliza la conexión con la naturaleza, la maternidad (en un sentido amplio de nutrir y crear) y la capacidad de manifestar belleza y prosperidad en tu vida.
+    
+    Cuando aparece La Emperatriz, te invita a conectar con tu lado creativo, a disfrutar de los placeres sensoriales y a permitir que la abundancia fluya. Es un momento propicio para el crecimiento, la concepción de nuevas ideas (o de un hijo) y para cuidar de ti mismo y de tu entorno.`,
+    significadoInvertido: `En posición invertida, La Emperatriz puede indicar esterilidad (creativa o física), bloqueo creativo o una falta de conexión con la naturaleza y la abundancia. Puede señalar dependencia excesiva de otros, negligencia en el autocuidado o inseguridad sobre tu valor.
+    
+    También puede advertir sobre excesos, superficialidad o una falta de armonía en tus relaciones o en tu entorno. Te invita a reevaluar tu relación con la creatividad y a cultivar la abundancia desde un lugar más auténtico.`,
+    detalleDerecho: `La Emperatriz en posición normal te llama a abrazar tu poder creativo y a nutrir todo lo que te rodea. Es un recordatorio de que la vida es un proceso de crecimiento y que tú eres parte fundamental de su belleza y abundancia.`,
+    detalleInvertido: `Cuando La Emperatriz aparece invertida, te pide que examines dónde te estás negando la nutrición o dónde tu energía creativa está estancada. Busca la armonía y el equilibrio en tu vida, y reconecta con tu esencia más fértil.`,
+    meditacionReflexion: {
+      preguntas: [
+        "¿Cómo puedo nutrir mi creatividad y permitir que fluya la abundancia?",
+        "¿Estoy cuidando de mí mismo y de mi entorno de manera amorosa?",
+        "¿Qué nuevas ideas o proyectos estoy listo para concebir y nutrir?",
+        "¿Estoy disfrutando de los placeres sensoriales de la vida?",
+        "¿Qué me impide conectar con la fertilidad y la abundancia?"
+      ]
+    }
+  },
+  {
+    id: "el-emperador",
+    nombre: "El Emperador",
+    arcano: "Mayor",
+    numero: 4,
+    palo: "N/A",
+    elemento: "Fuego",
+    planeta: "Marte",
+    signoAstrologico: "Aries",
+    numerologia: "4 (Estabilidad, estructura, autoridad, control)",
+    simbolismo: `Un hombre maduro sentado en un trono de piedra, con una armadura visible bajo su vestimenta. Sostiene un cetro Ankh (símbolo de la vida y la autoridad) en una mano y un orbe en la otra, representando su dominio sobre el mundo. Detrás de él, montañas áridas simbolizan su disciplina y su capacidad para crear orden en un entorno desafiante. Un carnero en su trono representa su conexión con Aries, el liderazgo y la determinación.`,
+    palabrasClaveDerechas: ["Autoridad", "estructura", "control", "liderazgo", "estabilidad", "disciplina", "orden", "paternidad"],
+    palabrasClaveInvertidas: ["Tiranía", "rigidez", "abuso de poder", "autoritarismo", "falta de control", "inmadurez", "estructuras débiles"],
+    significadoDerecho: `El Emperador representa la autoridad, la estructura y el control. Esta carta simboliza el liderazgo fuerte y la capacidad de establecer orden en tu vida o en una situación. Es la energía de la paternidad, de la disciplina y de la construcción de bases sólidas.
+    
+    Cuando aparece El Emperador, te invita a tomar las riendas, a ser responsable y a establecer límites claros. Es un momento para organizar tus asuntos, para aplicar la lógica y la razón, y para ejercer tu poder de manera justa y efectiva.`,
+    significadoInvertido: `En posición invertida, El Emperador advierte sobre la tiranía, la rigidez o el abuso de poder. Puede indicar una falta de control sobre ti mismo o sobre una situación, inmadurez, o estructuras débiles que necesitan ser reforzadas.
+    
+    También puede señalar una figura autoritaria que te está oprimiendo, o la necesidad de liberarte de reglas y normas que te están limitando. Te invita a encontrar un equilibrio entre el control y la flexibilidad, y a ejercer tu autoridad de manera más sabia y compasiva.`,
+    detalleDerecho: `El Emperador en posición normal te impulsa a asumir tu rol de líder y a crear una base sólida para el éxito. Tu disciplina y tu capacidad para tomar decisiones difíciles son tus mayores fortalezas en este momento.`,
+    detalleInvertido: `Cuando El Emperador aparece invertido, te pide que evalúes si estás siendo demasiado controlador o si te sientes abrumado por la falta de estructura. Busca el equilibrio y la flexibilidad en tu liderazgo.`,
+    meditacionReflexion: {
+      preguntas: [
+        "¿Cómo puedo establecer más orden y estructura en mi vida?",
+        "¿Estoy ejerciendo mi autoridad de manera justa y efectiva?",
+        "¿Dónde necesito tomar las riendas y ser más disciplinado?",
+        "¿Qué estructuras necesito construir para mi seguridad y estabilidad?",
+        "¿Estoy siendo demasiado rígido o estoy abusando de mi poder?"
+      ]
+    }
+  },
+  {
+    id: "el-sumo-sacerdote",
+    nombre: "El Sumo Sacerdote",
+    arcano: "Mayor",
+    numero: 5,
+    palo: "N/A",
+    elemento: "Tierra",
+    planeta: "Júpiter",
+    signoAstrologico: "Tauro",
+    numerologia: "5 (Conocimiento, tradición, mentoría, fe, guía)",
+    simbolismo: `Una figura religiosa sentada en un trono, con una mano levantada en bendición y la otra sosteniendo una cruz papal. Dos acólitos arrodillados frente a él buscan su sabiduría. Las llaves cruzadas a sus pies simbolizan las llaves del conocimiento y los misterios revelados. Los pilares de un templo detrás de él representan la ley y la tradición.`,
+    palabrasClaveDerechas: ["Tradición", "sabiduría", "mentoría", "institución", "fe", "espiritualidad", "enseñanza", "conformidad"],
+    palabrasClaveInvertidas: ["Rebelión", "heterodoxia", "creencias limitantes", "dogmatismo", "falsa moral", "desinformación"],
+    significadoDerecho: `El Sumo Sacerdote representa la tradición, la sabiduría y la búsqueda de conocimiento espiritual o institucional. Esta carta simboliza la necesidad de guía, de seguir reglas establecidas o de buscar un mentor que te ayude a encontrar tu camino. Es el maestro, el consejero espiritual o la figura de autoridad que te conecta con un sistema de creencias.
+    
+    Cuando aparece El Sumo Sacerdote, te invita a estudiar, a aprender de la experiencia de otros y a conformarte con las normas o tradiciones que te brindan estructura. Es un momento para buscar respuestas en la fe, en la moralidad y en las instituciones que te ofrecen un marco de referencia.`,
+    significadoInvertido: `En posición invertida, El Sumo Sacerdote advierte sobre la rebelión contra las tradiciones, el dogmatismo o la falsa moral. Puede indicar que te sientes limitado por las reglas, que estás cuestionando tus creencias, o que estás siendo engañado por una figura de autoridad.
+    
+    También puede señalar la necesidad de encontrar tu propio camino espiritual, de liberarte de sistemas de creencias que ya no te sirven, o de desconfiar de consejos que no resuenan contigo. Te invita a buscar tu propia verdad, incluso si eso significa ir contra la corriente.`,
+    detalleDerecho: `El Sumo Sacerdote en posición normal te ofrece un camino de sabiduría y estructura. Hay mucho que aprender de aquellos que han recorrido el camino antes que tú. Permite que la guía llegue a ti.`,
+    detalleInvertido: `Cuando El Sumo Sacerdote aparece invertido, te desafía a cuestionar lo establecido y a forjar tu propio entendimiento. No tengas miedo de buscar tu propia verdad, incluso si contradice la norma.`,
+    meditacionReflexion: {
+      preguntas: [
+        "¿Qué enseñanzas o tradiciones me están guiando en este momento?",
+        "¿Necesito buscar un mentor o una guía espiritual?",
+        "¿Estoy siguiendo las reglas por convicción o por miedo?",
+        "¿Qué creencias limitantes me impiden crecer?",
+        "¿Cómo puedo encontrar mi propia verdad en un mundo de dogmas?"
+      ]
+    }
+  },
+  {
+    id: "los-amantes",
+    nombre: "Los Amantes",
+    arcano: "Mayor",
+    numero: 6,
+    palo: "N/A",
+    elemento: "Aire",
+    planeta: "Mercurio",
+    signoAstrologico: "Géminis",
+    numerologia: "6 (Elección, unión, armonía, relaciones)",
+    simbolismo: `Un hombre y una mujer desnudos están de pie bajo la figura de un ángel o Cupido que los bendice. La mujer mira al ángel, mientras el hombre mira a la mujer. Detrás de la mujer, un árbol con una serpiente (conocimiento o tentación); detrás del hombre, un árbol con doce llamas (pasión). El sol brilla sobre ellos. Representa la elección entre el bien y el mal, la unión de opuestos y el amor consciente.`,
+    palabrasClaveDerechas: ["Elección", "amor", "relaciones", "unión", "armonía", "valores", "conexión", "decisión importante"],
+    palabrasClaveInvertidas: ["Desarmonía", "conflicto", "ruptura", "infidelidad", "malas decisiones", "desequilibrio", "tentación"],
+    significadoDerecho: `Los Amantes representan una elección crucial, a menudo relacionada con el amor, las relaciones o tus valores fundamentales. Esta carta simboliza la unión, la armonía y la necesidad de tomar una decisión consciente que esté alineada con tu verdadero ser.
+    
+    Cuando aparece Los Amantes, te invita a reflexionar sobre tus relaciones más importantes y a evaluar qué es lo que realmente valoras. Puede indicar el inicio de una relación significativa, la consolidación de una existente, o la necesidad de tomar una decisión ética o moral que definirá tu camino.`,
+    significadoInvertido: `En posición invertida, Los Amantes advierte sobre la desarmonía, el conflicto o las malas decisiones en el ámbito de las relaciones. Puede indicar una ruptura, infidelidad, o la incapacidad de elegir entre opciones que te están causando conflicto interno.
+    
+    También puede señalar un desequilibrio en tus valores, la tentación de tomar el camino fácil o la dificultad para comprometerte. Te invita a examinar tus motivaciones y a buscar la verdadera armonía y alineación en tus elecciones.`,
+    detalleDerecho: `Los Amantes en posición normal te confronta con una elección importante que te llevará a una mayor integración personal. Escucha tu corazón y tus valores más profundos para tomar la decisión correcta.`,
+    detalleInvertido: `Cuando Los Amantes aparece invertida, es una señal de que hay desarmonía o conflicto interno en tus relaciones o decisiones. Es el momento de ser honesto contigo mismo sobre lo que realmente deseas y lo que es mejor para tu bienestar.`,
+    meditacionReflexion: {
+      preguntas: [
+        "¿Qué elección importante necesito tomar en mi vida?",
+        "¿Mis decisiones están alineadas con mis valores más profundos?",
+        "¿Cómo puedo fomentar la armonía y la conexión en mis relaciones?",
+        "¿Qué conflicto interno necesito resolver?",
+        "¿Estoy evitando una decisión importante por miedo o indecisión?"
+      ]
+    }
+  },
+  {
+    id: "el-carro",
+    nombre: "El Carro",
+    arcano: "Mayor",
+    numero: 7,
+    palo: "N/A",
+    elemento: "Agua",
+    planeta: "Cáncer (regente del Carro)",
+    signoAstrologico: "Cáncer",
+    numerologia: "7 (Victoria, control, avance, determinación)",
+    simbolismo: `Un guerrero victorioso en un carro tirado por dos esfinges (negra y blanca), que miran en direcciones opuestas. El auriga no tiene riendas, lo que sugiere que controla su destino a través de la fuerza de voluntad. Un dosel estrellado sobre el carro simboliza la conexión celestial. La ciudad amurallada detrás de él representa la victoria lograda y el lugar que deja atrás para nuevas conquistas.`,
+    palabrasClaveDerechas: ["Victoria", "voluntad", "control", "determinación", "avance", "autodisciplina", "confianza", "éxito"],
+    palabrasClaveInvertidas: ["Falta de control", "derrota", "arrogancia", "dispersión", "falta de dirección", "obstáculos internos", "impulsividad"],
+    significadoDerecho: `El Carro representa la victoria, el control y el avance decidido hacia tus metas. Esta carta simboliza la fuerza de voluntad, la autodisciplina y la capacidad de superar obstáculos a través de la determinación. Es el momento de tomar las riendas de tu vida y dirigir tu energía hacia el éxito.
+    
+    Cuando aparece El Carro, te invita a ser audaz, a confiar en tu capacidad para controlar las situaciones y a mantener el enfoque en tus objetivos. Es un período propicio para viajes, nuevas empresas y para demostrar tu liderazgo y confianza en ti mismo.`,
+    significadoInvertido: `En posición invertida, El Carro advierte sobre la falta de control, la dispersión de energía o la derrota. Puede indicar una lucha interna, obstáculos que te impiden avanzar, o la tendencia a ser demasiado arrogante o impulsivo en tus acciones.
+    
+    También puede señalar una falta de dirección, la incapacidad de controlar tus emociones, o la necesidad de reevaluar tus estrategias antes de seguir adelante. Te invita a encontrar el equilibrio y la disciplina necesarios para dirigir tu carro de manera efectiva.`,
+    detalleDerecho: `El Carro en posición normal te impulsa a tomar el control y a avanzar con determinación. Tu fuerza de voluntad es tu mayor activo en este momento. Canaliza tu energía y dirígela hacia la victoria.`,
+    detalleInvertido: `Cuando El Carro aparece invertido, te pide que examines dónde has perdido el control o dónde tu impulsividad te está llevando por mal camino. Revisa tu estrategia y recupera el equilibrio.`,
+    meditacionReflexion: {
+      preguntas: [
+        "¿Qué áreas de mi vida necesito tomar el control y dirigir con determinación?",
+        "¿Estoy canalizando mi energía de manera efectiva hacia mis metas?",
+        "¿Qué obstáculos internos o externos necesito superar?",
+        "¿Estoy confiando en mi capacidad para lograr el éxito?",
+        "¿Dónde necesito aplicar más autodisciplina para avanzar?"
+      ]
+    }
+  },
+  {
+    id: "la-fuerza",
+    nombre: "La Fuerza",
+    arcano: "Mayor",
+    numero: 8,
+    palo: "N/A",
+    elemento: "Fuego",
+    planeta: "Sol",
+    signoAstrologico: "Leo",
+    numerologia: "8 (Poder, dominio, equilibrio, autocontrol)",
+    simbolismo: `Una mujer joven y serena cierra suavemente la boca de un león salvaje, no con fuerza bruta, sino con paciencia y una conexión profunda. Un símbolo de infinito (lemniscata) flota sobre su cabeza, similar al del Mago, representando su dominio sobre las pasiones. Las flores en su cabello y cinto simbolizan la naturaleza. El león, las pasiones animales y la fuerza bruta.`,
+    palabrasClaveDerechas: ["Fuerza interior", "coraje", "paciencia", "autocontrol", "compasión", "determinación", "superación de miedos"],
+    palabrasClaveInvertidas: ["Debilidad", "miedo", "falta de autocontrol", "agresión", "tiranía", "inseguridad", "bestialidad"],
+    significadoDerecho: `La Fuerza representa el coraje, la paciencia y el autocontrol que provienen de la fortaleza interior. Esta carta simboliza la capacidad de dominar tus instintos más primarios, no a través de la represión, sino de la comprensión y la compasión. Es el triunfo del espíritu sobre la materia, de la mente sobre la bestia.
+    
+    Cuando aparece La Fuerza, te invita a enfrentar tus miedos con valentía, a canalizar tus pasiones de manera constructiva y a confiar en tu poder interior. Es un momento para demostrar tu resistencia, tu determinación y tu capacidad de superar cualquier desafío con gracia y serenidad.`,
+    significadoInvertido: `En posición invertida, La Fuerza advierte sobre la debilidad, el miedo, la falta de autocontrol o la agresión desmedida. Puede indicar que estás siendo dominado por tus instintos, que te sientes impotente ante una situación, o que estás reprimiendo tus emociones de manera destructiva.
+    
+    También puede señalar una tendencia a la tiranía, la impaciencia o la inseguridad que te impide usar tu poder de manera efectiva. Te invita a reconectar con tu fuerza interior y a encontrar un equilibrio entre tu lado salvaje y tu lado civilizado.`,
+    detalleDerecho: `La Fuerza en posición normal te anima a conectar con tu poder interior y a confiar en tu capacidad para dominar cualquier situación con calma y determinación. No es la fuerza bruta, sino la fuerza del espíritu.`,
+    detalleInvertido: `Cuando La Fuerza aparece invertida, te pide que examines dónde estás cediendo al miedo o dónde tu energía se está volviendo incontrolable. Busca la raíz de tu inseguridad y trabaja en recuperar tu autocontrol.`,
+    meditacionReflexion: {
+      preguntas: [
+        "¿Cómo puedo canalizar mis pasiones de manera constructiva?",
+        "¿Qué miedos necesito enfrentar con valentía y compasión?",
+        "¿Estoy ejerciendo autocontrol sobre mis impulsos?",
+        "¿Cómo puedo conectar con mi fuerza interior para superar desafíos?",
+        "¿Estoy reprimiendo mis emociones o las estoy integrando?"
+      ]
+    }
+  },
+  {
+    id: "el-ermitano",
+    nombre: "El Ermitaño",
+    arcano: "Mayor",
+    numero: 9,
+    palo: "N/A",
+    elemento: "Tierra",
+    planeta: "Mercurio",
+    signoAstrologico: "Virgo",
+    numerologia: "9 (Sabiduría, introspección, guía interior, finalización)",
+    simbolismo: `Un anciano de pie en la cima de una montaña, sosteniendo una linterna que oculta una estrella de seis puntas (Sello de Salomón, símbolo de la sabiduría divina). Un bastón en su otra mano simboliza el apoyo en su camino. Su túnica gris representa la sabiduría y la sobriedad. La soledad de la montaña es un lugar de retiro y reflexión profunda.`,
+    palabrasClaveDerechas: ["Introspección", "soledad", "sabiduría", "guía interior", "búsqueda espiritual", "reflexión", "discernimiento", "retiro"],
+    palabrasClaveInvertidas: ["Aislamiento", "soledad forzada", "rigidez", "miedo a la soledad", "terquedad", "rechazo a la guía", "desconexión"],
+    significadoDerecho: `El Ermitaño representa la introspección, la soledad y la búsqueda de sabiduría interior. Esta carta te invita a retirarte del bullicio del mundo para reflexionar, meditar y encontrar tus propias respuestas. Simboliza la necesidad de un periodo de auto-descubrimiento y de conexión con tu guía interna.
+    
+    Cuando aparece El Ermitaño, te anima a buscar la verdad dentro de ti mismo, a ser tu propia luz en la oscuridad y a aprender de tus experiencias. Es un momento propicio para el estudio, la meditación y para encontrar claridad sobre tu propósito.`,
+    significadoInvertido: `En posición invertida, El Ermitaño advierte sobre el aislamiento forzado, el miedo a la soledad o la rigidez mental. Puede indicar que te estás cerrando al mundo de manera destructiva, que estás rechazando la guía o los consejos, o que te sientes desconectado de los demás.
+    
+    También puede señalar una tendencia a la terquedad, la incapacidad de ver otras perspectivas o la negación de la ayuda que necesitas. Te invita a encontrar un equilibrio entre la soledad necesaria y la conexión con el mundo exterior.`,
+    detalleDerecho: `El Ermitaño en posición normal te guía hacia la quietud y la reflexión. Las respuestas que buscas no están afuera, sino dentro de ti. Abraza este tiempo de retiro para encontrar tu verdad.`,
+    detalleInvertido: `Cuando El Ermitaño aparece invertido, te pide que examines si tu soledad se ha vuelto un aislamiento dañino. Busca la conexión con otros cuando sea necesario y no temas pedir ayuda.`,
+    meditacionReflexion: {
+      preguntas: [
+        "¿Qué verdades necesito descubrir en la soledad?",
+        "¿Estoy buscando las respuestas dentro de mí o fuera?",
+        "¿Qué me impide conectar con mi guía interior?",
+        "¿Estoy equilibrando la soledad con la conexión social?",
+        "¿Qué sabiduría he ganado a través de la introspección?"
+      ]
+    }
+  },
+  {
+    id: "la-rueda-de-la-fortuna",
+    nombre: "La Rueda de la Fortuna",
+    arcano: "Mayor",
+    numero: 10,
+    palo: "N/A",
+    elemento: "Fuego",
+    planeta: "Júpiter",
+    signoAstrologico: "Sagitario",
+    numerologia: "10 (Ciclos, destino, cambio, oportunidad)",
+    simbolismo: `Una gran rueda con varias figuras alrededor o sobre ella. En la parte superior, una esfinge con una espada (control de las ideas). En los lados, las figuras de Tifón (demonio) y Hermes (dios egipcio), simbolizando la subida y bajada de la fortuna. En las nubes de las esquinas, las cuatro criaturas de Ezequiel (ángel, águila, toro, león), que representan los cuatro evangelistas y los cuatro elementos. La rueda en sí simboliza los ciclos de la vida, el destino y el karma.`,
+    palabrasClaveDerechas: ["Cambio", "oportunidad", "destino", "suerte", "ciclos", "momentum", "nuevas posibilidades", "giro del destino"],
+    palabrasClaveInvertidas: ["Mala suerte", "retrasos", "mala fortuna", "resistencia al cambio", "patrones negativos", "oportunidades perdidas"],
+    significadoDerecho: `La Rueda de la Fortuna representa el cambio, el destino y la llegada de nuevas oportunidades. Esta carta simboliza los ciclos de la vida, la suerte y la idea de que todo está en constante movimiento. Es un recordatorio de que la fortuna puede cambiar en cualquier momento, trayendo consigo nuevas posibilidades y giros inesperados.
+    
+    Cuando aparece La Rueda de la Fortuna, te invita a adaptarte al cambio, a aprovechar las oportunidades que se presentan y a confiar en el flujo de la vida. Es un momento propicio para el crecimiento, la expansión y para reconocer que eres parte de un plan más grande.`,
+    significadoInvertido: `En posición invertida, La Rueda de la Fortuna advierte sobre la mala suerte, los retrasos o la resistencia al cambio. Puede indicar que te sientes atrapado en patrones negativos, que estás perdiendo oportunidades o que estás luchando contra el flujo natural de la vida.
+    
+    También puede señalar una falta de control sobre tu destino, la incapacidad de adaptarte a nuevas circunstancias o la necesidad de examinar tus acciones para cambiar tu fortuna. Te invita a ser más proactivo y a tomar responsabilidad por tu propio camino.`,
+    detalleDerecho: `La Rueda de la Fortuna en posición normal te anima a abrazar el cambio y a confiar en que el universo está alineando las cosas a tu favor. Las oportunidades están a tu alcance; sé flexible y atrévete a girar con la rueda.`,
+    detalleInvertido: `Cuando La Rueda de la Fortuna aparece invertida, te pide que examines dónde te estás resistiendo al cambio o dónde necesitas tomar más las riendas de tu destino. No dejes que la inercia te detenga.`,
+    meditacionReflexion: {
+      preguntas: [
+        "¿Qué cambios están ocurriendo en mi vida y cómo puedo adaptarme a ellos?",
+        "¿Estoy aprovechando las oportunidades que se me presentan?",
+        "¿Cómo puedo influir en mi propio destino de manera positiva?",
+        "¿Qué patrones necesito romper para cambiar mi fortuna?",
+        "¿Confío en el flujo de la vida, incluso cuando es incierto?"
+      ]
+    }
+  },
+  {
+    id: "la-justicia",
+    nombre: "La Justicia",
+    arcano: "Mayor",
+    numero: 11,
+    palo: "N/A",
+    elemento: "Aire",
+    planeta: "Venus",
+    signoAstrologico: "Libra",
+    numerologia: "11 (Equilibrio, karma, verdad, responsabilidad)",
+    simbolismo: `Una mujer sentada en un trono, con una espada apuntando al cielo en una mano (verdad, discernimiento) y una balanza en la otra (equilibrio, equidad). Viste una túnica roja, símbolo de la pasión por la verdad. Detrás de ella, pilares y un velo púrpura sugieren la ley y la espiritualidad. Su expresión es serena pero firme, sin venda en los ojos, lo que simboliza la capacidad de ver la verdad objetivamente.`,
+    palabrasClaveDerechas: ["Justicia", "equilibrio", "verdad", "imparcialidad", "responsabilidad", "causa y efecto", "ley", "honestidad"],
+    palabrasClaveInvertidas: ["Injusticia", "desequilibrio", "prejuicio", "deshonestidad", "irresponsabilidad", "fraude", "culpa"],
+    significadoDerecho: `La Justicia representa la verdad, el equilibrio y la imparcialidad. Esta carta simboliza la necesidad de actuar con integridad y de asumir la responsabilidad por tus acciones. Es un recordatorio de que la ley del karma está en juego y que recibirás lo que has sembrado.
+    
+    Cuando aparece La Justicia, te invita a buscar la verdad en todas las situaciones, a tomar decisiones justas y a mantener el equilibrio en tus relaciones. Es un momento propicio para resolver disputas, para firmar contratos o para enfrentar las consecuencias de tus decisiones con honestidad.`,
+    significadoInvertido: `En posición invertida, La Justicia advierte sobre la injusticia, el desequilibrio o la deshonestidad. Puede indicar que estás evitando la responsabilidad, que hay prejuicios en juego o que te sientes víctima de una situación injusta.
+    
+    También puede señalar un proceso legal injusto, la dificultad para tomar decisiones imparciales o la necesidad de examinar tus propias acciones para encontrar la equidad. Te invita a ser honesto contigo mismo y con los demás, y a buscar la verdadera justicia en todas tus interacciones.`,
+    detalleDerecho: `La Justicia en posición normal te llama a la honestidad y la integridad. El universo te pide que seas justo en tus tratos y que confíes en que el equilibrio será restaurado.`,
+    detalleInvertido: `Cuando La Justicia aparece invertida, te desafía a reconocer dónde hay desequilibrio o injusticia. Es el momento de tomar responsabilidad y buscar la verdad, incluso si es incómoda.`,
+    meditacionReflexion: {
+      preguntas: [
+        "¿Estoy actuando con integridad y responsabilidad?",
+        "¿Qué decisiones justas necesito tomar en este momento?",
+        "¿Estoy asumiendo las consecuencias de mis acciones?",
+        "¿Dónde hay desequilibrio en mi vida que necesita ser corregido?",
+        "¿Cómo puedo buscar la verdad con imparcialidad?"
+      ]
+    }
+  },
+  {
+    id: "el-colgado",
+    nombre: "El Colgado",
+    arcano: "Mayor",
+    numero: 12,
+    palo: "N/A",
+    elemento: "Agua",
+    planeta: "Neptuno",
+    signoAstrologico: "Piscis",
+    numerologia: "12 (Sacrificio, perspectiva, suspensión, iluminación)",
+    simbolismo: `Un hombre cuelga de un pie de una viga de madera, con la otra pierna doblada formando una cruz. Sus manos están entrelazadas detrás de su espalda. Un halo de luz rodea su cabeza, simbolizando la iluminación espiritual. Su expresión es serena, no de sufrimiento. Los botones dorados en su vestimenta sugieren su conexión con lo divino. El árbol del que cuelga representa el Árbol de la Vida, y el acto de colgarse voluntariamente simboliza un sacrificio por una perspectiva superior.`,
+    palabrasClaveDerechas: ["Sacrificio", "perspectiva", "suspensión", "rendición", "iluminación", "pausa", "cambio de visión", "desapego"],
+    palabrasClaveInvertidas: ["Resistencia", "martirio", "estancamiento", "egoísmo", "oportunidades perdidas", "sacrificio inútil", "incapacidad de soltar"],
+    significadoDerecho: `El Colgado representa un periodo de suspensión, sacrificio y cambio de perspectiva. Esta carta te invita a soltar el control, a rendirte a la situación y a ver las cosas desde un punto de vista completamente nuevo. Simboliza la iluminación que viene a través de la paciencia, la espera y la disposición a hacer sacrificios personales por un bien mayor.
+    
+    Cuando aparece El Colgado, te anima a hacer una pausa, a meditar y a liberarte de viejas formas de pensar. Es un momento propicio para el desapego, para ver la vida con otros ojos y para encontrar la paz en la aceptación de lo que es.`,
+    significadoInvertido: `En posición invertida, El Colgado advierte sobre la resistencia al cambio, el martirio o el estancamiento. Puede indicar que te sientes atrapado, que estás sacrificando demasiado sin un propósito claro, o que te niegas a soltar viejos patrones.
+    
+    También puede señalar egoísmo, la incapacidad de ver otras perspectivas o la pérdida de oportunidades por negarte a hacer los sacrificios necesarios. Te invita a examinar tus motivaciones y a liberarte de lo que te está reteniendo.`,
+    detalleDerecho: `El Colgado en posición normal te invita a una profunda introspección y a una transformación de la perspectiva. A veces, soltar el control es la única forma de avanzar. Confía en el proceso.`,
+    detalleInvertido: `Cuando El Colgado aparece invertido, te pide que examines dónde te estás resistiendo a la verdad o dónde te sientes estancado. Libérate de las cadenas autoimpuestas y busca una nueva forma de ver las cosas.`,
+    meditacionReflexion: {
+      preguntas: [
+        "¿Qué necesito soltar o sacrificar para obtener una nueva perspectiva?",
+        "¿Estoy resistiéndome a un cambio necesario en mi vida?",
+        "¿Cómo puedo ver esta situación desde un ángulo diferente?",
+        "¿Estoy usando la paciencia y la espera a mi favor?",
+        "¿Qué me impide rendirme al flujo de la vida?"
+      ]
+    }
+  },
+  {
+    id: "la-muerte",
+    nombre: "La Muerte",
+    arcano: "Mayor",
+    numero: 13,
+    palo: "N/A",
+    elemento: "Agua",
+    planeta: "Plutón",
+    signoAstrologico: "Escorpio",
+    numerologia: "13 (Transformación, fin de ciclo, renovación, cambio radical)",
+    simbolismo: `Un esqueleto a caballo empuñando una bandera negra con una rosa blanca (símbolo de vida después de la muerte). El caballo pisa a un rey, mientras figuras de niños y mujeres ruegan. Un sol sale en el horizonte, simbolizando el nuevo comienzo. El esqueleto representa la finalización y la limpieza, la bandera la esperanza de renacimiento. El río en el fondo simboliza el paso entre la vida y la muerte.`,
+    palabrasClaveDerechas: ["Transformación", "fin de ciclo", "renovación", "cambio radical", "liberación", "aceptación", "desapego", "muerte y renacimiento"],
+    palabrasClaveInvertidas: ["Resistencia al cambio", "estancamiento", "miedo al fin", "negación", "ruptura incompleta", "desesperación", "pérdida"],
+    significadoDerecho: `La Muerte representa la transformación radical, el fin de un ciclo y la necesidad de dejar ir lo viejo para que nazca lo nuevo. Esta carta no simboliza la muerte física (necesariamente), sino un cambio profundo y fundamental que es inevitable. Es un proceso de desapego, de limpieza y de renacimiento.
+    
+    Cuando aparece La Muerte, te invita a aceptar el final de una etapa, a liberarte de lo que ya no te sirve y a prepararte para una profunda transformación. Es un momento propicio para soltar el control, para permitir que las cosas se disuelvan y para abrazar la oportunidad de un nuevo comienzo.`,
+    significadoInvertido: `En posición invertida, La Muerte advierte sobre la resistencia al cambio, el estancamiento o el miedo a la finalización. Puede indicar que te niegas a dejar ir una situación, que estás aferrándote al pasado o que estás sufriendo una ruptura incompleta.
+    
+    También puede señalar desesperación, la incapacidad de ver la oportunidad en el final o la necesidad de acelerar un proceso de transformación. Te invita a enfrentar tus miedos, a soltar el control y a permitir que la vida te guíe hacia tu siguiente etapa.`,
+    detalleDerecho: `La Muerte en posición normal te asegura que, aunque este final sea doloroso, es absolutamente necesario para tu evolución. Permítete el luto, pero luego abraza la promesa de un renacimiento.`,
+    detalleInvertido: `Cuando La Muerte aparece invertida, te advierte sobre la resistencia a un cambio inevitable. Aferrarte al pasado solo prolongará tu sufrimiento. Es momento de soltar y permitir que la vida te transforme.`,
+    meditacionReflexion: {
+      preguntas: [
+        "¿Qué necesito dejar ir en mi vida para permitir un nuevo comienzo?",
+        "¿Estoy resistiéndome a un cambio que es inevitable?",
+        "¿Cómo puedo abrazar la transformación con aceptación y fe?",
+        "¿Qué lecciones he aprendido de los finales en mi vida?",
+        "¿Estoy listo para un renacimiento profundo?"
+      ]
+    }
+  },
+  {
+    id: "la-templanza",
+    nombre: "La Templanza",
+    arcano: "Mayor",
+    numero: 14,
+    palo: "N/A",
+    elemento: "Fuego",
+    planeta: "Sagitario",
+    signoAstrologico: "Sagitario",
+    numerologia: "14 (Equilibrio, armonía, moderación, integración)",
+    simbolismo: `Un ángel con una pierna en el agua y otra en tierra, mezclando dos copas de líquido sin derramar una gota. Un sendero conduce a un sol naciente en el fondo. El iris amarillo en primer plano simboliza la sabiduría y la esperanza. Las alas del ángel y el halo sugieren su naturaleza divina y su conexión con lo espiritual. El acto de mezclar el agua simboliza la integración y la armonía de opuestos.`,
+    palabrasClaveDerechas: ["Equilibrio", "armonía", "moderación", "paciencia", "integración", "propósito", "sanación", "flujo"],
+    palabrasClaveInvertidas: ["Desequilibrio", "desarmonía", "exceso", "impaciencia", "conflicto", "falta de moderación", "dispersión"],
+    significadoDerecho: `La Templanza representa el equilibrio, la armonía y la moderación. Esta carta te invita a encontrar el punto medio, a integrar diferentes aspectos de tu vida y a actuar con paciencia y propósito. Simboliza la sanación, la combinación de elementos opuestos y la búsqueda de la armonía interior.
+    
+    Cuando aparece La Templanza, te anima a ser paciente, a mantener la calma en situaciones difíciles y a encontrar el flujo natural de las cosas. Es un momento propicio para la mediación, la colaboración y para encontrar un sentido de propósito en tu vida.`,
+    significadoInvertido: `En posición invertida, La Templanza advierte sobre el desequilibrio, la desarmonía o los excesos. Puede indicar que te sientes disperso, que estás actuando con impaciencia o que estás luchando por encontrar un propósito claro.
+    
+    También puede señalar un conflicto interno o externo, la falta de moderación en tus hábitos o la necesidad de reevaluar tus prioridades para restaurar el equilibrio. Te invita a buscar la moderación y a integrar las diferentes partes de ti mismo para encontrar la paz.`,
+    detalleDerecho: `La Templanza en posición normal te guía hacia la paz interior a través del equilibrio. Es un recordatorio de que la moderación y la paciencia son claves para la armonía en todos los aspectos de tu vida.`,
+    detalleInvertido: `Cuando La Templanza aparece invertida, te pide que examines dónde te has desequilibrado o dónde tus excesos te están perjudicando. Es el momento de buscar la moderación y de reconectar con tu centro.`,
+    meditacionReflexion: {
+      preguntas: [
+        "¿Cómo puedo encontrar más equilibrio y armonía en mi vida?",
+        "¿Estoy actuando con paciencia y moderación en mis decisiones?",
+        "¿Qué aspectos de mí mismo necesito integrar para sentirme completo?",
+        "¿Estoy dispersando mi energía en demasiadas direcciones?",
+        "¿Qué propósito me guía en este momento de mi vida?"
+      ]
+    }
+  },
+  {
+    id: "el-diablo",
+    nombre: "El Diablo",
+    arcano: "Mayor",
+    numero: 15,
+    palo: "N/A",
+    elemento: "Tierra",
+    planeta: "Saturno",
+    signoAstrologico: "Capricornio",
+    numerologia: "15 (Sombra, adicción, liberación, engaño, tentación)",
+    simbolismo: `Un diablo con alas de murciélago y cuernos, sentado sobre un pedestal. Un hombre y una mujer desnudos están encadenados a su pedestal por el cuello, pero las cadenas son lo suficientemente flojas como para que puedan liberarse si lo desearan. El diablo levanta una antorcha, simbolizando la luz de la ignorancia o la tentación. La cola del hombre termina en uvas, y la de la mujer en fuego, representando los placeres carnales.`,
+    palabrasClaveDerechas: ["Sombra", "adicción", "tentación", "servidumbre", "materialismo", "obsesión", "trampa", "liberación (al reconocer la trampa)"],
+    palabrasClaveInvertidas: ["Liberación", "ruptura de cadenas", "superación de adicciones", "despertar", "independencia", "reconocimiento de la verdad", "recuperación"],
+    significadoDerecho: `El Diablo representa las cadenas autoimpuestas, las adicciones, las tentaciones y la sombra de tu propia psique. Esta carta simboliza la esclavitud a deseos materiales, obsesiones o comportamientos destructivos. Sin embargo, también te muestra que las cadenas son ilusorias y que tienes el poder de liberarte en cualquier momento.
+    
+    Cuando aparece El Diablo, te invita a confrontar tus miedos, tus vicios y aquello que te mantiene atrapado. Es un momento para reconocer tus adicciones (no solo a sustancias, sino a patrones de pensamiento o relaciones), para romper con la servidumbre y para reclamar tu libertad.`,
+    significadoInvertido: `En posición invertida, El Diablo indica la liberación de cadenas, la superación de adicciones y el despertar a la verdad. Representa el momento en que reconoces la trampa y decides romper con lo que te estaba limitando.
+    
+    También puede señalar el inicio de un proceso de recuperación, la búsqueda de independencia o la capacidad de ver a través del engaño y la manipulación. Te invita a celebrar tu fuerza para liberarte y a abrazar tu poder personal.`,
+    detalleDerecho: `El Diablo en posición normal te confronta con tus sombras y tus adicciones. Te recuerda que eres el único que puede romper las cadenas autoimpuestas. El primer paso es reconocerlas.`,
+    detalleInvertido: `Cuando El Diablo aparece invertido, celebra tu valentía para liberarte de lo que te ataba. Has dado un paso crucial hacia tu independencia y crecimiento personal.`,
+    meditacionReflexion: {
+      preguntas: [
+        "¿Qué me está encadenando o limitando en este momento?",
+        "¿Soy consciente de mis adicciones (materiales, emocionales, mentales)?",
+        "¿Cómo puedo liberarme de los patrones destructivos?",
+        "¿Estoy confrontando mis miedos o los estoy reprimiendo?",
+        "¿Qué tentaciones me están desviando de mi camino?"
+      ]
+    }
+  },
+  {
+    id: "la-torre",
+    nombre: "La Torre",
+    arcano: "Mayor",
+    numero: 16,
+    palo: "N/A",
+    elemento: "Fuego",
+    planeta: "Marte",
+    signoAstrologico: "Leo",
+    numerologia: "16 (Destrucción, revelación, cambio repentino, despertar)",
+    simbolismo: `Una torre es golpeada por un rayo, haciendo que la corona se caiga y figuras caigan al vacío. El rayo representa la intervención divina o un despertar repentino. La corona simboliza estructuras rígidas o falsas creencias que se derrumban. El fuego y la destrucción sugieren una purificación necesaria. Las figuras cayendo representan la pérdida de lo familiar y la necesidad de soltar.`,
+    palabrasClaveDerechas: ["Destrucción", "cambio repentino", "revelación", "crisis", "derrumbe", "despertar", "liberación", "caos"],
+    palabrasClaveInvertidas: ["Resistencia al cambio", "evitar la crisis", "desastre inminente (aún no manifestado)", "miedo al caos", "cambio pospuesto", "turbulencia prolongada"],
+    significadoDerecho: `La Torre representa la destrucción repentina de estructuras, creencias o situaciones que ya no te sirven. Esta carta simboliza una crisis, una revelación abrupta o un despertar que derrumba todo lo que creías sólido. Es un cambio inevitable y a menudo caótico que, aunque doloroso, es necesario para tu crecimiento.
+    
+    Cuando aparece La Torre, te invita a aceptar el colapso, a soltar lo que ya no tiene fundamentos y a liberarte de ilusiones. Es un momento propicio para la purificación, para reconstruir sobre bases más auténticas y para reconocer que esta destrucción abre el camino a algo nuevo.`,
+    significadoInvertido: `En posición invertida, La Torre advierte sobre la resistencia al cambio, el miedo al caos o la evitación de una crisis inevitable. Puede indicar que estás prolongando el sufrimiento al aferrarte a lo que debe caer, o que estás intentando evitar una verdad dolorosa.
+    
+    También puede señalar un desastre inminente que aún no se ha manifestado completamente, o la necesidad de acelerar un proceso de demolición para poder reconstruir. Te invita a ser honesto contigo mismo y a permitir que las estructuras falsas se derrumben para tu bien.`,
+    detalleDerecho: `La Torre en posición normal es una fuerza de purificación. Aunque puede ser dolorosa, esta carta te asegura que lo que se derrumba no era lo suficientemente sólido. Abraza el caos como una oportunidad para reconstruir sobre cimientos más verdaderos.`,
+    detalleInvertido: `Cuando La Torre aparece invertida, te pide que examines si estás evitando lo inevitable. La resistencia solo prolonga el proceso. Permite que el cambio suceda y busca la verdad que se revela en el caos.`,
+    meditacionReflexion: {
+      preguntas: [
+        "¿Qué estructuras o creencias en mi vida necesitan derrumbarse?",
+        "¿Estoy resistiéndome a un cambio necesario?",
+        "¿Cómo puedo encontrar la liberación en medio de la crisis?",
+        "¿Qué verdades se están revelando a través de este caos?",
+        "¿Estoy listo para reconstruir sobre bases más auténticas?"
+      ]
+    }
+  },
+  {
+    id: "la-estrella",
+    nombre: "La Estrella",
+    arcano: "Mayor",
+    numero: 17,
+    palo: "N/A",
+    elemento: "Aire",
+    planeta: "Urano",
+    signoAstrologico: "Acuario",
+    numerologia: "17 (Esperanza, inspiración, curación, renovación)",
+    simbolismo: `Una mujer desnuda (símbolo de vulnerabilidad y autenticidad) vierte agua de dos jarras: una en un cuerpo de agua (subconsciente, intuición) y otra en tierra (mundo material, manifestación). Una gran estrella brillante sobre ella, rodeada de siete estrellas más pequeñas. Un pájaro Ibis se posa en un árbol en el fondo. El desnudo simboliza la pureza del ser, las estrellas la esperanza y la inspiración divina. El acto de verter agua representa la curación y la renovación.`,
+    palabrasClaveDerechas: ["Esperanza", "inspiración", "sanación", "renovación", "guía divina", "calma", "optimismo", "conexión espiritual"],
+    palabrasClaveInvertidas: ["Desesperanza", "desconexión", "falta de fe", "pesimismo", "duda", "bloqueo creativo", "desilusión"],
+    significadoDerecho: `La Estrella representa la esperanza, la inspiración y la sanación después de un período de oscuridad o crisis. Esta carta simboliza la guía divina, la renovación espiritual y la capacidad de ver la luz al final del túnel. Es un momento de optimismo, de fe y de conexión con el universo.
+    
+    Cuando aparece La Estrella, te invita a confiar en el futuro, a seguir tu intuición y a permitir que la inspiración fluya a través de ti. Es un momento propicio para la curación emocional, para la meditación y para encontrar tu propósito en la vida.`,
+    significadoInvertido: `En posición invertida, La Estrella advierte sobre la desesperanza, la desconexión o la falta de fe. Puede indicar que te sientes pesimista, que has perdido la inspiración o que estás dudando de tu camino.
+    
+    También puede señalar un bloqueo creativo, la incapacidad de ver la luz en la oscuridad o la necesidad de reconectar con tu espiritualidad. Te invita a buscar la esperanza dentro de ti, a confiar en el proceso y a permitir que la inspiración regrese a tu vida.`,
+    detalleDerecho: `La Estrella en posición normal es un faro de luz después de la tormenta. Te recuerda que la esperanza nunca se pierde y que la guía divina está siempre contigo. Abre tu corazón a la sanación y la inspiración.`,
+    detalleInvertido: `Cuando La Estrella aparece invertida, te pide que examines dónde has perdido la esperanza o dónde tu fe está siendo probada. Busca la conexión con algo más grande que tú y permite que la luz te guíe.`,
+    meditacionReflexion: {
+      preguntas: [
+        "¿Qué me trae esperanza y optimismo en este momento?",
+        "¿Estoy permitiendo que la inspiración fluya a través de mí?",
+        "¿Cómo puedo conectar con mi guía divina para encontrar mi propósito?",
+        "¿Qué necesito sanar para avanzar con fe?",
+        "¿Estoy dudando de mi camino o de mis capacidades?"
+      ]
+    }
+  },
+  {
+    id: "la-luna",
+    nombre: "La Luna",
+    arcano: "Mayor",
+    numero: 18,
+    palo: "N/A",
+    elemento: "Agua",
+    planeta: "Luna",
+    signoAstrologico: "Piscis",
+    numerologia: "18 (Ilusión, misterio, subconsciente, sueños)",
+    simbolismo: `Una luna llena brilla en el cielo, con un sol oculto dentro de ella. Dos perros o lobos aúllan a la luna, un cangrejo emerge del agua, y un camino se extiende entre dos torres hacia el horizonte. El agua representa el subconsciente y las emociones. Los animales simbolizan los instintos primarios y el lado salvaje de la psique. Las torres son los límites entre la conciencia y el inconsciente.`,
+    palabrasClaveDerechas: ["Ilusión", "misterio", "subconsciente", "sueños", "intuición", "miedos", "engañocimientos", "ciclos emocionales"],
+    palabrasClaveInvertidas: ["Claridad", "revelación", "liberación de miedos", "honestidad", "superación de engaños", "despertar a la verdad"],
+    significadoDerecho: `La Luna representa el reino de las ilusiones, los misterios, el subconsciente y los miedos ocultos. Esta carta simboliza la confusión, la incertidumbre y la necesidad de navegar por las profundidades de tus emociones. Es un momento donde la realidad puede no ser lo que parece y donde tus instintos están a flor de piel.
+    
+    Cuando aparece La Luna, te invita a explorar tus sueños, tus intuiciones y tus miedos más profundos. Es un momento propicio para la introspección, para enfrentar tus sombras y para confiar en tu guía interior, incluso si el camino es oscuro.`,
+    significadoInvertido: `En posición invertida, La Luna indica la llegada de la claridad, la revelación de secretos o la liberación de miedos e ilusiones. Representa el momento en que la verdad sale a la luz y te liberas de la confusión.
+    
+    También puede señalar la superación de engaños, la honestidad contigo mismo o con los demás, o la capacidad de ver a través de las apariencias. Te invita a abrazar la verdad, incluso si es incómoda, y a confiar en tu capacidad para navegar por las aguas turbulentas.`,
+    detalleDerecho: `La Luna en posición normal te sumerge en el reino del subconsciente. Permítete explorar tus sueños y tus miedos, porque la verdad se encuentra en las profundidades. Confía en tu intuición, incluso si la situación es incierta.`,
+    detalleInvertido: `Cuando La Luna aparece invertida, te ofrece una visión de claridad después de la confusión. Las ilusiones se disipan y la verdad se revela. Es el momento de ser honesto contigo mismo y de abrazar la luz.`,
+    meditacionReflexion: {
+      preguntas: [
+        "¿Qué miedos ocultos están afectando mi vida?",
+        "¿Estoy lidiando con ilusiones o engaños?",
+        "¿Cómo puedo conectar con mi intuición y mis sueños para encontrar respuestas?",
+        "¿Estoy listo para enfrentar mis sombras y liberar mis miedos?",
+        "¿Qué verdades se están revelando a través de mis experiencias?"
+      ]
+    }
+  },
+  {
+    id: "el-sol",
+    nombre: "El Sol",
+    arcano: "Mayor",
+    numero: 19,
+    palo: "N/A",
+    elemento: "Fuego",
+    planeta: "Sol",
+    signoAstrologico: "Leo",
+    numerologia: "19 (Claridad, éxito, alegría, vitalidad, iluminación)",
+    simbolismo: `Un gran sol brillante con rostro humano irradia luz y alegría. Debajo, un niño desnudo monta un caballo blanco, sosteniendo una bandera roja. Girasoles crecen detrás de un muro. El sol representa la vitalidad, la claridad y la verdad. El niño simboliza la inocencia, la pureza y la alegría de la vida. El caballo blanco, la pureza de la energía. El muro, los obstáculos superados.`,
+    palabrasClaveDerechas: ["Alegría", "éxito", "vitalidad", "claridad", "iluminación", "felicidad", "optimismo", "verdad", "inocencia"],
+    palabrasClaveInvertidas: ["Pesimismo", "tristeza", "falta de vitalidad", "desilusión", "egoísmo", "bloqueo", "oscuridad", "éxito oculto"],
+    significadoDerecho: `El Sol representa la alegría, el éxito, la vitalidad y la claridad absoluta. Esta carta simboliza la iluminación, la verdad que sale a la luz y la felicidad que viene de vivir en autenticidad. Es un momento de optimismo, de celebración y de manifestación plena.
+    
+    Cuando aparece El Sol, te invita a abrazar la vida con entusiasmo, a compartir tu luz con los demás y a celebrar tus logros. Es un momento propicio para el reconocimiento, para las relaciones felices y para disfrutar de la plenitud de la vida.`,
+    significadoInvertido: `En posición invertida, El Sol advierte sobre el pesimismo, la tristeza o la falta de vitalidad. Puede indicar que te sientes bloqueado, que estás experimentando una desilusión o que estás ocultando tu verdadera luz.
+    
+    También puede señalar egoísmo, la incapacidad de ver la alegría en la vida o la necesidad de reconectar con tu fuente de vitalidad. Te invita a buscar la luz dentro de ti, a liberarte de lo que te está opacando y a permitir que tu verdadero ser brille.`,
+    detalleDerecho: `El Sol en posición normal es un regalo de alegría y claridad. Disfruta de este momento de éxito y reconocimiento, y permite que tu luz interior irradie. Es un recordatorio de que eres un ser de luz y de que mereces toda la felicidad.`,
+    detalleInvertido: `Cuando El Sol aparece invertido, te pide que examines dónde te estás negando la alegría o dónde tu luz se está ocultando. Busca la fuente de tu pesimismo y trabaja en liberar lo que te impide brillar.`,
+    meditacionReflexion: {
+      preguntas: [
+        "¿Qué me trae alegría y vitalidad en este momento?",
+        "¿Estoy compartiendo mi luz con los demás?",
+        "¿Cómo puedo celebrar mis logros y reconocer mi valor?",
+        "¿Qué me impide brillar con todo mi esplendor?",
+        "¿Estoy viviendo en autenticidad y verdad?"
+      ]
+    }
+  },
+  {
+    id: "el-juicio",
+    nombre: "El Juicio",
+    arcano: "Mayor",
+    numero: 20,
+    palo: "N/A",
+    elemento: "Fuego",
+    planeta: "Plutón",
+    signoAstrologico: "Escorpio",
+    numerologia: "20 (Resurrección, juicio final, llamado, liberación)",
+    simbolismo: `Un ángel (Gabriel) toca una trompeta sobre tumbas abiertas, de las cuales emergen figuras de hombres, mujeres y niños. Una gran bandera con una cruz roja flota desde la trompeta. Las montañas al fondo simbolizan los desafíos superados. La escena representa el juicio final, el despertar espiritual y la llamada a una nueva vida.`,
+    palabrasClaveDerechas: ["Juicio", "renacimiento", "evaluación", "llamado", "absolución", "liberación", "perdón", "despertar espiritual"],
+    palabrasClaveInvertidas: ["Autocondena", "culpa", "miedo al juicio", "rechazo", "retrasos", "malentendidos", "incapacidad de perdonar"],
+    significadoDerecho: `El Juicio representa el renacimiento, la evaluación y la absolución. Esta carta simboliza un llamado a despertar, a perdonarte a ti mismo y a otros, y a liberarte del pasado. Es un momento de profunda introspección donde te enfrentas a tus acciones y recibes la oportunidad de un nuevo comienzo.
+    
+    Cuando aparece El Juicio, te invita a reflexionar sobre tu vida hasta ahora, a aprender de tus errores y a aceptar la responsabilidad por tu camino. Es un momento propicio para el perdón, para las revelaciones importantes y para liberarte de la culpa que te ha estado pesando.`,
+    significadoInvertido: `En posición invertida, El Juicio advierte sobre la autocondena, la culpa persistente o el miedo al juicio de otros. Puede indicar que estás evitando enfrentar tus errores, que te niegas a perdonarte a ti mismo o a otros, o que estás siendo demasiado duro contigo mismo.
+    
+    También puede señalar un rechazo, malentendidos o la incapacidad de liberarte del pasado. Te invita a soltar la culpa, a perdonar y a abrazar la oportunidad de un nuevo comienzo sin el peso de juicios pasados.`,
+    detalleDerecho: `El Juicio en posición normal es una invitación a la redención y al renacimiento. Es el momento de hacer las paces con tu pasado y de perdonarte a ti mismo. Un nuevo capítulo te espera, libre de culpas.`,
+    detalleInvertido: `Cuando El Juicio aparece invertido, te pide que examines dónde te estás autocondenando o dónde te niegas a perdonar. La verdadera liberación viene de soltar el peso del pasado.`,
+    meditacionReflexion: {
+      preguntas: [
+        "¿Qué necesito perdonar en mi vida, a mí mismo o a otros?",
+        "¿Estoy asumiendo la responsabilidad por mis acciones y mi camino?",
+        "¿Qué me impide liberarme de la culpa o el remordimiento?",
+        "¿Estoy listo para un nuevo comienzo, libre del peso del pasado?",
+        "¿Cómo puedo escuchar el llamado a despertar en mi vida?"
+      ]
+    }
+  },
+  {
+    id: "el-mundo",
+    nombre: "El Mundo",
+    arcano: "Mayor",
+    numero: 21,
+    palo: "N/A",
+    elemento: "Tierra",
+    planeta: "Saturno",
+    signoAstrologico: "Capricornio",
+    numerologia: "21 (Culminación, realización, totalidad, integración)",
+    simbolismo: `Una figura andrógina desnuda baila dentro de una gran corona de laurel o guirnalda, sosteniendo dos bastones. En las cuatro esquinas, las mismas criaturas de Ezequiel (ángel, águila, toro, león) que aparecen en La Rueda de la Fortuna, simbolizando la integración de los cuatro elementos y los cuatro aspectos de la existencia. La figura baila en un círculo de triunfo.`,
+    palabrasClaveDerechas: ["Culminación", "realización", "totalidad", "éxito", "integración", "logro", "completud", "viaje exitoso"],
+    palabrasClaveInvertidas: ["Incompletitud", "retrasos", "falta de cierre", "estancamiento", "final pospuesto", "viaje sin fin", "insatisfacción"],
+    significadoDerecho: `El Mundo representa la culminación, la realización y la totalidad. Esta carta simboliza el éxito en tus esfuerzos, la integración de todas las partes de ti mismo y la sensación de plenitud y completud. Es el final de un ciclo significativo y el logro de tus objetivos.
+    
+    Cuando aparece El Mundo, te invita a celebrar tus logros, a reconocer tu camino y a disfrutar de la sensación de realización. Es un momento propicio para viajes exitosos, para el reconocimiento y para sentirte conectado con el universo y con tu propósito.`,
+    significadoInvertido: `En posición invertida, El Mundo advierte sobre la incompletitud, los retrasos o la falta de cierre. Puede indicar que te sientes insatisfecho, que no has alcanzado tus objetivos o que estás luchando por encontrar un sentido de totalidad.
+    
+    También puede señalar un final pospuesto, un viaje sin fin o la necesidad de reevaluar tus objetivos para encontrar la verdadera realización. Te invita a buscar el cierre, a celebrar tus pequeños logros y a encontrar la plenitud en el proceso, no solo en el resultado.`,
+    detalleDerecho: `El Mundo en posición normal es la carta de la realización y el éxito total. Has llegado a la culminación de un ciclo y has integrado todas las lecciones. Celebra tu viaje y tu increíble logro.`,
+    detalleInvertido: `Cuando El Mundo aparece invertido, te pide que examines dónde te sientes incompleto o dónde hay un final que se resiste a llegar. Busca el cierre y la integración, y confía en que la plenitud te espera.`,
+    meditacionReflexion: {
+      preguntas: [
+        "¿Qué logros estoy celebrando en este momento?",
+        "¿Estoy experimentando una sensación de totalidad y plenitud?",
+        "¿Qué necesito completar para sentirme realizado?",
+        "¿Estoy integrado con todos los aspectos de mi ser?",
+        "¿Cómo puedo celebrar mi viaje y mis logros hasta ahora?"
+      ]
+    }
+  },
+  // Fin de Arcanos Mayores
+  // Palo de Oros/Pentáculos
+  {
+    id: "as-oros",
+    nombre: "As de Oros",
+    arcano: "Menor",
+    numero: 1,
+    palo: "Oros/Pentáculos",
+    elemento: "Tierra",
+    planeta: "Tierra",
+    signoAstrologico: "Tauro/Virgo/Capricornio",
+    numerologia: "1 (Comienzo, oportunidad, manifestación, potencial)",
+    simbolismo: `Una mano emerge de una nube, sosteniendo un gran oro brillante o pentáculo. Debajo, un jardín exuberante con flores y un camino que conduce a un arco de triunfo y montañas en la distancia. El oro simboliza una nueva oportunidad tangible. El jardín representa la fertilidad y el potencial de crecimiento. El camino sugiere un nuevo viaje material o financiero.`,
+    palabrasClaveDerechas: ["Nueva oportunidad", "prosperidad", "manifestación", "seguridad", "potencial", "estabilidad financiera", "oferta concreta", "crecimiento"],
+    palabrasClaveInvertidas: ["Oportunidad perdida", "mala inversión", "inseguridad financiera", "materialismo excesivo", "falta de ambición", "retrasos"],
+    significadoDerecho: `El As de Oros representa el inicio de una nueva oportunidad tangible, a menudo relacionada con el dinero, la carrera, la propiedad o la seguridad. Esta carta simboliza el potencial para la prosperidad, la manifestación de tus deseos materiales y la base para un crecimiento sólido.
+    
+    Cuando aparece el As de Oros, te invita a aprovechar una oferta concreta, a iniciar un nuevo proyecto que traerá estabilidad o a invertir en algo que te brindará seguridad a largo plazo. Es un momento propicio para el éxito material y para construir cimientos firmes en tu vida.`,
+    significadoInvertido: `En posición invertida, el As de Oros advierte sobre una oportunidad perdida, una mala inversión o la inseguridad financiera. Puede indicar que estás siendo demasiado materialista, que estás perdiendo el foco en lo que realmente importa o que estás experimentando retrasos en tus proyectos.
+    
+    También puede señalar una falta de ambición, la incapacidad de manifestar tus deseos o la necesidad de reevaluar tus prioridades financieras. Te invita a ser más consciente de tus recursos y a buscar un equilibrio entre lo material y lo espiritual.`,
+    detalleDerecho: `El As de Oros en posición normal es un regalo del universo. Una nueva oportunidad tangible, ya sea en el ámbito financiero, laboral o de bienes raíces, está a tu alcance. Es el momento de tomarla y construir sobre ella.`,
+    detalleInvertido: `Cuando el As de Oros aparece invertido, te pide que examines si estás dejando pasar una oportunidad valiosa o si tus inversiones no están rindiendo frutos. Revisa tus prioridades y sé más proactivo.`,
+    meditacionReflexion: {
+      preguntas: [
+        "¿Qué nueva oportunidad material o financiera se presenta en mi vida?",
+        "¿Estoy listo para manifestar mis deseos en el plano físico?",
+        "¿Estoy construyendo bases sólidas para mi futuro?",
+        "¿Qué me impide aprovechar plenamente esta oportunidad?",
+        "¿Estoy equilibrando mis necesidades materiales con mis valores espirituales?"
+      ]
+    }
+  },
+  {
+    id: "dos-oros",
+    nombre: "Dos de Oros",
+    arcano: "Menor",
+    numero: 2,
+    palo: "Oros/Pentáculos",
+    elemento: "Tierra",
+    planeta: "Júpiter",
+    signoAstrologico: "Capricornio",
+    numerologia: "2 (Equilibrio, adaptación, decisiones, gestión)",
+    simbolismo: `Un joven malabarista equilibra dos grandes oros que forman un símbolo de infinito, mientras barcos navegan en aguas turbulentas detrás de él. El malabarista representa la necesidad de balancear diferentes aspectos de la vida o recursos. Los barcos en el mar agitado simbolizan las fluctuaciones de la vida y la capacidad de adaptarse a ellas. El infinito representa la necesidad de un equilibrio continuo.`,
+    palabrasClaveDerechas: ["Equilibrio", "malabarismo", "adaptación", "decisiones", "flexibilidad", "gestión", "prioridades", "cambio y flujo"],
+    palabrasClaveInvertidas: ["Desequilibrio", "estrés", "falta de organización", "indecisión", "abrumación", "pérdida de control", "exceso"],
+    significadoDerecho: `El Dos de Oros representa la necesidad de equilibrio y adaptación ante los cambios y las diferentes demandas de la vida. Esta carta simboliza el malabarismo entre dos o más áreas, la gestión de recursos o la toma de decisiones sobre dónde enfocar tu energía.
+    
+    Cuando aparece el Dos de Oros, te invita a ser flexible, a adaptarte a las circunstancias cambiantes y a encontrar el punto medio entre tus responsabilidades. Es un momento propicio para aprender a priorizar, para manejar tus finanzas con inteligencia o para encontrar la armonía en situaciones dinámicas.`,
+    significadoInvertido: `En posición invertida, el Dos de Oros advierte sobre el desequilibrio, el estrés o la falta de organización. Puede indicar que te sientes abrumado por demasiadas responsabilidades, que estás indeciso o que has perdido el control de tus prioridades.
+    
+    También puede señalar excesos, la incapacidad de adaptarte a los cambios o la necesidad de simplificar tu vida para recuperar el equilibrio. Te invita a delegar, a establecer límites y a encontrar una forma más sostenible de manejar tus múltiples demandas.`,
+    detalleDerecho: `El Dos de Oros en posición normal te desafía a ser un maestro del equilibrio. La vida te pide que gestiones múltiples tareas y que te adaptes a los cambios con gracia. Confía en tu capacidad para mantener las cosas en movimiento.`,
+    detalleInvertido: `Cuando el Dos de Oros aparece invertido, te advierte que estás perdiendo el equilibrio. Es el momento de simplificar, de delegar y de tomar decisiones claras para reducir el estrés.`,
+    meditacionReflexion: {
+      preguntas: [
+        "¿Qué dos áreas de mi vida necesito equilibrar en este momento?",
+        "¿Estoy siendo flexible y adaptándome a los cambios?",
+        "¿Cómo puedo gestionar mis recursos y responsabilidades de manera más efectiva?",
+        "¿Estoy sintiéndome abrumado o tengo el control de mis prioridades?",
+        "¿Qué decisiones necesito tomar para restaurar el equilibrio?"
+      ]
+    }
+  },
+  {
+    id: "tres-oros",
+    nombre: "Tres de Oros",
+    arcano: "Menor",
+    numero: 3,
+    palo: "Oros/Pentáculos",
+    elemento: "Tierra",
+    planeta: "Marte",
+    signoAstrologico: "Tauro",
+    numerologia: "3 (Colaboración, maestría, reconocimiento, construcción)",
+    simbolismo: `Un aprendiz, un monje y un escultor trabajan juntos en el diseño de una catedral. El escultor está parado sobre un banco, mostrando su obra, mientras el monje lo mira y el aprendiz trabaja con herramientas. Los tres oros están grabados en la pared o en un banco de trabajo. La escena representa la colaboración, la maestría en un oficio y el reconocimiento del talento.`,
+    palabrasClaveDerechas: ["Colaboración", "trabajo en equipo", "aprendizaje", "reconocimiento", "maestría", "construcción", "habilidades", "planificación"],
+    palabrasClaveInvertidas: ["Falta de trabajo en equipo", "mediocridad", "falta de habilidades", "desacuerdo", "crítica", "retrasos", "proyectos sin terminar"],
+    significadoDerecho: `El Tres de Oros representa la colaboración, el trabajo en equipo y el reconocimiento por tus habilidades. Esta carta simboliza la etapa en la que tus talentos son valorados y contribuyes a un proyecto más grande. Es un momento propicio para aprender de otros, para construir sobre tus fortalezas y para ver los resultados de tu esfuerzo.
+    
+    Cuando aparece el Tres de Oros, te invita a trabajar en equipo, a buscar la mejora continua en tu oficio y a celebrar los pequeños éxitos en tu camino. Es un momento para la planificación, la construcción y para recibir el reconocimiento que mereces por tu dedicación.`,
+    significadoInvertido: `En posición invertida, el Tres de Oros advierte sobre la falta de trabajo en equipo, la mediocridad o la falta de habilidades. Puede indicar desacuerdos en un proyecto, críticas constructivas (o no), o retrasos debido a la falta de cooperación.
+    
+    También puede señalar que no estás siendo reconocido por tus esfuerzos, o la necesidad de mejorar tus habilidades para avanzar. Te invita a ser más humilde, a buscar retroalimentación y a mejorar tus relaciones laborales para lograr tus metas.`,
+    detalleDerecho: `El Tres de Oros en posición normal te anima a buscar la colaboración y a poner tus habilidades al servicio de un objetivo común. Serás reconocido por tu contribución y tu trabajo en equipo será la clave del éxito.`,
+    detalleInvertido: `Cuando el Tres de Oros aparece invertido, te pide que examines dónde falta armonía en tus proyectos. Es el momento de mejorar tus habilidades, de comunicarte mejor y de buscar la cooperación para evitar retrasos.`,
+    meditacionReflexion: {
+      preguntas: [
+        "¿Cómo puedo mejorar mi colaboración y trabajo en equipo?",
+        "¿Estoy siendo reconocido por mis habilidades y esfuerzos?",
+        "¿Qué necesito aprender para alcanzar la maestría en mi campo?",
+        "¿Estoy contribuyendo al éxito de un proyecto mayor?",
+        "¿Cómo puedo planificar mis objetivos para lograr un mejor resultado?"
+      ]
+    }
+  },
+  {
+    id: "cuatro-oros",
+    nombre: "Cuatro de Oros",
+    arcano: "Menor",
+    numero: 4,
+    palo: "Oros/Pentáculos",
+    elemento: "Tierra",
+    planeta: "Sol",
+    signoAstrologico: "Tauro",
+    numerologia: "4 (Estabilidad, seguridad, control, posesión)",
+    simbolismo: `Una figura sentada en un trono, aferrándose firmemente a un oro con ambas manos en su regazo. Otro oro está sobre su cabeza (corona) y dos más bajo sus pies. Detrás de él, una ciudad bulliciosa. El oro en su cabeza simboliza la preocupación por el estatus, los de los pies la necesidad de estabilidad. La postura rígida indica control y aferramiento.`,
+    palabrasClaveDerechas: ["Seguridad", "estabilidad", "posesión", "control", "conservación", "ahorro", "límites", "apego"],
+    palabrasClaveInvertidas: ["Desprendimiento", "generosidad", "descontrol", "inseguridad", "codicia", "pérdida", "rigidez", "bloqueo"],
+    significadoDerecho: `El Cuatro de Oros representa la seguridad, la estabilidad y la necesidad de conservar lo que tienes. Esta carta simboliza el deseo de control, la posesión y el establecimiento de límites para proteger tus recursos, ya sean materiales, emocionales o energéticos.
+    
+    Cuando aparece el Cuatro de Oros, te invita a aferrarte a lo que has ganado, a ser prudente con tus finanzas y a establecer fronteras claras en tu vida. Es un momento propicio para el ahorro, para asegurar tu futuro y para sentirte seguro en tus posesiones.`,
+    significadoInvertido: `En posición invertida, el Cuatro de Oros advierte sobre el desprendimiento (voluntario o forzado), la generosidad excesiva o la pérdida de control. Puede indicar que estás siendo demasiado codicioso, que te niegas a compartir tus recursos o que estás experimentando inseguridad a pesar de tenerlo.
+    
+    También puede señalar una rigidez excesiva, la dificultad para soltar viejos patrones o la necesidad de encontrar un equilibrio entre el control y la libertad. Te invita a ser más generoso, a desapegarte de lo material y a confiar en la abundancia del universo.`,
+    detalleDerecho: `El Cuatro de Oros en posición normal te anima a asegurar tu base y a proteger lo que has construido. La estabilidad es importante, pero ten cuidado de no volverte demasiado rígido o apegado.`,
+    detalleInvertido: `Cuando el Cuatro de Oros aparece invertido, te pide que examines dónde te estás aferrando demasiado o dónde tu apego te está impidiendo crecer. Es el momento de soltar y de confiar en la abundancia.`,
+    meditacionReflexion: {
+      preguntas: [
+        "¿Qué necesito proteger y asegurar en mi vida?",
+        "¿Estoy siendo demasiado controlador o apegado a lo material?",
+        "¿Cómo puedo encontrar un equilibrio entre la seguridad y la generosidad?",
+        "¿Estoy estableciendo límites saludables en mis relaciones?",
+        "¿Qué me impide soltar y confiar en el flujo de la vida?"
+      ]
+    }
+  },
+  {
+    id: "cinco-oros",
+    nombre: "Cinco de Oros",
+    arcano: "Menor",
+    numero: 5,
+    palo: "Oros/Pentáculos",
+    elemento: "Tierra",
+    planeta: "Marte",
+    signoAstrologico: "Tauro",
+    numerologia: "5 (Pérdida, dificultad, crisis, desafío)",
+    simbolismo: `Dos figuras empobrecidas, enfermas o heridas, caminan penosamente por la nieve junto a la ventana de una iglesia iluminada. Las cinco monedas (oros) están representadas en la ventana, inalcanzables. La nieve y la oscuridad simbolizan la dificultad y la adversidad. La iglesia representa la ayuda y la esperanza que están disponibles, pero que no ven.`,
+    palabrasClaveDerechas: ["Pérdida", "dificultad", "crisis financiera", "enfermedad", "exclusión", "pobreza", "inseguridad", "desesperación"],
+    palabrasClaveInvertidas: ["Recuperación", "ayuda encontrada", "superación de la adversidad", "esperanza", "apoyo", "mejora de la situación"],
+    significadoDerecho: `El Cinco de Oros representa la pérdida, la dificultad y la sensación de carencia o exclusión. Esta carta simboliza momentos de crisis financiera, enfermedad, desempleo o la sensación de estar solo y abandonado. Es un periodo de adversidad donde puedes sentirte vulnerable y sin apoyo.
+    
+    Cuando aparece el Cinco de Oros, te invita a reconocer tu situación, a pedir ayuda cuando la necesites y a buscar soluciones activamente. Aunque la situación sea difícil, la carta a menudo muestra que la ayuda y las oportunidades están cerca, pero quizás no las estés viendo.`,
+    significadoInvertido: `En posición invertida, el Cinco de Oros indica el inicio de la recuperación, la búsqueda de ayuda o la superación de la adversidad. Representa el momento en que empiezas a ver la luz al final del túnel y encuentras el apoyo que necesitas.
+    
+    También puede señalar una mejora en tu situación financiera o de salud, la reconexión con la esperanza o la capacidad de aprender de tus dificultades para salir fortalecido. Te invita a abrirte a la ayuda y a confiar en tu capacidad para superar este desafío.`,
+    detalleDerecho: `El Cinco de Oros en posición normal es una señal de que estás pasando por un momento difícil y que te sientes carente. Pero la ayuda y la esperanza están más cerca de lo que crees. Abre tus ojos a las oportunidades que te rodean.`,
+    detalleInvertido: `Cuando el Cinco de Oros aparece invertido, es un faro de esperanza. Indica que la situación está mejorando, que estás encontrando el apoyo necesario y que estás saliendo de la oscuridad. Sigue adelante.`,
+    meditacionReflexion: {
+      preguntas: [
+        "¿Qué pérdidas o dificultades estoy experimentando en este momento?",
+        "¿Estoy buscando ayuda o me siento excluido?",
+        "¿Qué oportunidades o recursos no estoy viendo que podrían ayudarme?",
+        "¿Cómo puedo mantener la esperanza en tiempos de adversidad?",
+        "¿Qué lecciones puedo aprender de esta dificultad?"
+      ]
+    }
+  },
+  {
+    id: "seis-oros",
+    nombre: "Seis de Oros",
+    arcano: "Menor",
+    numero: 6,
+    palo: "Oros/Pentáculos",
+    elemento: "Tierra",
+    planeta: "Júpiter",
+    signoAstrologico: "Tauro",
+    numerologia: "6 (Generosidad, dar y recibir, caridad, equilibrio)",
+    simbolismo: `Un comerciante rico pesa oro en una balanza, distribuyendo monedas a dos mendigos que están de rodillas ante él. El acto de dar y recibir es central. La balanza simboliza la equidad y la justicia en la distribución. La prosperidad del comerciante contrasta con la necesidad de los mendigos, representando la desigualdad y la responsabilidad de los que tienen más.`,
+    palabrasClaveDerechas: ["Generosidad", "caridad", "dar y recibir", "equilibrio", "justicia", "apoyo", "intercambio", "prosperidad compartida"],
+    palabrasClaveInvertidas: ["Egoísmo", "codicia", "desequilibrio", "deuda", "caridad forzada", "favoritismo", "explotación"],
+    significadoDerecho: `El Seis de Oros representa la generosidad, el acto de dar y recibir, y el equilibrio en los intercambios. Esta carta simboliza la caridad, el apoyo mutuo y la importancia de la justicia en la distribución de recursos. Es un recordatorio de que la prosperidad se comparte y que hay una circulación de energía.
+    
+    Cuando aparece el Seis de Oros, te invita a ser generoso con lo que tienes, a ofrecer ayuda a quienes lo necesitan y a recibir con gratitud cuando te sea ofrecido. Es un momento propicio para la filantropía, para el equilibrio en tus relaciones financieras o para encontrar una forma de retribuir a la comunidad.`,
+    significadoInvertido: `En posición invertida, el Seis de Oros advierte sobre el egoísmo, la codicia o el desequilibrio en el dar y recibir. Puede indicar que estás siendo explotado, que estás dando demasiado sin recibir nada a cambio, o que te sientes obligado a ser generoso.
+    
+    También puede señalar deuda, favoritismo, o la incapacidad de compartir tus recursos. Te invita a examinar tus motivaciones para dar y recibir, y a buscar una relación más equitativa en tus intercambios.`,
+    detalleDerecho: `El Seis de Oros en posición normal te recuerda la importancia de la generosidad y del flujo de dar y recibir. Tu prosperidad se magnifica cuando la compartes. Mantén el equilibrio en tus intercambios.`,
+    detalleInvertido: `Cuando el Seis de Oros aparece invertido, te pide que examines dónde el equilibrio en el dar y recibir está roto. Asegúrate de que no estás siendo explotado o de que no estás siendo egoísta.`,
+    meditacionReflexion: {
+      preguntas: [
+        "¿Cómo puedo ser más generoso con mis recursos y talentos?",
+        "¿Estoy recibiendo lo que doy en mis relaciones?",
+        "¿Hay un equilibrio justo en mis intercambios?",
+        "¿Cómo puedo apoyar a otros o buscar apoyo cuando lo necesito?",
+        "¿Qué me impide dar o recibir con gratitud?"
+      ]
+    }
+  },
+  {
+    id: "siete-oros",
+    nombre: "Siete de Oros",
+    arcano: "Menor",
+    numero: 7,
+    palo: "Oros/Pentáculos",
+    elemento: "Tierra",
+    planeta: "Saturno",
+    signoAstrologico: "Tauro",
+    numerologia: "7 (Paciencia, evaluación, inversión, recompensa a largo plazo)",
+    simbolismo: `Un granjero observa pensativamente las siete monedas que cuelgan de un arbusto o planta, simbolizando la inversión de tiempo y esfuerzo. Su postura es de espera y evaluación, no de acción. Sus herramientas de trabajo están a sus pies. El paisaje de fondo muestra el fruto de su trabajo, pero también el tiempo necesario para la maduración.`,
+    palabrasClaveDerechas: ["Paciencia", "evaluación", "inversión", "cosecha a largo plazo", "espera", "recompensa", "reflexión", "crecimiento lento"],
+    palabrasClaveInvertidas: ["Impaciencia", "malos resultados", "frustración", "trabajo inútil", "retrasos", "desánimo", "cosecha fallida"],
+    significadoDerecho: `El Siete de Oros representa la paciencia, la evaluación y la inversión a largo plazo. Esta carta simboliza el momento en que observas los frutos de tu trabajo, pero reconoces que aún no es el momento de la cosecha completa. Es un periodo de espera, de reflexión y de confianza en que tus esfuerzos darán resultado.
+    
+    Cuando aparece el Siete de Oros, te invita a ser paciente, a evaluar tu progreso y a considerar si tus inversiones están rindiendo frutos. Es un momento propicio para reevaluar tus planes, para consolidar tus recursos y para confiar en el crecimiento lento pero constante.`,
+    significadoInvertido: `En posición invertida, el Siete de Oros advierte sobre la impaciencia, los malos resultados o la frustración por el trabajo inútil. Puede indicar que estás desanimado por la falta de progreso, que estás cosechando menos de lo esperado o que estás siendo demasiado apresurado.
+    
+    También puede señalar retrasos, la necesidad de cambiar tu estrategia o la incapacidad de ver el valor a largo plazo de tus esfuerzos. Te invita a reevaluar tu enfoque, a ser más realista con tus expectativas y a encontrar la perseverancia para continuar.`,
+    detalleDerecho: `El Siete de Oros en posición normal te pide paciencia. Has sembrado y ahora es el momento de esperar a que la cosecha madure. Evalúa tu progreso, pero confía en que tus esfuerzos darán frutos a su debido tiempo.`,
+    detalleInvertido: `Cuando el Siete de Oros aparece invertido, te advierte que la impaciencia o la frustración te están impidiendo ver el valor de tu trabajo. Revisa tu estrategia y persevera, o considera si es momento de redirigir tus esfuerzos.`,
+    meditacionReflexion: {
+      preguntas: [
+        "¿Estoy siendo paciente con el proceso de crecimiento?",
+        "¿Qué necesito evaluar en mis proyectos o inversiones?",
+        "¿Estoy confiando en que mis esfuerzos a largo plazo darán frutos?",
+        "¿Qué me está desanimando o impidiendo ver el progreso?",
+        "¿Estoy listo para la cosecha o necesito seguir invirtiendo tiempo y energía?"
+      ]
+    }
+  },
+  {
+    id: "ocho-oros",
+    nombre: "Ocho de Oros",
+    arcano: "Menor",
+    numero: 8,
+    palo: "Oros/Pentáculos",
+    elemento: "Tierra",
+    planeta: "Sol",
+    signoAstrologico: "Virgo",
+    numerologia: "8 (Habilidad, dedicación, maestría, trabajo duro)",
+    simbolismo: `Un artesano o aprendiz sentado en un banco de trabajo, cincelando cuidadosamente una de las ocho monedas o pentáculos. Varios oros terminados cuelgan en la pared detrás de él. El martillo y las herramientas están a sus pies. Su expresión es de concentración y dedicación. El paisaje de fondo muestra una ciudad a lo lejos, simbolizando el impacto de su trabajo.`,
+    palabrasClaveDerechas: ["Habilidad", "dedicación", "maestría", "trabajo duro", "perfección", "aprendizaje", "práctica", "artesanía"],
+    palabrasClaveInvertidas: ["Pereza", "mediocridad", "falta de habilidad", "perfeccionismo excesivo", "falta de concentración", "estancamiento", "trabajo repetitivo"],
+    significadoDerecho: `El Ocho de Oros representa la dedicación, la habilidad y la maestría en un oficio o área de estudio. Esta carta simboliza el trabajo duro, la concentración en los detalles y el compromiso con la mejora continua. Es el momento de pulir tus talentos y de perfeccionar tus habilidades.
+    
+    Cuando aparece el Ocho de Oros, te invita a sumergirte en tu trabajo, a practicar con diligencia y a aprender de tus errores. Es un momento propicio para el desarrollo profesional, para la artesanía y para sentir orgullo por la calidad de tu esfuerzo.`,
+    significadoInvertido: `En posición invertida, el Ocho de Oros advierte sobre la pereza, la mediocridad o la falta de habilidad. Puede indicar que estás aburrido de tu trabajo, que estás siendo demasiado perfeccionista, o que te falta la concentración necesaria para dominar una tarea.
+    
+    También puede señalar estancamiento, la incapacidad de aprender o la necesidad de encontrar una nueva dirección para tu energía. Te invita a reevaluar tu compromiso, a buscar la motivación y a recordar el valor del trabajo bien hecho.`,
+    detalleDerecho: `El Ocho de Oros en posición normal te anima a dedicarte por completo a tu arte o a tu oficio. Con cada repetición y cada detalle, te acercas a la maestría. Tu diligencia será recompensada.`,
+    detalleInvertido: `Cuando el Ocho de Oros aparece invertido, te pide que examines tu nivel de compromiso. ¿Estás siendo perezoso o demasiado perfeccionista? Encuentra el equilibrio para seguir creciendo.`,
+    meditacionReflexion: {
+      preguntas: [
+        "¿En qué área de mi vida necesito aplicar más dedicación y trabajo duro?",
+        "¿Estoy comprometido con la mejora continua de mis habilidades?",
+        "¿Qué puedo aprender para alcanzar la maestría en mi campo?",
+        "¿Estoy siendo demasiado perfeccionista o perezoso?",
+        "¿Cómo puedo encontrar más alegría y concentración en mi trabajo?"
+      ]
+    }
+  },
+  {
+    id: "nueve-oros",
+    nombre: "Nueve de Oros",
+    arcano: "Menor",
+    numero: 9,
+    palo: "Oros/Pentáculos",
+    elemento: "Tierra",
+    planeta: "Venus",
+    signoAstrologico: "Virgo",
+    numerologia: "9 (Logro, abundancia, autosuficiencia, lujo)",
+    simbolismo: `Una mujer elegantemente vestida camina por un viñedo, con un pájaro encapuchado en su mano y una de las nueve monedas a sus pies. El viñedo simboliza los frutos de su trabajo y su riqueza. El pájaro encapuchado (halcón) representa la disciplina y el autocontrol. La mujer sola en el viñedo sugiere independencia y autosuficiencia.`,
+    palabrasClaveDerechas: ["Abundancia", "lujo", "independencia", "autosuficiencia", "logro", "seguridad financiera", "placer", "recompensa"],
+    palabrasClaveInvertidas: ["Pérdida financiera", "dependencia", "fraude", "excesos", "inseguridad", "soledad", "ostentación"],
+    significadoDerecho: `El Nueve de Oros representa la abundancia, el lujo y la autosuficiencia que provienen del trabajo duro y la disciplina. Esta carta simboliza el logro material, la seguridad financiera y la capacidad de disfrutar de los placeres de la vida sin depender de otros.
+    
+    Cuando aparece el Nueve de Oros, te invita a celebrar tus logros, a disfrutar de tu independencia y a rodearte de belleza y confort. Es un momento propicio para el reconocimiento de tu esfuerzo, para la tranquilidad financiera y para sentirte orgulloso de lo que has construido.`,
+    significadoInvertido: `En posición invertida, el Nueve de Oros advierte sobre la pérdida financiera, la dependencia o el fraude. Puede indicar que estás siendo demasiado ostentoso, que estás experimentando inseguridad a pesar de la abundancia, o que estás perdiendo lo que has ganado.
+    
+    También puede señalar una soledad no deseada, la incapacidad de disfrutar de tus logros o la necesidad de reevaluar tus prioridades materiales. Te invita a ser más consciente de tus gastos, a buscar la verdadera seguridad interior y a compartir tu riqueza de manera más significativa.`,
+    detalleDerecho: `El Nueve de Oros en posición normal es una carta de triunfo y autosuficiencia. Has trabajado duro y ahora es el momento de disfrutar de los frutos de tu labor. Permítete el lujo y la comodidad que has ganado.`,
+    detalleInvertido: `Cuando el Nueve de Oros aparece invertido, te pide que examines si tu búsqueda de abundancia te está aislando o si estás experimentando pérdidas. Revisa tus valores y busca una verdadera seguridad.`,
+    meditacionReflexion: {
+      preguntas: [
+        "¿Qué logros materiales estoy celebrando en este momento?",
+        "¿Estoy disfrutando de mi independencia y autosuficiencia?",
+        "¿Cómo puedo equilibrar el lujo con la gratitud?",
+        "¿Estoy siendo demasiado ostentoso o estoy compartiendo mi abundancia?",
+        "¿Qué me impide sentirme verdaderamente seguro y pleno?"
+      ]
+    }
+  },
+  {
+    id: "diez-oros",
+    nombre: "Diez de Oros",
+    arcano: "Menor",
+    numero: 10,
+    palo: "Oros/Pentáculos",
+    elemento: "Tierra",
+    planeta: "Mercurio",
+    signoAstrologico: "Virgo",
+    numerologia: "10 (Riqueza, herencia, familia, seguridad duradera)",
+    simbolismo: `Una familia (un anciano, una pareja y un niño) se reúne en un pueblo, rodeada de diez oros que forman un árbol cabalístico. Perros juegan a sus pies. El anciano, sentado, simboliza la sabiduría y la herencia. La pareja joven representa la continuidad familiar. Los oros representan la riqueza generacional y la seguridad duradera.`,
+    palabrasClaveDerechas: ["Riqueza", "herencia", "familia", "seguridad duradera", "legado", "tradición", "comunidad", "prosperidad generacional"],
+    palabrasClaveInvertidas: ["Disputas familiares", "pérdida de herencia", "inestabilidad financiera", "ruptura de tradiciones", "conflictos", "soledad en la abundancia"],
+    significadoDerecho: `El Diez de Oros representa la riqueza, la herencia y la seguridad duradera en el ámbito familiar y material. Esta carta simboliza el legado, las tradiciones y la prosperidad que se extiende a través de generaciones. Es un momento de estabilidad, de pertenencia y de disfrutar de los frutos de un esfuerzo colectivo.
+    
+    Cuando aparece el Diez de Oros, te invita a celebrar la abundancia en tu vida, a conectar con tu linaje y a valorar la seguridad que has construido. Es un momento propicio para las reuniones familiares, para la compra de propiedades o para invertir en proyectos que beneficiarán a tus seres queridos a largo plazo.`,
+    significadoInvertido: `En posición invertida, el Diez de Oros advierte sobre disputas familiares, pérdida de herencia o inestabilidad financiera. Puede indicar conflictos por dinero, la ruptura de tradiciones o la dificultad para encontrar seguridad y pertenencia.
+    
+    También puede señalar una obsesión con la riqueza material que lleva a la soledad, o la necesidad de reevaluar el verdadero significado de la herencia y la prosperidad. Te invita a resolver los conflictos familiares, a honrar tus raíces y a buscar la verdadera riqueza en las conexiones y el propósito.`,
+    detalleDerecho: `El Diez de Oros en posición normal es la culminación de la prosperidad y la seguridad familiar. Has construido un legado duradero. Disfruta de la abundancia y la conexión con tu comunidad.`,
+    detalleInvertido: `Cuando el Diez de Oros aparece invertido, te pide que examines las tensiones familiares relacionadas con el dinero o la herencia. Es el momento de sanar esas heridas y de redefinir lo que significa la verdadera riqueza.`,
+    meditacionReflexion: {
+      preguntas: [
+        "¿Qué legado quiero construir para mi familia y comunidad?",
+        "¿Estoy honrando mis raíces y tradiciones?",
+        "¿Cómo puedo fortalecer mis lazos familiares a través de la abundancia?",
+        "¿Qué significa la verdadera riqueza para mí?",
+        "¿Estoy experimentando seguridad y pertenencia en mi vida?"
+      ]
+    }
+  },
+  {
+    id: "sota-oros",
+    nombre: "Sota de Oros",
+    arcano: "Menor",
+    numero: 11,
+    palo: "Oros/Pentáculos",
+    elemento: "Tierra",
+    planeta: "Tierra",
+    signoAstrologico: "Tauro/Virgo/Capricornio",
+    numerologia: "11 (Potencial, mensajes, oportunidades tangibles)",
+    simbolismo: `Una figura joven de pie en un campo verde, sosteniendo un gran oro o pentáculo con ambas manos, mirándolo con seriedad y contemplación. El fondo es un paisaje fértil, con montañas a lo lejos, simbolizando un nuevo horizonte para el crecimiento. Su vestimenta es práctica y sencilla, reflejando su naturaleza terrenal y su enfoque en el aprendizaje.`,
+    palabrasClaveDerechas: ["Nuevas oportunidades", "noticias concretas", "estudiante", "diligencia", "potencial", "estabilidad emergente", "trabajo duro", "foco en lo práctico"],
+    palabrasClaveInvertidas: ["Falta de ambición", "irresponsabilidad", "oportunidades perdidas", "mensajes negativos", "estudios abandonados", "negligencia"],
+    significadoDerecho: `La Sota de Oros representa la llegada de nuevas oportunidades concretas, a menudo relacionadas con el aprendizaje, la carrera o las finanzas. Esta carta simboliza el potencial, la diligencia y la seriedad en el enfoque de los asuntos prácticos. Es un mensajero de noticias tangibles y de nuevos proyectos que requieren tu atención.
+    
+    Cuando aparece la Sota de Oros, te invita a ser un estudiante diligente, a prestar atención a los detalles y a aprovechar las ofertas que te brindan estabilidad. Es un momento propicio para iniciar nuevos estudios, para encontrar un empleo o para invertir en algo que te brinde un crecimiento práctico.`,
+    significadoInvertido: `En posición invertida, la Sota de Oros advierte sobre la falta de ambición, la irresponsabilidad o la negligencia en los asuntos prácticos. Puede indicar oportunidades perdidas, mensajes negativos o la tendencia a abandonar proyectos antes de tiempo.
+    
+    También puede señalar falta de foco, inmadurez o la incapacidad de ver el valor en el trabajo duro. Te invita a ser más responsable, a comprometerte con tus objetivos y a no subestimar la importancia de la constancia.`,
+    detalleDerecho: `La Sota de Oros en posición normal es un mensajero de nuevas oportunidades tangibles. Esté atento a las ofertas de estudio, trabajo o inversión. Tu diligencia será recompensada.`,
+    detalleInvertido: `Cuando la Sota de Oros aparece invertida, te pide que examines tu enfoque hacia las oportunidades. ¿Estás siendo perezoso o irresponsable? Es el momento de tomar en serio tus metas.`,
+    meditacionReflexion: {
+      preguntas: [
+        "¿Qué nuevas oportunidades concretas están emergiendo en mi vida?",
+        "¿Estoy siendo diligente en mi aprendizaje y trabajo?",
+        "¿Qué mensajes importantes estoy recibiendo sobre mis finanzas o carrera?",
+        "¿Estoy aprovechando el potencial de esta oportunidad?",
+        "¿Necesito ser más responsable con mis asuntos prácticos?"
+      ]
+    }
+  },
+  {
+    id: "caballero-oros",
+    nombre: "Caballero de Oros",
+    arcano: "Menor",
+    numero: 12,
+    palo: "Oros/Pentáculos",
+    elemento: "Tierra",
+    planeta: "Saturno",
+    signoAstrologico: "Tauro/Virgo/Capricornio",
+    numerologia: "12 (Trabajo duro, responsabilidad, paciencia, progreso lento)",
+    simbolismo: `Un caballero vestido con una armadura completa, montado en un caballo pesado y robusto. Sostiene un oro en su mano, mirándolo con seriedad y concentración. El caballo está inmóvil o moviéndose lentamente, simbolizando la paciencia y la diligencia. El fondo es un campo arado, sugiriendo el trabajo constante y la preparación para la siembra.`,
+    palabrasClaveDerechas: ["Trabajo duro", "responsabilidad", "diligencia", "paciencia", "confiabilidad", "progreso lento pero seguro", "realismo", "meticuloso"],
+    palabrasClaveInvertidas: ["Pereza", "estancamiento", "irresponsabilidad", "perfeccionismo excesivo", "aburrimiento", "rigidez", "falta de ambición"],
+    significadoDerecho: `El Caballero de Oros representa el trabajo duro, la responsabilidad y la diligencia en la consecución de metas. Esta carta simboliza la paciencia, la confiabilidad y el progreso lento pero seguro en los asuntos prácticos. Es el arquetipo del que se toma su tiempo, pero siempre cumple sus compromisos.
+    
+    Cuando aparece el Caballero de Oros, te invita a ser metódico, a concentrarte en los detalles y a mantener una ética de trabajo sólida. Es un momento propicio para los proyectos que requieren constancia, para la construcción de cimientos estables y para cosechar los frutos de tu perseverancia.`,
+    significadoInvertido: `En posición invertida, el Caballero de Oros advierte sobre la pereza, el estancamiento o la irresponsabilidad. Puede indicar una falta de motivación, un perfeccionismo excesivo que impide el progreso, o la tendencia a aburrirse y abandonar proyectos.
+    
+    También puede señalar rigidez, falta de ambición o la incapacidad de adaptarse a nuevas ideas. Te invita a encontrar una nueva fuente de inspiración, a ser más flexible y a recordar el valor de la acción, incluso si es lenta.`,
+    detalleDerecho: `El Caballero de Oros en posición normal te insta a adoptar una ética de trabajo impecable. La constancia y la atención al detalle te llevarán al éxito. Sé paciente, porque los grandes resultados se construyen ladrillo a ladrillo.`,
+    detalleInvertido: `Cuando el Caballero de Oros aparece invertido, te pide que examines si tu lentitud se ha convertido en estancamiento. Es el momento de reevaluar tus motivaciones y de inyectar nueva energía a tus proyectos.`,
+    meditacionReflexion: {
+      preguntas: [
+        "¿Estoy siendo responsable y diligente en mis tareas?",
+        "¿Cómo puedo aplicar una ética de trabajo más sólida a mis proyectos?",
+        "¿Soy paciente con el proceso de progreso lento pero seguro?",
+        "¿Qué me impide avanzar o me hace sentir estancado?",
+        "¿Cómo puedo encontrar más motivación para mis metas prácticas?"
+      ]
+    }
+  },
+  {
+    id: "reina-oros",
+    nombre: "Reina de Oros",
+    arcano: "Menor",
+    numero: 13,
+    palo: "Oros/Pentáculos",
+    elemento: "Tierra",
+    planeta: "Venus",
+    signoAstrologico: "Tauro/Virgo/Capricornio",
+    numerologia: "13 (Nutrición, abundancia, seguridad, conexión con la naturaleza)",
+    simbolismo: `Una mujer sentada en un trono adornado con tallas de cabezas de cabra y conejos, símbolos de fertilidad y naturaleza. Sostiene un oro en su regazo, mirándolo con calidez y satisfacción. Rodeada de exuberante vegetación y flores. Un conejo a sus pies. Su expresión es de generosidad, nutrición y abundancia.`,
+    palabrasClaveDerechas: ["Nutrición", "abundancia", "cuidado", "seguridad", "practicidad", "generosidad", "maternidad", "conexión con la naturaleza"],
+    palabrasClaveInvertidas: ["Codicia", "materialismo", "negligencia", "inseguridad", "falta de cuidado", "dependencia", "frialdad"],
+    significadoDerecho: `La Reina de Oros representa la nutrición, la abundancia y la seguridad en el ámbito práctico y material. Esta carta simboliza el cuidado, la generosidad y la conexión con la naturaleza y la comodidad del hogar. Es el arquetipo de la madre tierra, que provee y nutre a quienes la rodean.
+    
+    Cuando aparece la Reina de Oros, te invita a cultivar un entorno seguro y confortable, a cuidar de ti mismo y de tus seres queridos, y a disfrutar de los placeres simples de la vida. Es un momento propicio para el crecimiento financiero, para la maternidad (en un sentido amplio de nutrir), y para sentirte arraigado y seguro.`,
+    significadoInvertido: `En posición invertida, la Reina de Oros advierte sobre la codicia, el materialismo o la negligencia. Puede indicar una falta de cuidado por ti mismo o por otros, inseguridad a pesar de la riqueza, o la tendencia a ser demasiado posesivo.
+    
+    También puede señalar dependencia, frialdad emocional o la incapacidad de disfrutar de la abundancia. Te invita a reevaluar tu relación con lo material, a ser más generoso y a buscar la verdadera seguridad en tu interior.`,
+    detalleDerecho: `La Reina de Oros en posición normal te anima a ser una fuente de nutrición y abundancia para ti mismo y para los demás. Tu conexión con la tierra y tu capacidad de crear seguridad son tus mayores fortalezas.`,
+    detalleInvertido: `Cuando la Reina de Oros aparece invertida, te pide que examines si te has vuelto demasiado materialista o si estás descuidando tus responsabilidades. Es el momento de reconectar con tu lado nutritivo y generoso.`,
+    meditacionReflexion: {
+      preguntas: [
+        "¿Cómo puedo nutrir mi vida y la de quienes me rodean?",
+        "¿Estoy creando un entorno de seguridad y abundancia para mí?",
+        "¿Estoy conectando con la naturaleza y disfrutando de sus placeres?",
+        "¿Qué me impide ser más generoso o sentirme seguro?",
+        "¿Estoy siendo demasiado posesivo o materialista?"
+      ]
+    }
+  },
+  {
+    id: "rey-oros",
+    nombre: "Rey de Oros",
+    arcano: "Menor",
+    numero: 14,
+    palo: "Oros/Pentáculos",
+    elemento: "Tierra",
+    planeta: "Saturno",
+    signoAstrologico: "Tauro/Virgo/Capricornio",
+    numerologia: "14 (Riqueza, éxito, liderazgo práctico, seguridad establecida)",
+    simbolismo: `Un rey robusto y bien vestido, sentado en un trono adornado con cabezas de toro y uvas, símbolos de prosperidad y fertilidad. Sostiene un oro en una mano y un cetro en la otra. El trono está en un jardín exuberante, con un castillo en la distancia. Su expresión es de confianza y dominio práctico.`,
+    palabrasClaveDerechas: ["Riqueza", "éxito", "liderazgo práctico", "seguridad financiera", "estabilidad", "negocios", "prosperidad", "confiabilidad"],
+    palabrasClaveInvertidas: ["Codicia", "corrupción", "tiranía financiera", "despilfarro", "inseguridad", "abuso de poder", "rigidez"],
+    significadoDerecho: `El Rey de Oros representa la riqueza, el éxito y el liderazgo práctico en el ámbito material y financiero. Esta carta simboliza la seguridad establecida, la maestría en los negocios y la capacidad de crear y mantener una prosperidad duradera. Es el arquetipo del empresario exitoso, el banquero o el inversor.
+    
+    Cuando aparece el Rey de Oros, te invita a asumir tu rol de líder en asuntos financieros, a ser astuto en tus inversiones y a construir un legado de prosperidad. Es un momento propicio para el éxito en los negocios, para la estabilidad material y para disfrutar de los frutos de tu esfuerzo y disciplina.`,
+    significadoInvertido: `En posición invertida, el Rey de Oros advierte sobre la codicia, la corrupción o el abuso de poder financiero. Puede indicar despilfarro, inseguridad a pesar de la riqueza, o la tendencia a ser demasiado rígido o controlador.
+    
+    También puede señalar una figura autoritaria que te está oprimiendo financieramente, o la necesidad de reevaluar tus valores y buscar una prosperidad más ética. Te invita a ser más generoso, a delegar responsabilidades y a recordar que la verdadera riqueza va más allá del dinero.`,
+    detalleDerecho: `El Rey de Oros en posición normal te impulsa a asumir tu rol de líder en el mundo material. Con sabiduría y disciplina, puedes construir un imperio de prosperidad. Tu influencia y tu experiencia son valiosas.`,
+    detalleInvertido: `Cuando el Rey de Oros aparece invertido, te pide que examines cómo estás usando tu poder financiero. ¿Estás siendo codicioso o estás despilfarrando tus recursos? Busca el equilibrio y la ética en tus decisiones.`,
+    meditacionReflexion: {
+      preguntas: [
+        "¿Cómo puedo usar mi influencia para crear prosperidad duradera?",
+        "¿Estoy siendo un líder práctico y confiable en mis finanzas?",
+        "¿Qué legados financieros o materiales quiero construir?",
+        "¿Estoy balanceando mis ambiciones con mis responsabilidades?",
+        "¿Qué significa la verdadera riqueza para mí, más allá del dinero?"
+      ]
+    }
+  },
+  // Palo de Bastos/Varas
+  {
+    id: "as-bastos",
+    nombre: "As de Bastos",
+    arcano: "Menor",
+    numero: 1,
+    palo: "Bastos/Varas",
+    elemento: "Fuego",
+    planeta: "Marte",
+    signoAstrologico: "Aries/Leo/Sagitario",
+    numerologia: "1 (Comienzo, inspiración, creatividad, potencial)",
+    simbolismo: `Una mano emerge de una nube, sosteniendo un basto en flor, simbolizando un nuevo comienzo creativo. Hojas y brotes caen del basto. Un paisaje con montañas al fondo y un castillo que sugiere aventura. El basto en flor representa el potencial de crecimiento y la vida. El paisaje montañoso y el castillo evocan la ambición y los desafíos que se avecinan.`,
+    palabrasClaveDerechas: ["Inspiración", "nuevos comienzos", "creatividad", "potencial", "entusiasmo", "aventura", "oportunidad", "iniciativa"],
+    palabrasClaveInvertidas: ["Bloqueo creativo", "falta de dirección", "apatía", "retrasos", "oportunidades perdidas", "comienzos falsos", "destrucción"],
+    significadoDerecho: `El As de Bastos representa el inicio de una nueva inspiración, una idea brillante o un proyecto lleno de potencial. Esta carta simboliza el entusiasmo, la chispa creativa y la energía para emprender nuevas aventuras. Es un llamado a la acción, a tomar la iniciativa y a perseguir tus pasiones.
+    
+    Cuando aparece el As de Bastos, te invita a abrazar una nueva oportunidad con entusiasmo, a explorar tu creatividad y a dar el primer paso hacia la realización de tus sueños. Es un momento propicio para la innovación, para iniciar un negocio o para embarcarte en un viaje emocionante.`,
+    significadoInvertido: `En posición invertida, el As de Bastos advierte sobre el bloqueo creativo, la falta de dirección o la apatía. Puede indicar que te sientes sin inspiración, que estás perdiendo oportunidades o que estás experimentando retrasos en tus proyectos.
+    
+    También puede señalar comienzos falsos, la incapacidad de ver el potencial o la necesidad de reavivar tu fuego interior. Te invita a buscar nuevas fuentes de inspiración, a superar la procrastinación y a encontrar la motivación para encender tu chispa creativa.`,
+    detalleDerecho: `El As de Bastos en posición normal es una inyección de energía y entusiasmo. Una nueva idea o proyecto está a punto de nacer, lleno de potencial creativo. Aprovecha esta chispa para iniciar algo audaz.`,
+    detalleInvertido: `Cuando el As de Bastos aparece invertido, te pide que examines dónde tu inspiración se ha estancado o dónde estás perdiendo oportunidades. Reaviva tu fuego interior y encuentra una nueva dirección.`,
+    meditacionReflexion: {
+      preguntas: [
+        "¿Qué nueva idea o proyecto me inspira en este momento?",
+        "¿Estoy listo para dar el primer paso y tomar la iniciativa?",
+        "¿Cómo puedo avivar mi entusiasmo y mi chispa creativa?",
+        "¿Qué me impide explorar mi potencial al máximo?",
+        "¿Estoy perdiendo alguna oportunidad por falta de dirección?"
+      ]
+    }
+  },
+  {
+    id: "dos-bastos",
+    nombre: "Dos de Bastos",
+    arcano: "Menor",
+    numero: 2,
+    palo: "Bastos/Varas",
+    elemento: "Fuego",
+    planeta: "Marte",
+    signoAstrologico: "Aries",
+    numerologia: "2 (Planificación, futuro, asociación, elección)",
+    simbolismo: `Un hombre de pie sobre un muro o una torre, sosteniendo un globo terráqueo en una mano y un basto en la otra. Otro basto está anclado en el muro. Observa el vasto paisaje y el mar a lo lejos. El globo simboliza las opciones futuras y la expansión. Los dos bastos representan el presente y el futuro, o la planificación y la ejecución. El paisaje sugiere un mundo de posibilidades.`,
+    palabrasClaveDerechas: ["Planificación", "futuro", "elección", "asociación", "exploración", "nuevos horizontes", "decisiones importantes", "visión a largo plazo"],
+    palabrasClaveInvertidas: ["Falta de planes", "miedo a lo desconocido", "falta de ambición", "decisiones precipitadas", "conflicto de intereses", "oportunidades perdidas"],
+    significadoDerecho: `El Dos de Bastos representa la planificación para el futuro, la exploración de nuevas posibilidades y la toma de decisiones importantes. Esta carta simboliza la elección de un camino, la visión a largo plazo y la consideración de asociaciones. Es el momento de evaluar tus opciones y de decidir tu siguiente paso.
+    
+    Cuando aparece el Dos de Bastos, te invita a expandir tus horizontes, a soñar en grande y a planificar tu futuro con cuidado. Es un momento propicio para las colaboraciones, para la inversión en nuevos proyectos y para la preparación de un viaje o una aventura.`,
+    significadoInvertido: `En posición invertida, el Dos de Bastos advierte sobre la falta de planes, el miedo a lo desconocido o la indecisión. Puede indicar que estás evitando tomar decisiones importantes, que te falta ambición o que estás estancado por no saber qué camino tomar.
+    
+    También puede señalar conflictos de intereses, oportunidades perdidas por falta de visión o la necesidad de reevaluar tus objetivos a largo plazo. Te invita a ser más proactivo en tu planificación y a abrazar el futuro con confianza.`,
+    detalleDerecho: `El Dos de Bastos en posición normal te insta a mirar más allá del presente y a planificar tu futuro con visión. Las posibilidades son infinitas; elige tu camino con sabiduría y confianza.`,
+    detalleInvertido: `Cuando el Dos de Bastos aparece invertido, te pide que examines tu indecisión o tu falta de planes. Es el momento de enfrentar tus miedos y de tomar las riendas de tu futuro.`,
+    meditacionReflexion: {
+      preguntas: [
+        "¿Qué opciones estoy considerando para mi futuro?",
+        "¿Estoy planificando mis metas a largo plazo con claridad?",
+        "¿Qué me impide tomar decisiones importantes en este momento?",
+        "¿Estoy abierto a nuevas asociaciones o colaboraciones?",
+        "¿Cómo puedo expandir mis horizontes y mi visión del futuro?"
+      ]
+    }
+  },
+  {
+    id: "tres-bastos",
+    nombre: "Tres de Bastos",
+    arcano: "Menor",
+    numero: 3,
+    palo: "Bastos/Varas",
+    elemento: "Fuego",
+    planeta: "Sol",
+    signoAstrologico: "Aries",
+    numerologia: "3 (Expansión, visión, progreso, éxito inicial)",
+    simbolismo: `Un hombre de pie en un acantilado, mirando barcos que se alejan en el horizonte, sosteniendo uno de los tres bastos. Otros dos bastos están anclados en la tierra. Los barcos simbolizan el comercio, la expansión y las oportunidades que se envían o que regresan. La postura del hombre es de expectación y visión. El vasto mar representa las posibilidades ilimitadas.`,
+    palabrasClaveDerechas: ["Expansión", "crecimiento", "visión de futuro", "éxito inicial", "exploración", "comercio", "oportunidades lejanas", "cooperación"],
+    palabrasClaveInvertidas: ["Refrases", "falta de visión", "oportunidades perdidas", "obstáculos", "fracaso en la expansión", "dependencia"],
+    significadoDerecho: `El Tres de Bastos representa la expansión, el crecimiento y el éxito inicial de tus proyectos. Esta carta simboliza la visión de futuro, la exploración de nuevas oportunidades y la confianza en que tus esfuerzos están dando frutos. Es el momento de mirar más allá de lo inmediato y de prepararte para mayores logros.
+    
+    Cuando aparece el Tres de Bastos, te invita a consolidar tus ganancias, a buscar nuevas alianzas y a enviar tus ideas al mundo. Es un momento propicio para el comercio, para la expansión internacional o para cualquier proyecto que requiera una visión a largo plazo y la cooperación de otros.`,
+    significadoInvertido: `En posición invertida, el Tres de Bastos advierte sobre retrasos, la falta de visión o las oportunidades perdidas. Puede indicar obstáculos inesperados, un fracaso en la expansión o la necesidad de reevaluar tus planes.
+    
+    También puede señalar una dependencia excesiva de otros, la incapacidad de ver el potencial o la frustración por no poder avanzar. Te invita a ser más adaptable, a buscar nuevas estrategias y a no desanimarte por los contratiempos.`,
+    detalleDerecho: `El Tres de Bastos en posición normal te anima a expandir tus horizontes y a confiar en que tus esfuerzos están dando frutos. Tus barcos están zarpando y las oportunidades de crecimiento están llegando.`,
+    detalleInvertido: `Cuando el Tres de Bastos aparece invertido, te pide que examines qué te impide ver el panorama general o qué obstáculos están frenando tu expansión. Reajusta tu visión y busca nuevas estrategias.`,
+    meditacionReflexion: {
+      preguntas: [
+        "¿Cómo puedo expandir mis proyectos o ideas?",
+        "¿Estoy teniendo una visión a largo plazo para mi futuro?",
+        "¿Qué oportunidades de crecimiento estoy explorando?",
+        "¿Estoy consolidando mis éxitos iniciales?",
+        "¿Qué me impide ver las posibilidades más allá de lo inmediato?"
+      ]
+    }
+  },
+  {
+    id: "cuatro-bastos",
+    nombre: "Cuatro de Bastos",
+    arcano: "Menor",
+    numero: 4,
+    palo: "Bastos/Varas",
+    elemento: "Fuego",
+    planeta: "Júpiter",
+    signoAstrologico: "Aries",
+    numerologia: "4 (Celebración, hogar, estabilidad, comunidad)",
+    simbolismo: `Dos figuras levantan ramos de flores, celebrando bajo un dosel de cuatro bastos adornados con guirnaldas de flores y frutas. Un puente en el fondo conduce a un castillo, sugiriendo un hogar seguro y establecido. La escena evoca alegría, celebración, estabilidad y el establecimiento de un hogar o comunidad.`,
+    palabrasClaveDerechas: ["Celebración", "hogar", "estabilidad", "comunidad", "matrimonio", "reunión familiar", "seguridad", "felicidad"],
+    palabrasClaveInvertidas: ["Inestabilidad", "conflictos familiares", "celebración pospuesta", "ruptura", "mudanza", "falta de armonía", "inseguridad"],
+    significadoDerecho: `El Cuatro de Bastos representa la celebración, la estabilidad del hogar y la alegría de la comunidad. Esta carta simboliza los logros, los hitos importantes y la sensación de seguridad y pertenencia. Es un momento para disfrutar de las recompensas de tu trabajo y para compartir tu felicidad con tus seres queridos.
+    
+    Cuando aparece el Cuatro de Bastos, te invita a celebrar un éxito, a establecer tu hogar o a disfrutar de una reunión familiar o comunitaria. Es un momento propicio para bodas, fiestas o cualquier evento que fortalezca los lazos y te brinde un sentido de seguridad.`,
+    significadoInvertido: `En posición invertida, el Cuatro de Bastos advierte sobre la inestabilidad, los conflictos familiares o la celebración pospuesta. Puede indicar una mudanza difícil, la falta de armonía en el hogar o la incapacidad de disfrutar de los logros.
+    
+    También puede señalar una ruptura, la necesidad de encontrar tu propio sentido de seguridad o la frustración por no poder celebrar tus éxitos. Te invita a resolver los conflictos, a buscar la armonía en tu entorno y a encontrar tu propio camino hacia la estabilidad.`,
+    detalleDerecho: `El Cuatro de Bastos en posición normal es una invitación a la celebración. Has alcanzado un hito significativo; es el momento de disfrutar de la estabilidad y la alegría en tu hogar y comunidad.`,
+    detalleInvertido: `Cuando el Cuatro de Bastos aparece invertido, te pide que examines las tensiones en tu hogar o comunidad. Busca la armonía y la estabilidad, o considera si es momento de encontrar un nuevo sentido de pertenencia.`,
+    meditacionReflexion: {
+      preguntas: [
+        "¿Qué logros o hitos tengo para celebrar en este momento?",
+        "¿Cómo puedo crear un ambiente de mayor estabilidad y alegría en mi hogar?",
+        "¿Estoy conectando con mi comunidad y mis seres queridos?",
+        "¿Qué me impide celebrar mis éxitos plenamente?",
+        "¿Necesito encontrar un nuevo sentido de pertenencia o seguridad?"
+      ]
+    }
+  },
+  {
+    id: "cinco-bastos",
+    nombre: "Cinco de Bastos",
+    arcano: "Menor",
+    numero: 5,
+    palo: "Bastos/Varas",
+    elemento: "Fuego",
+    planeta: "Saturno",
+    signoAstrologico: "Leo",
+    numerologia: "5 (Conflicto, competencia, desafío, desacuerdo)",
+    simbolismo: `Cinco figuras armadas con bastones se enfrentan en un aparente conflicto, aunque no parece haber un daño real. Sus bastones se cruzan en un patrón caótico. La escena sugiere una escaramuza o una competencia juguetona, pero también la posibilidad de un desacuerdo o conflicto.`,
+    palabrasClaveDerechas: ["Conflicto", "competencia", "desacuerdo", "desafío", "lucha", "rivalidad", "caos", "energía dispersa"],
+    palabrasClaveInvertidas: ["Resolución de conflictos", "cooperación", "fin de la lucha", "armonía", "evitar el conflicto", "rendición", "claridad"],
+    significadoDerecho: `El Cinco de Bastos representa el conflicto, la competencia y el desacuerdo. Esta carta simboliza una lucha, ya sea interna o externa, donde diferentes fuerzas o ideas chocan. Es un momento de desafío, de rivalidad y de energía dispersa.
+    
+    Cuando aparece el Cinco de Bastos, te invita a enfrentar tus desafíos, a participar en una competencia sana o a resolver desacuerdos. Es un momento propicio para el debate, para la negociación y para encontrar una solución que beneficie a todas las partes involucradas.`,
+    significadoInvertido: `En posición invertida, el Cinco de Bastos indica la resolución de conflictos, la cooperación o el fin de la lucha. Puede señalar que estás evitando el conflicto, que estás buscando la armonía a toda costa o que estás lidiando con problemas persistentes.
+    
+    También puede advertir sobre la derrota, la incapacidad de defenderte o la necesidad de poner fin a una competencia. Te invita a encontrar la paz, a colaborar con otros y a canalizar tu energía de manera más constructiva.`,
+    detalleDerecho: `El Cinco de Bastos en posición normal te desafía a enfrentar tus conflictos y a participar en la competencia. Es una oportunidad para probar tu valía y para encontrar soluciones creativas en medio del caos.`,
+    detalleInvertido: `Cuando el Cinco de Bastos aparece invertido, te pide que examines cómo estás manejando el conflicto. ¿Estás evitándolo o te estás rindiendo demasiado fácilmente? Es el momento de buscar la resolución y la cooperación.`,
+    meditacionReflexion: {
+      preguntas: [
+        "¿Qué conflictos o desacuerdos estoy enfrentando en este momento?",
+        "¿Estoy canalizando mi energía de manera constructiva o dispersa?",
+        "¿Cómo puedo resolver las diferencias con otros de manera efectiva?",
+        "¿Estoy participando en una competencia sana o destructiva?",
+        "¿Qué desafíos necesito enfrentar para crecer?"
+      ]
+    }
+  },
+  {
+    id: "seis-bastos",
+    nombre: "Seis de Bastos",
+    arcano: "Menor",
+    numero: 6,
+    palo: "Bastos/Varas",
+    elemento: "Fuego",
+    planeta: "Júpiter",
+    signoAstrologico: "Leo",
+    numerologia: "6 (Victoria, reconocimiento, triunfo, éxito público)",
+    simbolismo: `Un jinete coronado con una corona de laurel, cabalgando victoriosamente a través de una multitud que lo aclama. Sostiene un basto adornado con una corona de laurel. Otros bastos son sostenidos por la multitud. El laurel simboliza la victoria y el honor. La multitud que lo aclama representa el reconocimiento público y el triunfo.`,
+    palabrasClaveDerechas: ["Victoria", "reconocimiento", "triunfo", "éxito público", "buenas noticias", "progreso", "confianza", "autoestima"],
+    palabrasClaveInvertidas: ["Fracaso", "humillación", "malas noticias", "falta de reconocimiento", "arrogancia", "dudas", "retrasos"],
+    significadoDerecho: `El Seis de Bastos representa la victoria, el reconocimiento y el triunfo después de un esfuerzo. Esta carta simboliza el éxito público, las buenas noticias y la sensación de confianza que viene de haber logrado tus metas. Es un momento de celebración y de sentirte orgulloso de tus logros.
+    
+    Cuando aparece el Seis de Bastos, te invita a disfrutar de tu éxito, a aceptar el reconocimiento y a compartir tu alegría con los demás. Es un momento propicio para el ascenso, para el cumplimiento de objetivos y para sentir que tus esfuerzos han valido la pena.`,
+    significadoInvertido: `En posición invertida, el Seis de Bastos advierte sobre el fracaso, la humillación o la falta de reconocimiento. Puede indicar que estás luchando con la autoestima, que tus logros no están siendo valorados o que estás experimentando retrasos.
+    
+    También puede señalar arrogancia, dudas sobre ti mismo o la necesidad de reevaluar tus expectativas. Te invita a ser más humilde, a confiar en tu propio valor y a no dejar que la opinión de otros defina tu éxito.`,
+    detalleDerecho: `El Seis de Bastos en posición normal es una carta de triunfo y reconocimiento. Has trabajado duro y ahora es el momento de disfrutar de tu victoria. Permítete celebrar y ser reconocido por tus logros.`,
+    detalleInvertido: `Cuando el Seis de Bastos aparece invertido, te pide que examines dónde te sientes sin reconocimiento o dónde tu arrogancia te está perjudicando. Busca la verdadera autoestima y celebra tus logros internos.`,
+    meditacionReflexion: {
+      preguntas: [
+        "¿Qué victorias o logros tengo para celebrar en este momento?",
+        "¿Estoy permitiendo que se me reconozca por mis esfuerzos?",
+        "¿Cómo puedo mantener la confianza sin caer en la arrogancia?",
+        "¿Qué me impide disfrutar plenamente de mi éxito?",
+        "¿Estoy compartiendo mi alegría con quienes me apoyaron?"
+      ]
+    }
+  },
+  {
+    id: "siete-bastos",
+    nombre: "Siete de Bastos",
+    arcano: "Menor",
+    numero: 7,
+    palo: "Bastos/Varas",
+    elemento: "Fuego",
+    planeta: "Marte",
+    signoAstrologico: "Leo",
+    numerologia: "7 (Desafío, defensa, resistencia, valentía)",
+    simbolismo: `Un hombre de pie en una posición elevada, defendiéndose de seis bastones que lo atacan desde abajo. Parece estar en desventaja numérica, pero su postura es firme y decidida. El terreno irregular sugiere un desafío. El hombre solo en la cima simboliza la defensa de sus convicciones y su posición.`,
+    palabrasClaveDerechas: ["Desafío", "defensa", "resistencia", "valentía", "competencia", "postura firme", "determinación", "superación de obstáculos"],
+    palabrasClaveInvertidas: ["Rendición", "derrota", "cobardía", "abrumación", "indecisión", "dudas", "evasión de conflicto"],
+    significadoDerecho: `El Siete de Bastos representa el desafío, la defensa de tus convicciones y la resistencia ante la adversidad. Esta carta simboliza la necesidad de mantenerte firme, de defender tu posición y de enfrentar la competencia con valentía. Es un momento para proteger lo que crees y para no ceder ante la presión.
+    
+    Cuando aparece el Siete de Bastos, te invita a tomar una postura, a defender tus límites y a superar los obstáculos con determinación. Es un momento propicio para los debates, para la lucha por una causa y para demostrar tu fuerza interior.`,
+    significadoInvertido: `En posición invertida, el Siete de Bastos advierte sobre la rendición, la derrota o la cobardía. Puede indicar que te sientes abrumado por los desafíos, que estás cediendo a la presión o que te niegas a defender tu posición.
+    
+    También puede señalar indecisión, dudas sobre ti mismo o la necesidad de reevaluar si vale la pena la lucha. Te invita a encontrar tu valentía, a establecer límites claros y a elegir tus batallas con sabiduría.`,
+    detalleDerecho: `El Siete de Bastos en posición normal te impulsa a defender tus convicciones. Es el momento de mantenerte firme ante los desafíos y de mostrar tu valentía. No cedas ante la presión.`,
+    detalleInvertido: `Cuando el Siete de Bastos aparece invertido, te pide que examines si estás rindiéndote demasiado fácilmente o si te sientes abrumado. Busca tu fuerza interior y decide qué batallas realmente valen la pena.`,
+    meditacionReflexion: {
+      preguntas: [
+        "¿Qué desafíos estoy enfrentando y cómo puedo superarlos?",
+        "¿Estoy defendiendo mis convicciones con valentía?",
+        "¿Qué me impide mantener una postura firme ante la adversidad?",
+        "¿Estoy cediendo a la presión de otros?",
+        "¿Qué recursos internos o externos puedo usar para defender mi posición?"
+      ]
+    }
+  },
+  {
+    id: "ocho-bastos",
+    nombre: "Ocho de Bastos",
+    arcano: "Menor",
+    numero: 8,
+    palo: "Bastos/Varas",
+    elemento: "Fuego",
+    planeta: "Mercurio",
+    signoAstrologico: "Sagitario",
+    numerologia: "8 (Movimiento, rapidez, noticias, comunicación)",
+    simbolismo: `Ocho bastones vuelan rápidamente por el aire, en un movimiento descendente hacia un paisaje. El cielo está despejado y el paisaje es abierto. Los bastones en pleno vuelo simbolizan la velocidad, la acción y la comunicación rápida. La ausencia de figuras humanas sugiere que el movimiento es autónomo y no depende de la voluntad de alguien en particular.`,
+    palabrasClaveDerechas: ["Movimiento", "rapidez", "noticias", "comunicación", "acción", "viajes", "progreso rápido", "eventos"],
+    palabrasClaveInvertidas: ["Retrasos", "comunicación deficiente", "estancamiento", "viajes cancelados", "malas noticias", "prisa excesiva", "dispersión"],
+    significadoDerecho: `El Ocho de Bastos representa el movimiento rápido, las noticias y la comunicación. Esta carta simboliza el progreso acelerado, la llegada de información importante y la acción sin demoras. Es un momento en el que las cosas se desarrollan rápidamente y las barreras se disuelven.
+    
+    Cuando aparece el Ocho de Bastos, te invita a actuar con rapidez, a aprovechar las oportunidades que se presentan y a estar abierto a la comunicación. Es un momento propicio para los viajes, para recibir noticias inesperadas y para ver cómo tus planes avanzan a toda velocidad.`,
+    significadoInvertido: `En posición invertida, el Ocho de Bastos advierte sobre los retrasos, la comunicación deficiente o el estancamiento. Puede indicar viajes cancelados, malas noticias o la sensación de que las cosas no avanzan.
+    
+    También puede señalar prisa excesiva que lleva a errores, dispersión de energía o la necesidad de reevaluar tus prioridades antes de actuar. Te invita a ser paciente, a verificar la información y a no precipitarte en tus decisiones.`,
+    detalleDerecho: `El Ocho de Bastos en posición normal te trae velocidad y movimiento. Las cosas están avanzando rápidamente y las noticias están en camino. Prepárate para la acción y los cambios.`,
+    detalleInvertido: `Cuando el Ocho de Bastos aparece invertido, te pide que examines los retrasos o la mala comunicación. No te precipites; tómate tu tiempo para asegurar que todo esté claro.`,
+    meditacionReflexion: {
+      preguntas: [
+        "¿Qué áreas de mi vida están experimentando un progreso rápido?",
+        "¿Estoy abierto a recibir noticias y comunicaciones importantes?",
+        "¿Estoy actuando con la rapidez adecuada o me estoy precipitando?",
+        "¿Qué me impide avanzar o está causando retrasos?",
+        "¿Cómo puedo mejorar mi comunicación para facilitar el progreso?"
+      ]
+    }
+  },
+  {
+    id: "nueve-bastos",
+    nombre: "Nueve de Bastos",
+    arcano: "Menor",
+    numero: 9,
+    palo: "Bastos/Varas",
+    elemento: "Fuego",
+    planeta: "Marte",
+    signoAstrologico: "Sagitario",
+    numerologia: "9 (Resistencia, resiliencia, valentía, última batalla)",
+    simbolismo: `Un hombre herido, con una venda en la cabeza, se apoya en un basto, mientras ocho bastos se mantienen erguidos detrás de él, formando una valla protectora. Su expresión es de cansancio, pero también de determinación. El campo detrás de él sugiere batallas pasadas. Representa la resistencia, la resiliencia y la preparación para la última batalla.`,
+    palabrasClaveDerechas: ["Resistencia", "resiliencia", "valentía", "última batalla", "fortaleza", "perseverancia", "cansancio", "preparación"],
+    palabrasClaveInvertidas: ["Paranoia", "obstinación", "cobardía", "agotamiento", "derrota", "falta de confianza", "rendición innecesaria"],
+    significadoDerecho: `El Nueve de Bastos representa la resistencia, la resiliencia y la preparación para la última batalla. Esta carta simboliza la fortaleza que has ganado a través de las experiencias difíciles, la perseverancia y la capacidad de proteger tus logros. Es un momento de cautela, de defensa y de reunir tus últimas energías.
+    
+    Cuando aparece el Nueve de Bastos, te invita a mantenerte firme, a confiar en tu experiencia y a no rendirte justo antes de la meta. Es un momento propicio para la autodefensa, para la perseverancia en proyectos difíciles y para demostrar tu inquebrantable espíritu.`,
+    significadoInvertido: `En posición invertida, el Nueve de Bastos advierte sobre la paranoia, la obstinación o la cobardía. Puede indicar agotamiento, la sensación de estar solo en la lucha o la tendencia a rendirte cuando estás cerca de la victoria.
+    
+    También puede señalar dudas sobre ti mismo, la incapacidad de ver que la batalla está casi ganada o la necesidad de liberarte de viejos conflictos. Te invita a descansar, a confiar en tus aliados y a soltar la guardia cuando sea seguro hacerlo.`,
+    detalleDerecho: `El Nueve de Bastos en posición normal es un testimonio de tu resiliencia. Has luchado duro y estás listo para la última batalla. Mantente firme, confía en tu experiencia y no te rindas.`,
+    detalleInvertido: `Cuando el Nueve de Bastos aparece invertido, te pide que examines si tu resistencia se ha vuelto agotamiento o paranoia. Es el momento de confiar, de descansar y de reconocer que la victoria está cerca.`,
+    meditacionReflexion: {
+      preguntas: [
+        "¿Qué desafíos me han fortalecido y me han hecho más resistente?",
+        "¿Estoy listo para la 'última batalla' o necesito descansar?",
+        "¿Estoy siendo demasiado defensivo o paranoico?",
+        "¿Cómo puedo mantener mi perseverancia ante el cansancio?",
+        "¿Estoy confiando en mi capacidad para proteger lo que he ganado?"
+      ]
+    }
+  },
+  {
+    id: "diez-bastos",
+    nombre: "Diez de Bastos",
+    arcano: "Menor",
+    numero: 10,
+    palo: "Bastos/Varas",
+    elemento: "Fuego",
+    planeta: "Saturno",
+    signoAstrologico: "Sagitario",
+    numerologia: "10 (Carga, responsabilidad, agotamiento, logro)",
+    simbolismo: `Una figura encorvada bajo el peso de diez bastones que lleva, aparentemente dirigiéndose a una ciudad en el horizonte. Su espalda está vuelta, y parece estar luchando con la carga. Los bastones representan responsabilidades y cargas autoimpuestas o necesarias. La ciudad simboliza el destino o el objetivo final.`,
+    palabrasClaveDerechas: ["Carga", "responsabilidad", "agotamiento", "estrés", "logro", "obligaciones", "peso", "trabajo excesivo"],
+    palabrasClaveInvertidas: ["Alivio", "descarga", "liberación", "delegación", "superación de la carga", "responsabilidad compartida", "fin del estrés"],
+    significadoDerecho: `El Diez de Bastos representa una carga pesada, la responsabilidad y el agotamiento que viene de asumir demasiado. Esta carta simboliza el final de un ciclo de esfuerzo intenso, donde te sientes abrumado por tus obligaciones. Es un momento de llevar el peso del mundo sobre tus hombros.
+    
+    Cuando aparece el Diez de Bastos, te invita a reconocer tus límites, a delegar responsabilidades y a buscar formas de aliviar tu carga. Es un momento propicio para la finalización de proyectos que han sido agotadores, para el descanso necesario y para aprender a decir "no" a nuevas exigencias.`,
+    significadoInvertido: `En posición invertida, el Diez de Bastos indica el alivio, la descarga de responsabilidades o la liberación de una carga. Representa el momento en que encuentras una forma de delegar, de compartir el peso o de poner fin a un ciclo de estrés.
+    
+    También puede señalar la superación del agotamiento, la capacidad de priorizar tus tareas o la necesidad de reevaluar tus compromisos. Te invita a soltar lo que ya no te sirve, a buscar apoyo y a encontrar un equilibrio más saludable en tu vida.`,
+    detalleDerecho: `El Diez de Bastos en posición normal te muestra el peso de tus responsabilidades. Has llevado una carga pesada; es momento de reconocer tu agotamiento y de buscar formas de delegar o aliviar ese peso.`,
+    detalleInvertido: `Cuando el Diez de Bastos aparece invertido, te trae alivio. Has encontrado una manera de soltar parte de tu carga o de compartirla. Es el momento de descansar y de liberarte del estrés.`,
+    meditacionReflexion: {
+      preguntas: [
+        "¿Qué cargas o responsabilidades me están agotando en este momento?",
+        "¿Estoy delegando tareas o asumiendo demasiado?",
+        "¿Cómo puedo encontrar alivio y reducir mi estrés?",
+        "¿Qué necesito soltar para sentirme más ligero?",
+        "¿Estoy llegando al final de un ciclo de esfuerzo intenso?"
+      ]
+    }
+  },
+  {
+    id: "sota-bastos",
+    nombre: "Sota de Bastos",
+    arcano: "Menor",
+    numero: 11,
+    palo: "Bastos/Varas",
+    elemento: "Fuego",
+    planeta: "Marte",
+    signoAstrologico: "Aries/Leo/Sagitario",
+    numerologia: "11 (Noticias, inspiración, entusiasmo, potencial creativo)",
+    simbolismo: `Una figura joven y entusiasta de pie en un paisaje desértico, sosteniendo un basto en flor con ambas manos. Su mirada es curiosa y expectante. El basto en flor simboliza el potencial creativo y las nuevas ideas. El paisaje desértico sugiere un nuevo territorio inexplorado o el inicio de una aventura. Su vestimenta es llamativa, denotando su espíritu vibrante.`,
+    palabrasClaveDerechas: ["Noticias", "inspiración", "entusiasmo", "potencial creativo", "aventura", "exploración", "nuevas ideas", "mensajero"],
+    palabrasClaveInvertidas: ["Malas noticias", "retrasos", "falta de inspiración", "inmadurez", "egoísmo", "falsas promesas", "desorientación"],
+    significadoDerecho: `La Sota de Bastos representa la llegada de nuevas noticias, inspiración y el inicio de una aventura. Esta carta simboliza el entusiasmo, la chispa creativa y el potencial para explorar nuevos territorios. Es un mensajero de ideas emocionantes y de oportunidades para crecer.
+    
+    Cuando aparece la Sota de Bastos, te invita a abrazar la novedad, a seguir tu curiosidad y a compartir tu entusiasmo con los demás. Es un momento propicio para iniciar un nuevo proyecto creativo, para un viaje inesperado o para recibir una propuesta emocionante.`,
+    significadoInvertido: `En posición invertida, la Sota de Bastos advierte sobre malas noticias, retrasos o la falta de inspiración. Puede indicar que te sientes desorientado, que estás lidiando con falsas promesas o que tu entusiasmo se ha desvanecido.
+    
+    También puede señalar inmadurez, egoísmo o la necesidad de reavivar tu fuego interior. Te invita a ser más honesto contigo mismo, a buscar la verdadera fuente de tu pasión y a evitar la procrastinación.`,
+    detalleDerecho: `La Sota de Bastos en posición normal es un mensajero de nuevas ideas y aventuras. Abraza el entusiasmo y la curiosidad que esta carta te ofrece. Es el momento de explorar y de empezar algo emocionante.`,
+    detalleInvertido: `Cuando la Sota de Bastos aparece invertida, te pide que examines dónde tu entusiasmo se ha perdido o dónde estás recibiendo malas noticias. Reaviva tu inspiración y busca la claridad antes de actuar.`,
+    meditacionReflexion: {
+      preguntas: [
+        "¿Qué nuevas ideas o noticias me están inspirando en este momento?",
+        "¿Estoy abierto a nuevas aventuras y exploraciones?",
+        "¿Cómo puedo avivar mi entusiasmo y compartirlo con otros?",
+        "¿Qué me impide seguir mi curiosidad?",
+        "¿Estoy lidiando con falsas promesas o falta de claridad?"
+      ]
+    }
+  },
+  {
+    id: "caballero-bastos",
+    nombre: "Caballero de Bastos",
+    arcano: "Menor",
+    numero: 12,
+    palo: "Bastos/Varas",
+    elemento: "Fuego",
+    planeta: "Marte",
+    signoAstrologico: "Sagitario",
+    numerologia: "12 (Acción, aventura, cambio, impulsividad)",
+    simbolismo: `Un caballero con armadura montado en un caballo que se encabrita, sosteniendo un basto elevado. Parece estar en constante movimiento y listo para la acción. Las llamas en su armadura y el plumero de su casco simbolizan su naturaleza ardiente. El paisaje desértico sugiere una búsqueda o un viaje.`,
+    palabrasClaveDerechas: ["Acción", "aventura", "viajes", "impulso", "energía", "confianza", "pasión", "cambio rápido", "exploración"],
+    palabrasClaveInvertidas: ["Prisa excesiva", "imprudencia", "retrasos", "agitación", "arrogancia", "falta de dirección", "conflictos", "interrupciones"],
+    significadoDerecho: `El Caballero de Bastos representa la acción, la aventura y la energía para perseguir tus metas. Esta carta simboliza el impulso, la confianza y la disposición a tomar riesgos para lograr tus objetivos. Es un momento de movimiento rápido y de cambios significativos.
+    
+    Cuando aparece el Caballero de Bastos, te invita a actuar con valentía, a abrazar el cambio y a lanzarte a nuevas aventuras. Es un momento propicio para los viajes, para la consecución de proyectos ambiciosos y para demostrar tu pasión y determinación.`,
+    significadoInvertido: `En posición invertida, el Caballero de Bastos advierte sobre la prisa excesiva, la imprudencia o los retrasos. Puede indicar agitación, arrogancia o la tendencia a tomar decisiones precipitadas.
+    
+    También puede señalar falta de dirección, conflictos con otros o la incapacidad de ver las consecuencias de tus acciones. Te invita a ser más reflexivo, a canalizar tu energía de manera constructiva y a encontrar un equilibrio entre la acción y la planificación.`,
+    detalleDerecho: `El Caballero de Bastos en posición normal te impulsa a la acción y a la aventura. Es el momento de seguir tu pasión, de tomar riesgos y de lanzarte a nuevas experiencias. Tu energía es imparable.`,
+    detalleInvertido: `Cuando el Caballero de Bastos aparece invertido, te pide que examines tu impulsividad o tu falta de dirección. No te precipites; canaliza tu energía de manera más consciente para evitar errores.`,
+    meditacionReflexion: {
+      preguntas: [
+        "¿Qué acción necesito tomar para avanzar hacia mis metas?",
+        "¿Estoy abrazando la aventura y el cambio en mi vida?",
+        "¿Estoy siendo demasiado impulsivo o mi energía está bien dirigida?",
+        "¿Qué viajes o nuevas experiencias me esperan?",
+        "¿Cómo puedo canalizar mi pasión de manera constructiva?"
+      ]
+    }
+  },
+  {
+    id: "reina-bastos",
+    nombre: "Reina de Bastos",
+    arcano: "Menor",
+    numero: 13,
+    palo: "Bastos/Varas",
+    elemento: "Fuego",
+    planeta: "Sol",
+    signoAstrologico: "Leo",
+    numerologia: "13 (Confianza, independencia, carisma, calidez)",
+    simbolismo: `Una mujer sentada en un trono adornado con leones (símbolo de Leo) y girasoles. Sostiene un basto en flor en una mano y una flor en la otra. Un gato negro se sienta a sus pies. El girasol simboliza la alegría y la vitalidad. El gato negro, la independencia y la intuición. Su expresión es de confianza, calidez y carisma.`,
+    palabrasClaveDerechas: ["Confianza", "independencia", "carisma", "calidez", "entusiasmo", "optimismo", "energía", "determinación"],
+    palabrasClaveInvertidas: ["Egoísmo", "arrogancia", "celos", "inseguridad", "controladora", "falta de enfoque", "agresión"],
+    significadoDerecho: `La Reina de Bastos representa la confianza, la independencia y el carisma. Esta carta simboliza el entusiasmo, el optimismo y la capacidad de inspirar a otros con tu energía. Es el arquetipo de la mujer fuerte, vivaz y emprendedora que irradia calidez.
+    
+    Cuando aparece la Reina de Bastos, te invita a confiar en ti mismo, a perseguir tus pasiones con determinación y a compartir tu luz con el mundo. Es un momento propicio para el liderazgo, para los proyectos creativos y para sentirte empoderado y en control de tu vida.`,
+    significadoInvertido: `En posición invertida, la Reina de Bastos advierte sobre el egoísmo, la arrogancia o los celos. Puede indicar inseguridad, la tendencia a ser controladora o la falta de enfoque en tus metas.
+    
+    También puede señalar agresión, impaciencia o la necesidad de reconectar con tu verdadera pasión. Te invita a ser más humilde, a canalizar tu energía de manera constructiva y a encontrar un equilibrio entre tu confianza y tu empatía.`,
+    detalleDerecho: `La Reina de Bastos en posición normal te anima a abrazar tu confianza, tu carisma y tu independencia. Irradias energía y optimismo. Comparte tu luz y lidera con el ejemplo.`,
+    detalleInvertido: `Cuando la Reina de Bastos aparece invertida, te pide que examines dónde tu confianza se ha vuelto arrogancia o dónde tu energía se está dispersando. Reconecta con tu esencia más auténtica.`,
+    meditacionReflexion: {
+      preguntas: [
+        "¿Cómo puedo cultivar más confianza e independencia en mi vida?",
+        "¿Estoy inspirando a otros con mi entusiasmo y carisma?",
+        "¿Qué proyectos creativos me apasionan en este momento?",
+        "¿Qué me impide compartir mi luz con el mundo?",
+        "¿Estoy balanceando mi determinación con la empatía?"
+      ]
+    }
+  },
+  {
+    id: "rey-bastos",
+    nombre: "Rey de Bastos",
+    arcano: "Menor",
+    numero: 14,
+    palo: "Bastos/Varas",
+    elemento: "Fuego",
+    planeta: "Sol",
+    signoAstrologico: "Leo/Sagitario",
+    numerologia: "14 (Liderazgo, visión, inspiración, creatividad madura)",
+    simbolismo: `Un rey sentado en un trono adornado con leones y salamandras (símbolos de fuego y transformación). Sostiene un basto en flor con ambas manos, mirando hacia adelante con determinación. Su capa está adornada con salamandras. Su expresión es de confianza, visión y autoridad inspiradora.`,
+    palabrasClaveDerechas: ["Liderazgo", "visión", "inspiración", "creatividad madura", "emprendedor", "determinación", "carisma", "autenticidad"],
+    palabrasClaveInvertidas: ["Tiranía", "autoritarismo", "engaño", "impulsividad", "falta de visión", "egoísmo", "controlador"],
+    significadoDerecho: `El Rey de Bastos representa el liderazgo, la visión y la creatividad madura. Esta carta simboliza la capacidad de inspirar a otros, de emprender grandes proyectos y de gobernar con autenticidad y determinación. Es el arquetipo del líder carismático, el visionario o el emprendedor exitoso.
+    
+    Cuando aparece el Rey de Bastos, te invita a asumir tu rol de líder, a perseguir tus ambiciones con valentía y a inspirar a quienes te rodean. Es un momento propicio para el lanzamiento de nuevas empresas, para la expansión de tus proyectos y para demostrar tu visión a largo plazo.`,
+    significadoInvertido: `En posición invertida, el Rey de Bastos advierte sobre la tiranía, el autoritarismo o el engaño. Puede indicar impulsividad, falta de visión o la tendencia a ser demasiado controlador o egoísta.
+    
+    También puede señalar el abuso de poder, la incapacidad de inspirar a otros o la necesidad de reevaluar tus motivaciones de liderazgo. Te invita a ser más humilde, a delegar responsabilidades y a recordar que el verdadero liderazgo proviene del servicio y la autenticidad.`,
+    detalleDerecho: `El Rey de Bastos en posición normal te impulsa a liderar con visión y autenticidad. Tu carisma y tu determinación son tus mayores activos. Inspira a otros y persigue tus ambiciones con valentía.`,
+    detalleInvertido: `Cuando el Rey de Bastos aparece invertido, te pide que examines cómo estás ejerciendo tu liderazgo. ¿Estás siendo autoritario o te falta visión? Revisa tus motivaciones y busca la autenticidad.`,
+    meditacionReflexion: {
+      preguntas: [
+        "¿Cómo puedo liderar con mayor visión e inspiración?",
+        "¿Estoy persiguiendo mis ambiciones con autenticidad y determinación?",
+        "¿Qué me impide inspirar a otros con mi ejemplo?",
+        "¿Estoy siendo demasiado controlador o egoísta en mi liderazgo?",
+        "¿Qué nuevas empresas o proyectos estoy listo para lanzar con visión?"
+      ]
+    }
+  },
+  // Palo de Espadas
+  {
+    id: "as-espadas",
+    nombre: "As de Espadas",
+    arcano: "Menor",
+    numero: 1,
+    palo: "Espadas",
+    elemento: "Aire",
+    planeta: "Urano",
+    signoAstrologico: "Géminis/Libra/Acuario",
+    numerologia: "1 (Comienzo, verdad, claridad, avance)",
+    simbolismo: `Una mano emerge de una nube, sosteniendo una espada erguida con una corona sobre la punta. Dos ramas, una de laurel y otra de palma, cuelgan a los lados de la corona, simbolizando victoria y paz. El cielo detrás puede ser claro o tormentoso, indicando el potencial para la claridad o el conflicto. La espada simboliza la verdad, la justicia y el poder de la mente.`,
+    palabrasClaveDerechas: ["Verdad", "claridad", "avance", "decisión", "nueva idea", "ruptura", "justicia", "fuerza mental"],
+    palabrasClaveInvertidas: ["Confusión", "engaño", "tiranía", "destrucción", "uso indebido de poder", "bloqueo mental", "falta de claridad"],
+    significadoDerecho: `El As de Espadas representa el inicio de una nueva verdad, una claridad mental o una decisión importante. Esta carta simboliza el poder de la mente, la capacidad de cortar con la confusión y de encontrar soluciones lógicas. Es un momento de avance intelectual y de romper con lo que ya no sirve.
+    
+    Cuando aparece el As de Espadas, te invita a buscar la verdad, a tomar decisiones con convicción y a comunicar tus ideas con claridad. Es un momento propicio para la resolución de problemas, para iniciar nuevos proyectos que requieran pensamiento analítico y para liberar tu mente de ataduras.`,
+    significadoInvertido: `En posición invertida, el As de Espadas advierte sobre la confusión, el engaño o el uso indebido de poder. Puede indicar que estás luchando con un bloqueo mental, que te falta claridad para tomar decisiones o que estás siendo tiránico con tus ideas.
+    
+    También puede señalar verdades dolorosas, la incapacidad de ver la realidad o la necesidad de liberar tu mente de patrones negativos. Te invita a buscar la honestidad, a cuestionar tus suposiciones y a usar tu intelecto para el bien.`,
+    detalleDerecho: `El As de Espadas en posición normal es una descarga de claridad mental. Una nueva idea o una verdad reveladora te empoderará. Usa esta fuerza para tomar decisiones firmes y cortar con la confusión.`,
+    detalleInvertido: `Cuando el As de Espadas aparece invertido, te pide que examines si la confusión te está abrumando o si estás usando tu intelecto de manera destructiva. Busca la verdad y la claridad interna.`,
+    meditacionReflexion: {
+      preguntas: [
+        "¿Qué nueva verdad necesito reconocer en mi vida?",
+        "¿Estoy buscando la claridad y la honestidad en mis pensamientos?",
+        "¿Qué decisiones importantes necesito tomar con convicción?",
+        "¿Cómo puedo usar mi mente para cortar con la confusión?",
+        "¿Estoy comunicando mis ideas con la suficiente claridad?"
+      ]
+    }
+  },
+  {
+    id: "dos-espadas",
+    nombre: "Dos de Espadas",
+    arcano: "Menor",
+    numero: 2,
+    palo: "Espadas",
+    elemento: "Aire",
+    planeta: "Luna",
+    signoAstrologico: "Libra",
+    numerologia: "2 (Indecisión, estancamiento, bloqueo emocional)",
+    simbolismo: `Una figura con los ojos vendados, sentada con dos espadas cruzadas sobre su pecho, en una postura defensiva. Detrás de ella, un cuerpo de agua tranquilo y una luna creciente. La venda en los ojos simboliza la negación o la evitación de la verdad. Las espadas cruzadas representan el bloqueo emocional y la indecisión. El agua tranquila sugiere una paz superficial que oculta la tensión interna.`,
+    palabrasClaveDerechas: ["Indecisión", "estancamiento", "bloqueo emocional", "evitación", "tregua", "equilibrio precario", "negación", "callejón sin salida"],
+    palabrasClaveInvertidas: ["Resolución", "claridad", "abrir los ojos", "tomar decisiones", "liberación emocional", "confrontación", "aceptación"],
+    significadoDerecho: `El Dos de Espadas representa la indecisión, el estancamiento y un bloqueo emocional. Esta carta simboliza una situación en la que te niegas a ver la verdad o a tomar una decisión difícil, manteniéndote en un equilibrio precario. Es un momento de conflicto interno, donde la mente y el corazón no están alineados.
+    
+    Cuando aparece el Dos de Espadas, te invita a enfrentar tus miedos, a quitarte la venda de los ojos y a tomar la decisión que has estado evitando. Es un momento propicio para la meditación, para la reflexión profunda y para buscar la honestidad contigo mismo.`,
+    significadoInvertido: `En posición invertida, el Dos de Espadas indica la resolución, la claridad y el fin del bloqueo emocional. Representa el momento en que abres los ojos a la verdad, tomas una decisión difícil o liberas una carga emocional.
+    
+    También puede señalar la confrontación de una verdad dolorosa, la necesidad de perdonar o la capacidad de avanzar después de un período de estancamiento. Te invita a ser valiente, a confiar en tu intuición y a buscar la paz interior.`,
+    detalleDerecho: `El Dos de Espadas en posición normal te muestra tu indecisión y tu resistencia a enfrentar la verdad. Es momento de quitarte la venda y tomar una decisión, aunque sea difícil.`,
+    detalleInvertido: `Cuando el Dos de Espadas aparece invertido, te trae la tan esperada claridad. Estás listo para tomar una decisión y liberarte del estancamiento. Confía en tu intuición.`,
+    meditacionReflexion: {
+      preguntas: [
+        "¿Qué decisión estoy evitando tomar en este momento?",
+        "¿Estoy negándome a ver alguna verdad importante?",
+        "¿Qué me impide liberarme de este bloqueo emocional?",
+        "¿Cómo puedo encontrar la claridad para avanzar?",
+        "¿Estoy en un equilibrio precario o hay una oportunidad de resolución?"
+      ]
+    }
+  },
+  {
+    id: "tres-espadas",
+    nombre: "Tres de Espadas",
+    arcano: "Menor",
+    numero: 3,
+    palo: "Espadas",
+    elemento: "Aire",
+    planeta: "Saturno",
+    signoAstrologico: "Libra",
+    numerologia: "3 (Dolor, desilusión, separación, tristeza)",
+    simbolismo: `Un corazón atravesado por tres espadas, con nubes de tormenta y lluvia en el fondo. El corazón simboliza la emoción y el dolor. Las espadas representan las palabras hirientes, el engaño o la separación. La lluvia y las nubes sugieren tristeza y lágrimas, pero también un posible proceso de purificación.`,
+    palabrasClaveDerechas: ["Dolor", "desilusión", "separación", "tristeza", "pérdida", "conflicto", "traición", "corazón roto"],
+    palabrasClaveInvertidas: ["Sanación", "perdón", "superación del dolor", "reconciliación", "liberación emocional", "aprendizaje de la lección"],
+    significadoDerecho: `El Tres de Espadas representa el dolor, la desilusión y la separación. Esta carta simboliza un momento de tristeza profunda, pérdida o conflicto que puede romper el corazón. Es la representación de verdades difíciles, traiciones o el fin de una relación.
+    
+    Cuando aparece el Tres de Espadas, te invita a enfrentar tu dolor, a permitirte sentir la tristeza y a procesar tus emociones. Es un momento propicio para el luto, para la aceptación de una realidad difícil y para la purificación que viene después de la tormenta.`,
+    significadoInvertido: `En posición invertida, el Tres de Espadas indica el inicio de la sanación, el perdón o la superación del dolor. Representa el momento en que empiezas a liberar las emociones negativas, a reconciliarte con el pasado o a aprender de la lección.
+    
+    También puede señalar la necesidad de perdonar, la capacidad de encontrar paz después de un conflicto o la liberación de una carga emocional. Te invita a buscar el apoyo, a permitirte sanar y a encontrar la fuerza para seguir adelante.`,
+    detalleDerecho: `El Tres de Espadas en posición normal es una carta de dolor y desilusión. Permítete sentir la tristeza y procesar la herida. Es un paso necesario hacia la sanación.`,
+    detalleInvertido: `Cuando el Tres de Espadas aparece invertido, es una señal de que la sanación ha comenzado. Estás liberando el dolor y el perdón es posible. El camino hacia la paz está despejado.`,
+    meditacionReflexion: {
+      preguntas: [
+        "¿Qué me está causando dolor o desilusión en este momento?",
+        "¿Estoy permitiéndome sentir y procesar mi tristeza?",
+        "¿Qué necesito perdonar o liberar para sanar?",
+        "¿Estoy aprendiendo de esta experiencia dolorosa?",
+        "¿Cómo puedo encontrar apoyo para superar este momento?"
+      ]
+    }
+  },
+  {
+    id: "cuatro-espadas",
+    nombre: "Cuatro de Espadas",
+    arcano: "Menor",
+    numero: 4,
+    palo: "Espadas",
+    elemento: "Aire",
+    planeta: "Júpiter",
+    signoAstrologico: "Libra",
+    numerologia: "4 (Descanso, recuperación, meditación, retiro)",
+    simbolismo: `La efigie de un caballero yace en una tumba o lecho, con una espada a su lado y otras tres espadas colgadas sobre él. Un vitral de una iglesia se ve en el fondo. La postura de descanso sugiere un período de recuperación o retiro. Las espadas sobre él representan los pensamientos o desafíos que aún lo esperan, pero que por ahora están en pausa. El vitral simboliza la paz y el santuario.`,
+    palabrasClaveDerechas: ["Descanso", "recuperación", "meditación", "retiro", "reflexión", "paz mental", "curación", "necesidad de pausa"],
+    palabrasClaveInvertidas: ["Agitación", "agotamiento", "insomnio", "reincorporación", "falta de descanso", "estrés", "impaciencia"],
+    significadoDerecho: `El Cuatro de Espadas representa la necesidad de descanso, recuperación y meditación. Esta carta simboliza un período de retiro, de reflexión y de curación después de un conflicto o un período de estrés. Es un llamado a tomar una pausa para recuperar la paz mental y la energía.
+    
+    Cuando aparece el Cuatro de Espadas, te invita a desconectar, a descansar profundamente y a buscar la tranquilidad para tu mente. Es un momento propicio para la meditación, para la curación física o emocional y para la planificación estratégica antes de volver a la acción.`,
+    significadoInvertido: `En posición invertida, el Cuatro de Espadas advierte sobre la agitación, el agotamiento o el insomnio. Puede indicar que te niegas a descansar, que estás reincorporándote demasiado rápido o que estás luchando con un estrés persistente.
+    
+    También puede señalar la impaciencia, la incapacidad de encontrar paz o la necesidad de un período de descanso más profundo. Te invita a escuchar a tu cuerpo y mente, a priorizar tu bienestar y a permitirte el tiempo necesario para recuperarte completamente.`,
+    detalleDerecho: `El Cuatro de Espadas en posición normal es una clara señal de que necesitas un descanso. Retírate, medita y permite que tu mente y cuerpo se recuperen. La paz mental es esencial antes de volver a la acción.`,
+    detalleInvertido: `Cuando el Cuatro de Espadas aparece invertido, te pide que examines tu nivel de agotamiento. No te niegues el descanso necesario. Es el momento de priorizar tu bienestar para evitar el colapso.`,
+    meditacionReflexion: {
+      preguntas: [
+        "¿Estoy permitiéndome el descanso y la recuperación que necesito?",
+        "¿Qué estrategias puedo usar para encontrar paz mental?",
+        "¿Necesito un retiro o un período de meditación?",
+        "¿Qué me impide desconectar y descansar plenamente?",
+        "¿Estoy reincorporándome demasiado rápido a mis responsabilidades?"
+      ]
+    }
+  },
+  {
+    id: "cinco-espadas",
+    nombre: "Cinco de Espadas",
+    arcano: "Menor",
+    numero: 5,
+    palo: "Espadas",
+    elemento: "Aire",
+    planeta: "Venus",
+    signoAstrologico: "Acuario",
+    numerologia: "5 (Derrota, humillación, conflicto, consecuencias negativas)",
+    simbolismo: `Un hombre victorioso, con una sonrisa maliciosa, recoge dos espadas del suelo, mientras otros dos hombres derrotados se alejan, uno con la cabeza baja y otro con la mano en la cabeza, expresando vergüenza. Una tercera espada yace en el suelo. El cielo detrás de ellos es gris y tormentoso. La escena simboliza una victoria pírrica, donde el costo de ganar es alto.`,
+    palabrasClaveDerechas: ["Derrota", "humillación", "conflicto", "consecuencias negativas", "victoria pírrica", "vergüenza", "pérdida", "deshonestidad"],
+    palabrasClaveInvertidas: ["Reconciliación", "perdón", "aceptación de la derrota", "resolución de conflictos", "superación de la vergüenza", "aprendizaje"],
+    significadoDerecho: `El Cinco de Espadas representa la derrota, la humillación y las consecuencias negativas de un conflicto. Esta carta simboliza una victoria pírrica, donde el costo de ganar es tan alto que te deja sintiendo vacío o arrepentido. Es un momento de conflicto deshonesto, de pérdida o de vergüenza.
+    
+    Cuando aparece el Cinco de Espadas, te invita a reconocer la verdad de la situación, a aceptar las consecuencias de tus acciones o a aprender de una derrota. Es un momento propicio para reflexionar sobre tus motivaciones en los conflictos y para considerar si el costo de ganar vale la pena.`,
+    significadoInvertido: `En posición invertida, el Cinco de Espadas indica la reconciliación, el perdón o la aceptación de la derrota. Representa el momento en que liberas la vergüenza, buscas la paz o aprendes de una experiencia dolorosa.
+    
+    También puede señalar la necesidad de perdonar a otros, la capacidad de encontrar una solución a un conflicto o la superación de las secuelas de una batalla. Te invita a ser más compasivo, a buscar la armonía y a evitar el conflicto por el conflicto mismo.`,
+    detalleDerecho: `El Cinco de Espadas en posición normal es una advertencia sobre la victoria pírrica. Has ganado la batalla, pero a qué costo. Examina las consecuencias de tus acciones y la humillación que puede generar.`,
+    detalleInvertido: `Cuando el Cinco de Espadas aparece invertido, te ofrece una oportunidad de reconciliación y sanación. Es el momento de soltar la vergüenza y de buscar el perdón, tanto para ti mismo como para otros.`,
+    meditacionReflexion: {
+      preguntas: [
+        "¿Qué conflictos estoy enfrentando y cuáles son sus consecuencias?",
+        "¿Estoy obteniendo una 'victoria pírrica' que me dejará vacío?",
+        "¿Qué necesito aprender de esta derrota o humillación?",
+        "¿Cómo puedo buscar la reconciliación o el perdón?",
+        "¿Estoy siendo honesto en mis interacciones y conflictos?"
+      ]
+    }
+  },
+  {
+    id: "seis-espadas",
+    nombre: "Seis de Espadas",
+    arcano: "Menor",
+    numero: 6,
+    palo: "Espadas",
+    elemento: "Aire",
+    planeta: "Mercurio",
+    signoAstrologico: "Acuario",
+    numerologia: "6 (Transición, viaje, escape, paso a un nuevo lugar)",
+    simbolismo: `Una figura en un bote remando con seis espadas clavadas en la proa, alejándose de una orilla tormentosa hacia aguas más tranquilas. Otra figura (un niño) está sentada en el bote. La escena representa un viaje o una transición de un lugar difícil a uno más sereno, dejando atrás el pasado. Las espadas simbolizan los pensamientos difíciles o las preocupaciones que se llevan consigo.`,
+    palabrasClaveDerechas: ["Transición", "viaje", "escape", "alejarse del conflicto", "paz mental", "paso a un nuevo lugar", "curación", "soltar el pasado"],
+    palabrasClaveInvertidas: ["Estancamiento", "resistencia al cambio", "regreso al conflicto", "dificultad para soltar", "rutina", "carga emocional"],
+    significadoDerecho: `El Seis de Espadas representa una transición, un viaje o el acto de alejarse de una situación difícil hacia aguas más tranquilas. Esta carta simboliza la necesidad de dejar atrás el pasado, de buscar la paz mental y de avanzar hacia un nuevo lugar, física o emocionalmente. Es un momento de escape o de curación.
+    
+    Cuando aparece el Seis de Espadas, te invita a soltar lo que ya no te sirve, a emprender un viaje que te traerá paz y a buscar un nuevo comienzo. Es un momento propicio para mudanzas, para viajes para sanar o para cualquier proceso que te lleve a una mayor tranquilidad.`,
+    significadoInvertido: `En posición invertida, el Seis de Espadas advierte sobre el estancamiento, la resistencia al cambio o el regreso al conflicto. Puede indicar que te cuesta soltar el pasado, que te sientes atrapado o que estás reviviendo viejas heridas.
+    
+    También puede señalar la dificultad para encontrar la paz, la necesidad de confrontar lo que has evitado o la incapacidad de avanzar. Te invita a ser valiente, a enfrentar tus miedos y a reconocer que el verdadero escape está en tu mente.`,
+    detalleDerecho: `El Seis de Espadas en posición normal te indica un viaje hacia aguas más tranquilas. Es el momento de dejar atrás el conflicto y las preocupaciones. Confía en el proceso de transición hacia la paz.`,
+    detalleInvertido: `Cuando el Seis de Espadas aparece invertido, te pide que examines tu resistencia al cambio o la dificultad para soltar el pasado. No te quedes estancado; busca la forma de avanzar.`,
+    meditacionReflexion: {
+      preguntas: [
+        "¿De qué situación necesito alejarme para encontrar paz?",
+        "¿Estoy listo para soltar el pasado y avanzar?",
+        "¿Qué viaje o transición me espera en mi vida?",
+        "¿Qué me impide encontrar la paz mental?",
+        "¿Estoy resistiéndome al cambio necesario?"
+      ]
+    }
+  },
+  {
+    id: "siete-espadas",
+    nombre: "Siete de Espadas",
+    arcano: "Menor",
+    numero: 7,
+    palo: "Espadas",
+    elemento: "Aire",
+    planeta: "Urano",
+    signoAstrologico: "Acuario",
+    numerologia: "7 (Engaño, estrategia, sigilo, astucia)",
+    simbolismo: `Un hombre se escabulle de un campamento, llevando cinco espadas en sus brazos y dejando dos clavadas en el suelo. Su mirada es furtiva y parece estar actuando de forma deshonesta. El campamento sugiere un lugar de confianza o un grupo. La escena simboliza el engaño, la astucia y la necesidad de una estrategia para salir de una situación.`,
+    palabrasClaveDerechas: ["Engaño", "estrategia", "sigilo", "astucia", "robo", "mentira", "plan secreto", "evasión"],
+    palabrasClaveInvertidas: ["Revelación", "honestidad", "arrepentimiento", "confesión", "mala estrategia", "problemas con la ley", "fracaso del engaño"],
+    significadoDerecho: `El Siete de Espadas representa el engaño, la estrategia y la astucia. Esta carta simboliza una situación donde alguien (tú o alguien más) está actuando con poca honestidad, robando ideas o intentando salirse con la suya de forma sigilosa. Es un momento de tácticas dudosas y de evitar la confrontación directa.
+    
+    Cuando aparece el Siete de Espadas, te invita a ser consciente de las intenciones ocultas, a proteger tus intereses y a cuestionar la honestidad de las situaciones. Es un momento propicio para el espionaje, para la planificación estratégica encubierta o para reconocer dónde estás siendo deshonesto contigo mismo.`,
+    significadoInvertido: `En posición invertida, el Siete de Espadas indica la revelación, la honestidad o el arrepentimiento. Puede señalar que un engaño ha sido descubierto, que estás confesando una verdad o que estás lidiando con las consecuencias de una mala estrategia.
+    
+    También puede advertir sobre problemas legales, el fracaso de un plan secreto o la necesidad de ser más transparente. Te invita a buscar la honestidad, a asumir la responsabilidad de tus acciones y a construir relaciones basadas en la confianza.`,
+    detalleDerecho: `El Siete de Espadas en posición normal te advierte sobre el engaño, ya sea que tú lo estés cometiendo o que seas víctima de él. Sé astuto y estratega, pero ten cuidado con las acciones deshonestas.`,
+    detalleInvertido: `Cuando el Siete de Espadas aparece invertido, es una señal de que la verdad saldrá a la luz. Es el momento de la honestidad y del arrepentimiento, si es necesario. No puedes esconderte más.`,
+    meditacionReflexion: {
+      preguntas: [
+        "¿Estoy siendo honesto conmigo mismo y con los demás?",
+        "¿Hay engaño o estrategias ocultas en mi situación actual?",
+        "¿Qué necesito proteger o de qué debo ser consciente?",
+        "¿Estoy usando mi astucia de manera ética?",
+        "¿Qué consecuencias podría tener una acción deshonesta?"
+      ]
+    }
+  },
+  {
+    id: "ocho-espadas",
+    nombre: "Ocho de Espadas",
+    arcano: "Menor",
+    numero: 8,
+    palo: "Espadas",
+    elemento: "Aire",
+    planeta: "Mercurio",
+    signoAstrologico: "Géminis",
+    numerologia: "8 (Restricción, limitación, miedo, prisión mental)",
+    simbolismo: `Una mujer con los ojos vendados y atada con cuerdas, rodeada por ocho espadas clavadas en el suelo, como una cerca. Un charco de agua estancada a sus pies y un castillo lejano en un día nublado. La venda y las cuerdas simbolizan la restricción y el miedo autoimpuesto. Las espadas representan los pensamientos limitantes. El charco de agua sugiere la tristeza y el estancamiento emocional.`,
+    palabrasClaveDerechas: ["Restricción", "limitación", "miedo", "prisión mental", "impotencia", "víctima", "parálisis", "pensamientos negativos"],
+    palabrasClaveInvertidas: ["Liberación", "superación del miedo", "claridad", "encontrar soluciones", "romper límites", "empoderamiento", "escapar"],
+    significadoDerecho: `El Ocho de Espadas representa la restricción, la limitación y el miedo que te mantiene prisionero. Esta carta simboliza una situación en la que te sientes impotente, atado por pensamientos negativos o por una percepción errónea de la realidad. Es una prisión mental, a menudo autoimpuesta.
+    
+    Cuando aparece el Ocho de Espadas, te invita a reconocer que las limitaciones son a menudo autoimpuestas, a cuestionar tus miedos y a buscar la forma de liberarte. Es un momento propicio para el autoanálisis, para desafiar tus creencias limitantes y para dar el primer paso hacia la libertad.`,
+    significadoInvertido: `En posición invertida, el Ocho de Espadas indica la liberación, la superación del miedo y la claridad. Representa el momento en que rompes tus cadenas, encuentras soluciones y te empoderas para escapar de tus limitaciones.
+    
+    También puede señalar la confrontación de una verdad incómoda, la capacidad de ver la realidad con mayor claridad o la necesidad de salir de tu zona de confort. Te invita a ser valiente, a confiar en tu fuerza interior y a recordar que tienes el poder de liberarte.`,
+    detalleDerecho: `El Ocho de Espadas en posición normal te muestra una prisión mental. Te sientes atado por tus miedos y pensamientos limitantes. Pero recuerda, la llave está en tu mano.`,
+    detalleInvertido: `Cuando el Ocho de Espadas aparece invertido, es una señal de liberación. Estás rompiendo tus cadenas y superando tus miedos. Abraza tu poder y sal de la situación.`,
+    meditacionReflexion: {
+      preguntas: [
+        "¿Qué miedos o pensamientos me están limitando en este momento?",
+        "¿Estoy en una prisión mental autoimpuesta?",
+        "¿Cómo puedo desafiar mis creencias limitantes?",
+        "¿Qué necesito hacer para liberarme de esta restricción?",
+        "¿Estoy buscando soluciones o sintiéndome impotente?"
+      ]
+    }
+  },
+  {
+    id: "nueve-espadas",
+    nombre: "Nueve de Espadas",
+    arcano: "Menor",
+    numero: 9,
+    palo: "Espadas",
+    elemento: "Aire",
+    planeta: "Marte",
+    signoAstrologico: "Géminis",
+    numerologia: "9 (Angustia, pesadillas, preocupación, culpa)",
+    simbolismo: `Una figura sentada en la cama, con las manos en la cara, en una pose de angustia y desesperación. Nueve espadas cuelgan en la pared detrás de ella, una tras otra. El fondo oscuro sugiere la noche y las pesadillas. La escena representa la ansiedad, la culpa, el arrepentimiento y las preocupaciones que nos quitan el sueño.`,
+    palabrasClaveDerechas: ["Angustia", "pesadillas", "preocupación", "culpa", "ansiedad", "miedo", "arrepentimiento", "insomnio"],
+    palabrasClaveInvertidas: ["Alivio", "esperanza", "liberación de la culpa", "aceptación", "superación de la ansiedad", "soluciones", "despertar"],
+    significadoDerecho: `El Nueve de Espadas representa la angustia, las pesadillas y la preocupación intensa. Esta carta simboliza un momento de ansiedad, culpa, arrepentimiento o miedo que te quita el sueño. Es la manifestación de tus pensamientos más oscuros y tus inseguridades.
+    
+    Cuando aparece el Nueve de Espadas, te invita a enfrentar tus miedos, a buscar la causa de tu angustia y a encontrar formas de liberar tu mente de la preocupación. Es un momento propicio para el autoexamen, para buscar apoyo profesional y para reconocer que tus preocupaciones son a menudo exageradas por tu mente.`,
+    significadoInvertido: `En posición invertida, el Nueve de Espadas indica el alivio, la esperanza o la liberación de la culpa. Representa el momento en que empiezas a ver la luz al final del túnel, a encontrar soluciones a tus problemas o a aceptar tus errores.
+    
+    También puede señalar la superación de la ansiedad, la capacidad de dormir en paz o la necesidad de perdonarte a ti mismo. Te invita a buscar la perspectiva, a confiar en que las cosas mejorarán y a liberarte de la carga de la culpa.`,
+    detalleDerecho: `El Nueve de Espadas en posición normal te sumerge en la angustia y la preocupación. Es el momento de enfrentar tus miedos y de buscar la raíz de tu ansiedad para encontrar la paz.`,
+    detalleInvertido: `Cuando el Nueve de Espadas aparece invertido, te trae alivio y esperanza. Estás liberando la culpa y la ansiedad. Permítete descansar y ver las soluciones que se presentan.`,
+    meditacionReflexion: {
+      preguntas: [
+        "¿Qué preocupaciones me están quitando el sueño en este momento?",
+        "¿Estoy lidiando con culpa o arrepentimiento?",
+        "¿Qué puedo hacer para liberar mi mente de esta angustia?",
+        "¿Estoy exagerando mis miedos o hay una amenaza real?",
+        "¿Cómo puedo encontrar esperanza y soluciones a mis problemas?"
+      ]
+    }
+  },
+  {
+    id: "diez-espadas",
+    nombre: "Diez de Espadas",
+    arcano: "Menor",
+    numero: 10,
+    palo: "Espadas",
+    elemento: "Aire",
+    planeta: "Sol",
+    signoAstrologico: "Géminis",
+    numerologia: "10 (Fin, finalización, ruina, nuevo comienzo)",
+    simbolismo: `Una figura yace boca abajo, con diez espadas clavadas en su espalda, en una imagen de finalización y ruina. El sol sale en el horizonte, y el mar está tranquilo. La escena simboliza un final doloroso, una derrota o una traición, pero el amanecer sugiere que este final es también un nuevo comienzo.`,
+    palabrasClaveDerechas: ["Fin", "finalización", "ruina", "derrota", "traición", "punto sin retorno", "crisis", "nuevo comienzo"],
+    palabrasClaveInvertidas: ["Recuperación", "regeneración", "resistencia al cambio", "evitar el fin", "nuevos comienzos", "mejora"],
+    significadoDerecho: `El Diez de Espadas representa un final definitivo, una finalización dolorosa o una derrota aparente. Esta carta simboliza la ruina, la traición o el punto más bajo de una situación. Es un momento de crisis, donde te sientes completamente vencido y sin esperanza.
+    
+    Cuando aparece el Diez de Espadas, te invita a aceptar el fin, a soltar lo que ya no sirve y a reconocer que este final es necesario para un nuevo comienzo. Es un momento propicio para el luto, para la liberación de viejas cargas y para confiar en que después de la oscuridad siempre viene la luz.`,
+    significadoInvertido: `En posición invertida, el Diez de Espadas indica la recuperación, la regeneración o la resistencia al cambio. Puede señalar que estás evitando el final necesario, que estás luchando contra lo inevitable o que estás experimentando una mejora después de una crisis.
+    
+    También puede advertir sobre la persistencia en viejos patrones, la incapacidad de dejar ir o la necesidad de aceptar un final para avanzar. Te invita a abrazar el cambio, a confiar en tu capacidad de recuperarte y a ver las oportunidades que surgen de las cenizas.`,
+    detalleDerecho: `El Diez de Espadas en posición normal es el final de un ciclo. Aunque parezca doloroso, es un nuevo amanecer disfrazado. Acepta el final para que el nuevo comienzo pueda florecer.`,
+    detalleInvertido: `Cuando el Diez de Espadas aparece invertido, te advierte que estás resistiéndote a un final necesario. Permítete soltar para que la recuperación y el nuevo comienzo puedan manifestarse.`,
+    meditacionReflexion: {
+      preguntas: [
+        "¿Qué ciclo está llegando a su fin en mi vida?",
+        "¿Estoy resistiéndome a un final necesario?",
+        "¿Cómo puedo aceptar esta 'derrota' para un nuevo comienzo?",
+        "¿Qué lecciones puedo aprender de esta crisis?",
+        "¿Estoy preparado para la regeneración y la recuperación?"
+      ]
+    }
+  },
+  {
+    id: "sota-espadas",
+    nombre: "Sota de Espadas",
+    arcano: "Menor",
+    numero: 11,
+    palo: "Espadas",
+    elemento: "Aire",
+    planeta: "Urano",
+    signoAstrologico: "Géminis/Libra/Acuario",
+    numerologia: "11 (Curiosidad, vigilancia, noticias, mente activa)",
+    simbolismo: `Una figura joven de pie en un terreno ventoso, sosteniendo una espada erguida con vigilancia. Las nubes se mueven rápidamente detrás de ella. Su expresión es de alerta y curiosidad. La espada erguida simboliza la búsqueda de la verdad y la agudeza mental. El viento y las nubes sugieren un ambiente de cambio o incertidumbre, pero también la capacidad de adaptarse.`,
+    palabrasClaveDerechas: ["Curiosidad", "vigilancia", "noticias", "mente activa", "intelecto", "alerta", "verdad", "comunicación"],
+    palabrasClaveInvertidas: ["Chismorreo", "engaño", "malas noticias", "falta de enfoque", "imprudencia", "agresión verbal", "superficialidad"],
+    significadoDerecho: `La Sota de Espadas representa la curiosidad, la vigilancia y la llegada de noticias. Esta carta simboliza una mente activa, la búsqueda de la verdad y la necesidad de estar alerta. Es un mensajero de información importante, a menudo desafiante, que requiere tu atención y análisis.
+    
+    Cuando aparece la Sota de Espadas, te invita a ser observador, a cuestionar la información y a comunicar tus ideas con claridad. Es un momento propicio para el estudio, para la investigación y para estar preparado para defender tus ideas con argumentos sólidos.`,
+    significadoInvertido: `En posición invertida, la Sota de Espadas advierte sobre el chismorreo, el engaño o las malas noticias. Puede indicar una falta de enfoque, imprudencia verbal o la tendencia a ser demasiado crítico o agresivo con tus palabras.
+    
+    También puede señalar la propagación de rumores, la incapacidad de ver la verdad o la necesidad de ser más responsable con tu comunicación. Te invita a ser más discreto, a verificar la información y a usar tu intelecto de manera constructiva.`,
+    detalleDerecho: `La Sota de Espadas en posición normal es un mensajero de nuevas ideas y una señal de que necesitas estar alerta. Usa tu mente aguda para discernir la verdad y comunicar con claridad.`,
+    detalleInvertido: `Cuando la Sota de Espadas aparece invertida, te pide que examines tu comunicación. ¿Estás chismeando o siendo imprudente con tus palabras? Busca la honestidad y la responsabilidad.`,
+    meditacionReflexion: {
+      preguntas: [
+        "¿Qué noticias o información importante estoy recibiendo?",
+        "¿Estoy siendo suficientemente vigilante y observador?",
+        "¿Cómo puedo usar mi mente activa para mi beneficio?",
+        "¿Qué me impide comunicar mis ideas con claridad?",
+        "¿Estoy contribuyendo al chismorreo o a la desinformación?"
+      ]
+    }
+  },
+  {
+    id: "caballero-espadas",
+    nombre: "Caballero de Espadas",
+    arcano: "Menor",
+    numero: 12,
+    palo: "Espadas",
+    elemento: "Aire",
+    planeta: "Marte",
+    signoAstrologico: "Acuario",
+    numerologia: "12 (Ambición, franqueza, rapidez, agresión)",
+    simbolismo: `Un caballero con armadura montado en un caballo al galope, con la espada levantada en alto, listo para la batalla. Las nubes se agitan violentamente detrás de él, sugiriendo un movimiento rápido y una atmósfera de conflicto. El caballero mira fijamente hacia adelante, con determinación y ferocidad.`,
+    palabrasClaveDerechas: ["Ambición", "franqueza", "rapidez", "agresión", "valentía", "determinación", "confrontación", "acción decisiva"],
+    palabrasClaveInvertidas: ["Imprudencia", "ira", "tiranía", "destrucción", "falta de tacto", "precipitación", "crueldad"],
+    significadoDerecho: `El Caballero de Espadas representa la ambición, la franqueza y la rapidez en la acción. Esta carta simboliza la valentía, la determinación y la disposición a enfrentar los desafíos de frente. Es un arquetipo de acción decisiva y de comunicación directa, a veces agresiva.
+    
+    Cuando aparece el Caballero de Espadas, te invita a actuar con audacia, a defender tus ideas con convicción y a perseguir tus metas sin miedo. Es un momento propicio para el debate, para la confrontación de verdades y para la ejecución de planes ambiciosos.`,
+    significadoInvertido: `En posición invertida, el Caballero de Espadas advierte sobre la imprudencia, la ira o la tiranía. Puede indicar agresividad verbal, falta de tacto o la tendencia a precipitarse en situaciones sin pensar en las consecuencias.
+    
+    También puede señalar la destrucción, la incapacidad de controlar tus impulsos o la necesidad de ser más diplomático. Te invita a canalizar tu energía de manera constructiva, a pensar antes de hablar y a evitar el conflicto innecesario.`,
+    detalleDerecho: `El Caballero de Espadas en posición normal te impulsa a la acción audaz y a la confrontación de la verdad. Tu mente es tu arma; úsala con valentía y determinación para alcanzar tus metas.`,
+    detalleInvertido: `Cuando el Caballero de Espadas aparece invertido, te advierte sobre la imprudencia o la agresión. Es el momento de controlar tus impulsos y de pensar antes de actuar.`,
+    meditacionReflexion: {
+      preguntas: [
+        "¿Qué acciones decisivas necesito tomar en este momento?",
+        "¿Estoy siendo demasiado agresivo o mi franqueza es apropiada?",
+        "¿Cómo puedo canalizar mi ambición de manera constructiva?",
+        "¿Estoy persiguiendo mis metas con valentía y determinación?",
+        "¿Qué me impide ser más diplomático en mis interacciones?"
+      ]
+    }
+  },
+  {
+    id: "reina-espadas",
+    nombre: "Reina de Espadas",
+    arcano: "Menor",
+    numero: 13,
+    palo: "Espadas",
+    elemento: "Aire",
+    planeta: "Saturno",
+    signoAstrologico: "Libra/Acuario",
+    numerologia: "13 (Independencia, intelecto, honestidad, frialdad)",
+    simbolismo: `Una mujer sentada en un trono adornado con mariposas (símbolo de transformación) y querubines (símbolos de sabiduría). Sostiene una espada en una mano, mirando hacia adelante con una expresión seria y distante. El cielo detrás de ella es claro. La Reina simboliza la independencia, el intelecto agudo y la capacidad de ver la verdad sin emociones.`,
+    palabrasClaveDerechas: ["Independencia", "intelecto", "honestidad", "frialdad", "objetividad", "justicia", "crítica", "sabiduría"],
+    palabrasClaveInvertidas: ["Crueldad", "amargura", "intolerancia", "manipulación", "frialdad excesiva", "juicio"],
+    significadoDerecho: `La Reina de Espadas representa la independencia, el intelecto agudo y la honestidad. Esta carta simboliza la objetividad, la capacidad de ver la verdad sin emociones y de comunicar con claridad, incluso si es doloroso. Es el arquetipo de la mujer sabia, perspicaz y a veces distante.
+    
+    Cuando aparece la Reina de Espadas, te invita a ser objetivo en tus juicios, a buscar la verdad y a comunicar tus ideas con franqueza. Es un momento propicio para el análisis, para la toma de decisiones difíciles y para proteger tus límites con claridad.`,
+    significadoInvertido: `En posición invertida, la Reina de Espadas advierte sobre la crueldad, la amargura o la intolerancia. Puede indicar manipulación, frialdad excesiva o la tendencia a juzgar a otros sin compasión.
+    
+    También puede señalar la incapacidad de conectar emocionalmente, el uso de tus palabras para herir o la necesidad de equilibrar tu intelecto con la empatía. Te invita a ser más compasivo, a usar tu sabiduría para el bien y a ablandar tu corazón sin perder tu agudeza.`,
+    detalleDerecho: `La Reina de Espadas en posición normal te insta a abrazar tu intelecto y tu honestidad. Sé objetiva en tus juicios y comunica con claridad. Tu sabiduría y tu independencia son tus mayores fortalezas.`,
+    detalleInvertido: `Cuando la Reina de Espadas aparece invertida, te pide que examines si tu objetividad se ha vuelto crueldad o si estás manipulando con tus palabras. Busca el equilibrio entre la mente y el corazón.`,
+    meditacionReflexion: {
+      preguntas: [
+        "¿Estoy siendo objetivo y honesto en mis pensamientos y palabras?",
+        "¿Cómo puedo usar mi intelecto para mi beneficio y el de otros?",
+        "¿Estoy protegiendo mis límites con claridad y sin culpa?",
+        "¿Qué me impide ser más compasivo sin perder mi agudeza?",
+        "¿Estoy juzgando a los demás con demasiada frialdad?"
+      ]
+    }
+  },
+  {
+    id: "rey-espadas",
+    nombre: "Rey de Espadas",
+    arcano: "Menor",
+    numero: 14,
+    palo: "Espadas",
+    elemento: "Aire",
+    planeta: "Saturno",
+    signoAstrologico: "Géminis/Libra/Acuario",
+    numerologia: "14 (Autoridad, intelecto, justicia, liderazgo mental)",
+    simbolismo: `Un rey sentado en un trono, sosteniendo una espada erguida con una mano y mirando hacia adelante con una expresión de autoridad y concentración. Nubes y pájaros vuelan en el cielo detrás de él. El rey simboliza la autoridad intelectual, la justicia y la toma de decisiones con lógica. El cielo despejado sugiere claridad mental.`,
+    palabrasClaveDerechas: ["Autoridad", "intelecto", "justicia", "liderazgo mental", "razón", "objetividad", "disciplina", "claridad"],
+    palabrasClaveInvertidas: ["Tiranía", "crueldad", "abuso de poder", "intelecto frío", "prejuicio", "rigidez mental", "falta de compasión"],
+    significadoDerecho: `El Rey de Espadas representa la autoridad, el intelecto y la justicia. Esta carta simboliza el liderazgo basado en la razón, la objetividad y la capacidad de tomar decisiones difíciles con claridad y lógica. Es el arquetipo del juez, el abogado, el científico o el líder que se rige por principios.
+    
+    Cuando aparece el Rey de Espadas, te invita a usar tu intelecto para gobernar con justicia, a tomar decisiones imparciales y a comunicar tus ideas con autoridad. Es un momento propicio para el liderazgo, para la resolución de conflictos complejos y para establecer reglas claras y justas.`,
+    significadoInvertido: `En posición invertida, el Rey de Espadas advierte sobre la tiranía, la crueldad o el abuso de poder. Puede indicar que estás siendo demasiado frío e impersonal, que estás emitiendo juicios injustos o que estás aplicando reglas sin compasión.
+    
+    También puede señalar la rigidez mental, la incapacidad de ver otros puntos de vista o la necesidad de equilibrar tu intelecto con la sabiduría del corazón. Te invita a ser más flexible, a escuchar a los demás y a usar tu autoridad para el bien común.`,
+    detalleDerecho: `El Rey de Espadas en posición normal te anima a liderar con razón y justicia. Tu intelecto y tu objetividad son tus mayores fortalezas. Toma decisiones claras y establece límites justos.`,
+    detalleInvertido: `Cuando el Rey de Espadas aparece invertido, te pide que examines si tu autoridad se ha vuelto tiránica o si estás usando tu intelecto para manipular. Busca la compasión y la flexibilidad.`,
+    meditacionReflexion: {
+      preguntas: [
+        "¿Cómo puedo ejercer mi autoridad con justicia y razón?",
+        "¿Estoy usando mi intelecto para el bien común o para mis propios intereses?",
+        "¿Qué decisiones difíciles necesito tomar con objetividad?",
+        "¿Estoy siendo demasiado frío o impersonal en mi liderazgo?",
+        "¿Cómo puedo equilibrar la razón con la compasión?"
+      ]
+    }
+  },
+  // Palo de Copas
+  {
+    id: "as-copas",
+    nombre: "As de Copas",
+    arcano: "Menor",
+    numero: 1,
+    palo: "Copas",
+    elemento: "Agua",
+    planeta: "Neptuno",
+    signoAstrologico: "Cáncer/Escorpio/Piscis",
+    numerologia: "1 (Comienzo, amor, emoción, potencial)",
+    simbolismo: `Una mano emerge de una nube, sosteniendo una gran copa de la que desbordan cinco chorros de agua, formando una cascada que cae sobre un estanque lleno de nenúfares. Una paloma con una hostia en el pico vuela hacia la copa. La copa simboliza el corazón y las emociones. El agua desbordante representa el flujo de sentimientos, la fertilidad y la abundancia. La paloma y la hostia sugieren la gracia divina y el amor espiritual.`,
+    palabrasClaveDerechas: ["Nuevo amor", "emociones", "conexión espiritual", "alegría", "compasión", "oportunidad emocional", "intuición", "creatividad"],
+    palabrasClaveInvertidas: ["Emociones reprimidas", "amor no correspondido", "corazón roto", "falta de creatividad", "bloqueo emocional", "dolor", "desconexión"],
+    significadoDerecho: `El As de Copas representa el inicio de un nuevo amor, una conexión emocional profunda o una oportunidad para la alegría y la compasión. Esta carta simboliza el desbordamiento de sentimientos, la creatividad y la apertura del corazón. Es un llamado a abrazar tus emociones y a sumergirte en experiencias significativas.
+    
+    Cuando aparece el As de Copas, te invita a abrir tu corazón a nuevas relaciones, a expresar tus sentimientos y a explorar tu lado más intuitivo. Es un momento propicio para el romance, para el perdón, para el despertar espiritual o para iniciar proyectos que nacen de la pasión y la inspiración.`,
+    significadoInvertido: `En posición invertida, el As de Copas advierte sobre emociones reprimidas, amor no correspondido o un corazón roto. Puede indicar que te sientes desconectado, que estás evitando tus sentimientos o que estás experimentando dolor emocional.
+    
+    También puede señalar un bloqueo creativo, la falta de compasión o la necesidad de sanar heridas emocionales. Te invita a procesar tus sentimientos, a buscar el apoyo necesario y a liberar las emociones que te impiden fluir.`,
+    detalleDerecho: `El As de Copas en posición normal es un regalo de nuevas emociones y conexiones. Abre tu corazón al amor y a la alegría. Es el momento de sentir profundamente y de dejar que tus emociones fluyan.`,
+    detalleInvertido: `Cuando el As de Copas aparece invertido, te pide que examines tus emociones reprimidas. Es el momento de sanar el corazón y de permitir que las lágrimas fluyan para liberar el dolor.`,
+    meditacionReflexion: {
+      preguntas: [
+        "¿Qué nuevas emociones o conexiones estoy experimentando?",
+        "¿Estoy abriendo mi corazón al amor y la compasión?",
+        "¿Estoy permitiendo que mis sentimientos fluyan libremente?",
+        "¿Qué me impide expresar mis emociones auténticamente?",
+        "¿Necesito sanar alguna herida emocional para avanzar?"
+      ]
+    }
+  },
+  {
+    id: "dos-copas",
+    nombre: "Dos de Copas",
+    arcano: "Menor",
+    numero: 2,
+    palo: "Copas",
+    elemento: "Agua",
+    planeta: "Venus",
+    signoAstrologico: "Cáncer",
+    numerologia: "2 (Unión, amor, asociación, conexión)",
+    simbolismo: `Un hombre y una mujer se miran, levantando sus copas en un brindis. Sobre ellos, un caduceo con un león alado, simbolizando la curación y la unión de energías opuestas. Un río fluye tranquilamente detrás de ellos. La escena representa la unión, la armonía, el amor mutuo y la conexión profunda.`,
+    palabrasClaveDerechas: ["Unión", "amor", "asociación", "conexión", "relación", "armonía", "matrimonio", "amistad"],
+    palabrasClaveInvertidas: ["Desequilibrio", "conflicto", "ruptura", "desconexión", "amor no correspondido", "desconfianza", "separación"],
+    significadoDerecho: `El Dos de Copas representa la unión, el amor y la asociación armoniosa. Esta carta simboliza una conexión profunda y recíproca, ya sea en una relación romántica, una amistad sólida o una colaboración exitosa. Es el arquetipo del alma gemela o del encuentro significativo.
+    
+    Cuando aparece el Dos de Copas, te invita a celebrar la conexión con otros, a nutrir tus relaciones y a buscar la armonía en tus interacciones. Es un momento propicio para el inicio de una relación, para compromisos o para la consolidación de lazos importantes.`,
+    significadoInvertido: `En posición invertida, el Dos de Copas advierte sobre el desequilibrio, el conflicto o la ruptura en las relaciones. Puede indicar amor no correspondido, desconfianza o la necesidad de reevaluar una asociación.
+    
+    También puede señalar una desconexión emocional, la incapacidad de comprometerse o la necesidad de sanar viejas heridas en tus relaciones. Te invita a comunicar tus necesidades, a buscar la honestidad y a decidir si la relación vale la pena el esfuerzo.`,
+    detalleDerecho: `El Dos de Copas en posición normal es la carta de la unión y la conexión. Celebra el amor, la amistad y las asociaciones significativas. Es el momento de nutrir tus relaciones más importantes.`,
+    detalleInvertido: `Cuando el Dos de Copas aparece invertido, te pide que examines los conflictos o desequilibrios en tus relaciones. Es el momento de la comunicación honesta o de considerar una separación.`,
+    meditacionReflexion: {
+      preguntas: [
+        "¿Qué relaciones en mi vida están basadas en el amor y la armonía?",
+        "¿Estoy cultivando conexiones profundas y recíprocas?",
+        "¿Qué puedo hacer para mejorar la comunicación en mis relaciones?",
+        "¿Estoy experimentando desequilibrios o conflictos en mis uniones?",
+        "¿Estoy abierto a nuevas asociaciones o a profundizar las existentes?"
+      ]
+    }
+  },
+  {
+    id: "tres-copas",
+    nombre: "Tres de Copas",
+    arcano: "Menor",
+    numero: 3,
+    palo: "Copas",
+    elemento: "Agua",
+    planeta: "Mercurio",
+    signoAstrologico: "Cáncer",
+    numerologia: "3 (Celebración, amistad, comunidad, alegría)",
+    simbolismo: `Tres figuras femeninas, con guirnaldas de flores en el cabello, levantan sus copas en un brindis festivo, celebrando juntas. Frutas y calabazas están esparcidas a sus pies. El entorno es un viñedo con un cielo claro. La escena representa la alegría, la celebración, la amistad y la comunidad.`,
+    palabrasClaveDerechas: ["Celebración", "amistad", "comunidad", "alegría", "reunión", "fiesta", "éxito compartido", "apoyo social"],
+    palabrasClaveInvertidas: ["Excesos", "chismorreo", "aislamiento", "conflictos sociales", "desconexión", "celebración forzada", "desconfianza"],
+    significadoDerecho: `El Tres de Copas representa la celebración, la amistad y la alegría en comunidad. Esta carta simboliza los momentos de felicidad compartida, las reuniones festivas y el apoyo de tus seres queridos. Es un recordatorio de la importancia de la conexión social y de disfrutar los éxitos con aquellos que te rodean.
+    
+    Cuando aparece el Tres de Copas, te invita a celebrar tus logros, a reunirte con amigos y familiares y a disfrutar de la vida. Es un momento propicio para bodas, cumpleaños, fiestas o cualquier evento que fortalezca los lazos y te brinde un sentido de pertenencia.`,
+    significadoInvertido: `En posición invertida, el Tres de Copas advierte sobre los excesos, el chismorreo o el aislamiento. Puede indicar conflictos sociales, la desconexión con tu comunidad o la sensación de que las celebraciones son forzadas.
+    
+    También puede señalar desconfianza, la incapacidad de disfrutar de la compañía de otros o la necesidad de reevaluar tus círculos sociales. Te invita a ser más consciente de tus interacciones, a buscar amistades auténticas y a evitar los ambientes tóxicos.`,
+    detalleDerecho: `El Tres de Copas en posición normal es una invitación a la alegría y la celebración. Rodéate de tus amigos y seres queridos, comparte tus éxitos y disfruta de la vida en comunidad.`,
+    detalleInvertido: `Cuando el Tres de Copas aparece invertido, te pide que examines los excesos o los conflictos en tus círculos sociales. Busca la autenticidad y la conexión verdadera, y evita el chismorreo.`,
+    meditacionReflexion: {
+      preguntas: [
+        "¿Qué éxitos tengo para celebrar con mis amigos y comunidad?",
+        "¿Estoy conectando con mis seres queridos y buscando su apoyo?",
+        "¿Estoy participando en celebraciones que me traen alegría genuina?",
+        "¿Qué me impide disfrutar plenamente de la compañía de otros?",
+        "¿Necesito reevaluar mis amistades o mis círculos sociales?"
+      ]
+    }
+  },
+  {
+    id: "cuatro-copas",
+    nombre: "Cuatro de Copas",
+    arcano: "Menor",
+    numero: 4,
+    palo: "Copas",
+    elemento: "Agua",
+    planeta: "Luna",
+    signoAstrologico: "Cáncer",
+    numerologia: "4 (Apatía, aburrimiento, reevaluación, oportunidades perdidas)",
+    simbolismo: `Una figura sentada bajo un árbol, con los brazos cruzados, mirando fijamente a tres copas que tiene delante. Una mano surge de una nube, ofreciéndole una cuarta copa, pero él no la ve o la ignora. El árbol y la postura estática sugieren aburrimiento y complacencia. La copa ofrecida simboliza una nueva oportunidad emocional ignorada.`,
+    palabrasClaveDerechas: ["Apatía", "aburrimiento", "desinterés", "reevaluación", "oportunidades perdidas", "complacencia", "melancolía", "descontento"],
+    palabrasClaveInvertidas: ["Nuevo interés", "motivación", "aceptación de la oferta", "entusiasmo", "despertar emocional", "aprovechar oportunidades"],
+    significadoDerecho: `El Cuatro de Copas representa la apatía, el aburrimiento y el desinterés ante las oportunidades que se presentan. Esta carta simboliza un período de reevaluación, donde te sientes insatisfecho con lo que tienes y no ves el valor en las nuevas ofertas. Es un momento de melancolía y complacencia.
+    
+    Cuando aparece el Cuatro de Copas, te invita a examinar la causa de tu descontento, a abrirte a nuevas posibilidades y a no ignorar las bendiciones que te rodean. Es un momento propicio para la introspección, para la gratitud y para romper con la rutina que te mantiene estancado.`,
+    significadoInvertido: `En posición invertida, el Cuatro de Copas indica un nuevo interés, la motivación o la aceptación de una oferta. Representa el momento en que sales de tu apatía, te abres a nuevas experiencias y aprovechas las oportunidades emocionales.
+    
+    También puede señalar el despertar emocional, la superación del aburrimiento o la capacidad de ver el valor en lo que antes ignorabas. Te invita a ser más proactivo, a salir de tu zona de confort y a abrazar la vida con renovado entusiasmo.`,
+    detalleDerecho: `El Cuatro de Copas en posición normal te muestra una apatía o aburrimiento que te impide ver las oportunidades. Examina tu descontento y abre los ojos a lo que el universo te ofrece.`,
+    detalleInvertido: `Cuando el Cuatro de Copas aparece invertido, es una señal de que estás despertando. El desinterés se disipa y nuevas oportunidades se presentan. Abraza este nuevo entusiasmo.`,
+    meditacionReflexion: {
+      preguntas: [
+        "¿Qué me está causando apatía o aburrimiento en este momento?",
+        "¿Estoy ignorando oportunidades emocionales o nuevas ofertas?",
+        "¿Cómo puedo reevaluar mi situación para encontrar mayor satisfacción?",
+        "¿Qué necesito hacer para salir de mi zona de confort y abrirme a la vida?",
+        "¿Estoy expresando gratitud por lo que ya tengo?"
+      ]
+    }
+  },
+  {
+    id: "cinco-copas",
+    nombre: "Cinco de Copas",
+    arcano: "Menor",
+    numero: 5,
+    palo: "Copas",
+    elemento: "Agua",
+    planeta: "Marte",
+    signoAstrologico: "Escorpio",
+    numerologia: "5 (Pérdida, arrepentimiento, duelo, oportunidades no vistas)",
+    simbolismo: `Una figura encapuchada, vestida de negro, mira a tres copas derramadas en el suelo, lamentando la pérdida. Detrás de ella, dos copas permanecen erguidas, pero ella no las ve. Un río tumultuoso y un puente lejano. La escena representa la pérdida, el arrepentimiento y la incapacidad de ver las bendiciones restantes o las oportunidades de seguir adelante.`,
+    palabrasClaveDerechas: ["Pérdida", "arrepentimiento", "duelo", "tristeza", "desilusión", "fracaso", "concentración en lo negativo", "oportunidades no vistas"],
+    palabrasClaveInvertidas: ["Aceptación", "recuperación", "sanación", "liberación del arrepentimiento", "nueva perspectiva", "oportunidades ocultas"],
+    significadoDerecho: `El Cinco de Copas representa la pérdida, el arrepentimiento y el duelo. Esta carta simboliza un momento de tristeza profunda, desilusión o el lamento por lo que se ha perdido. Te enfocas en las copas derramadas, sin ver las que aún permanecen en pie.
+    
+    Cuando aparece el Cinco de Copas, te invita a permitirte sentir el dolor de la pérdida, a procesar tu duelo y a reconocer tus sentimientos. Es un momento propicio para el luto, para la introspección y para liberarte del arrepentimiento. Sin embargo, también te recuerda que, incluso en la pérdida, siempre hay algo que queda y nuevas oportunidades para el futuro.`,
+    significadoInvertido: `En posición invertida, el Cinco de Copas indica la aceptación, la recuperación o la sanación después de una pérdida. Representa el momento en que empiezas a ver las oportunidades restantes, a liberar el arrepentimiento o a encontrar una nueva perspectiva.
+    
+    También puede señalar la liberación del dolor, la capacidad de perdonar o la fuerza para seguir adelante después de un fracaso. Te invita a levantar la mirada, a apreciar lo que aún tienes y a abrirte a nuevas posibilidades emocionales.`,
+    detalleDerecho: `El Cinco de Copas en posición normal te sumerge en el arrepentimiento y la pérdida. Permítete sentir el duelo, pero no te quedes ciego a las copas que aún permanecen en pie. Hay esperanza.`,
+    detalleInvertido: `Cuando el Cinco de Copas aparece invertido, es una señal de que estás sanando y aceptando. Estás levantando la mirada y viendo las oportunidades que antes pasabas por alto.`,
+    meditacionReflexion: {
+      preguntas: [
+        "¿Qué pérdida o situación me está causando arrepentimiento?",
+        "¿Estoy permitiéndome sentir y procesar mi duelo?",
+        "¿Estoy enfocado en lo negativo y no veo las oportunidades restantes?",
+        "¿Qué puedo hacer para sanar y liberar el arrepentimiento?",
+        "¿Estoy listo para encontrar una nueva perspectiva y seguir adelante?"
+      ]
+    }
+  },
+  {
+    id: "seis-copas",
+    nombre: "Seis de Copas",
+    arcano: "Menor",
+    numero: 6,
+    palo: "Copas",
+    elemento: "Agua",
+    planeta: "Sol",
+    signoAstrologico: "Piscis",
+    numerologia: "6 (Nostalgia, pasado, inocencia, regalos)",
+    simbolismo: `Un niño le ofrece una copa llena de flores a otro niño, que la acepta. Seis copas con flores están alrededor. Una casa grande y un anciano con un bastón en el fondo, sugiriendo el pasado y la memoria. La escena evoca la nostalgia, la inocencia, los recuerdos de la infancia y los regalos del pasado.`,
+    palabrasClaveDerechas: ["Nostalgia", "pasado", "inocencia", "recuerdos", "regalos", "infancia", "perdón", "generosidad"],
+    palabrasClaveInvertidas: ["Vivir en el pasado", "melancolía excesiva", "desconexión del pasado", "abuso del pasado", "falta de perdón", "crecimiento lento"],
+    significadoDerecho: `El Seis de Copas representa la nostalgia, los recuerdos del pasado y la inocencia. Esta carta simboliza la conexión con la infancia, la aparición de viejos amigos o amantes, y la alegría de recibir regalos o actos de generosidad. Es un momento de mirar hacia atrás con cariño.
+    
+    Cuando aparece el Seis de Copas, te invita a reconectar con tus raíces, a perdonar viejas heridas y a revivir recuerdos felices. Es un momento propicio para el reencuentro, para la gratitud por las bendiciones pasadas y para la comprensión de cómo el pasado ha moldeado tu presente.`,
+    significadoInvertido: `En posición invertida, el Seis de Copas advierte sobre vivir demasiado en el pasado, la melancolía excesiva o la incapacidad de dejar ir. Puede indicar que te aferras a viejos rencores, que te sientes atrapado en la nostalgia o que el pasado te impide avanzar.
+    
+    También puede señalar la desconexión del pasado, el abuso de recuerdos o la necesidad de sanar viejas heridas. Te invita a encontrar un equilibrio entre el pasado y el presente, a perdonar y a liberarte de cualquier carga que te impida vivir plenamente.`,
+    detalleDerecho: `El Seis de Copas en posición normal es un viaje a la nostalgia y los recuerdos felices. Conéctate con tu infancia y con el perdón. Es un regalo del pasado que ilumina tu presente.`,
+    detalleInvertido: `Cuando el Seis de Copas aparece invertido, te pide que examines si estás demasiado anclado en el pasado o si los recuerdos te impiden avanzar. Es el momento de perdonar y de vivir en el presente.`,
+    meditacionReflexion: {
+      preguntas: [
+        "¿Qué recuerdos del pasado me están visitando en este momento?",
+        "¿Estoy abrazando la nostalgia de manera saludable?",
+        "¿Necesito perdonar a alguien de mi pasado (o a mí mismo)?",
+        "¿Estoy demasiado aferrado al pasado o puedo vivir en el presente?",
+        "¿Qué regalos o bendiciones recibí de mi pasado?"
+      ]
+    }
+  },
+  {
+    id: "siete-copas",
+    nombre: "Siete de Copas",
+    arcano: "Menor",
+    numero: 7,
+    palo: "Copas",
+    elemento: "Agua",
+    planeta: "Venus",
+    signoAstrologico: "Piscis",
+    numerologia: "7 (Elecciones, ilusiones, fantasía, engaño)",
+    simbolismo: `Una figura mira con asombro a siete copas que flotan en el aire, cada una conteniendo algo diferente: una serpiente, una figura velada, un castillo, joyas, una corona, una cabeza de dragón y una guirnalda. Nubes se agitan detrás de las copas. La escena representa las muchas opciones, a menudo ilusorias o fantásticas, y la necesidad de elegir con discernimiento.`,
+    palabrasClaveDerechas: ["Elecciones", "ilusiones", "fantasía", "engaño", "deseos", "sueños", "confusión", "distracciones"],
+    palabrasClaveInvertidas: ["Claridad", "realidad", "toma de decisiones", "oportunidad real", "superación de la confusión", "despertar", "objetividad"],
+    significadoDerecho: `El Siete de Copas representa las muchas opciones, a menudo ilusorias o engañosas, que se presentan en tu vida. Esta carta simboliza la fantasía, los sueños y la posibilidad de perderse en un mundo de deseos sin concretar. Es un momento de confusión, donde es difícil discernir entre la realidad y la ilusión.
+    
+    Cuando aparece el Siete de Copas, te invita a ser cauteloso con tus elecciones, a distinguir entre lo real y lo idealizado y a no dejarte llevar por las distracciones. Es un momento propicio para la meditación, para la clarificación de tus verdaderos deseos y para elegir un camino con discernimiento.`,
+    significadoInvertido: `En posición invertida, el Siete de Copas indica la claridad, la realidad o la toma de decisiones. Representa el momento en que sales de la confusión, ves las cosas con mayor objetividad y eliges una opción real y concreta.
+    
+    También puede señalar el despertar, la superación de las ilusiones o la capacidad de enfocarte en lo que realmente importa. Te invita a ser más práctico, a aterrizar tus sueños y a tomar acciones concretas en lugar de solo fantasear.`,
+    detalleDerecho: `El Siete de Copas en posición normal te presenta un sinfín de opciones, algunas reales, otras ilusiones. Discierne con sabiduría y no te dejes llevar por la fantasía.`,
+    detalleInvertido: `Cuando el Siete de Copas aparece invertido, te trae la claridad que necesitabas. Estás saliendo de la confusión y listo para tomar decisiones basadas en la realidad.`,
+    meditacionReflexion: {
+      preguntas: [
+        "¿Qué opciones o deseos me están confundiendo en este momento?",
+        "¿Estoy viviendo en la fantasía o en la realidad?",
+        "¿Cómo puedo discernir entre lo que es real y lo que es una ilusión?",
+        "¿Qué distracciones me impiden tomar una decisión clara?",
+        "¿Qué paso concreto puedo dar para manifestar mis verdaderos deseos?"
+      ]
+    }
+  },
+  {
+    id: "ocho-copas",
+    nombre: "Ocho de Copas",
+    arcano: "Menor",
+    numero: 8,
+    palo: "Copas",
+    elemento: "Agua",
+    planeta: "Saturno",
+    signoAstrologico: "Piscis",
+    numerologia: "8 (Abandono, búsqueda, viaje, desilusión)",
+    simbolismo: `Una figura se aleja de ocho copas apiladas, caminando en la noche hacia montañas en la distancia. Su postura es de partida, dejando atrás algo. La luna creciente ilumina su camino. Las copas apiladas simbolizan algo que fue construido o logrado, pero que ahora se abandona por insatisfacción. El viaje nocturno y las montañas sugieren una búsqueda espiritual o un nuevo camino.`,
+    palabrasClaveDerechas: ["Abandono", "búsqueda", "viaje", "desilusión", "insatisfacción", "dejar atrás", "nuevo camino", "retiro"],
+    palabrasClaveInvertidas: ["Regreso", "evasión", "apego", "estancamiento", "miedo al cambio", "reafirmación", "soluciones"],
+    significadoDerecho: `El Ocho de Copas representa el abandono, la búsqueda y el viaje lejos de una situación que ya no te satisface. Esta carta simboliza la desilusión, la necesidad de dejar atrás lo que fue y de emprender un nuevo camino en busca de algo más significativo. Es un momento de retiro, de introspección y de búsqueda espiritual.
+    
+    Cuando aparece el Ocho de Copas, te invita a escuchar tu intuición, a reconocer lo que ya no te llena y a tener el coraje de alejarte. Es un momento propicio para los viajes, para el cambio de carrera o para cualquier decisión que implique dejar una situación estable pero insatisfactoria.`,
+    significadoInvertido: `En posición invertida, el Ocho de Copas advierte sobre el regreso a una situación pasada, la evasión o el apego. Puede indicar miedo al cambio, estancamiento o la incapacidad de soltar lo que ya no te sirve.
+    
+    También puede señalar la reafirmación de una decisión, la búsqueda de soluciones dentro de una situación existente o la necesidad de enfrentar lo que has estado evitando. Te invita a ser honesto contigo mismo, a no posponer las decisiones difíciles y a tener el valor de buscar tu verdadera felicidad.`,
+    detalleDerecho: `El Ocho de Copas en posición normal es un llamado a la búsqueda de algo más significativo. Estás dejando atrás una situación que ya no te llena. Confía en tu intuición y emprende este nuevo camino.`,
+    detalleInvertido: `Cuando el Ocho de Copas aparece invertido, te pide que examines tu resistencia al cambio o tu miedo a abandonar lo familiar. No vuelvas a lo que te insatisface; sigue adelante.`,
+    meditacionReflexion: {
+      preguntas: [
+        "¿Qué en mi vida ya no me satisface y necesito dejar atrás?",
+        "¿Estoy escuchando mi intuición para buscar un nuevo camino?",
+        "¿Qué me impide abandonar una situación estable pero insatisfactoria?",
+        "¿Estoy posponiendo decisiones difíciles por miedo al cambio?",
+        "¿Qué estoy buscando en este viaje de introspección?"
+      ]
+    }
+  },
+  {
+    id: "nueve-copas",
+    nombre: "Nueve de Copas",
+    arcano: "Menor",
+    numero: 9,
+    palo: "Copas",
+    elemento: "Agua",
+    planeta: "Júpiter",
+    signoAstrologico: "Piscis",
+    numerologia: "9 (Satisfacción, deseos cumplidos, disfrute, felicidad)",
+    simbolismo: `Un hombre corpulento y satisfecho está sentado delante de una cortina azul de la que cuelgan nueve copas. Sus brazos están cruzados, y su expresión es de complacencia y disfrute. El hombre representa la realización de deseos y la satisfacción. Las copas detrás de él simbolizan los deseos cumplidos y la abundancia emocional.`,
+    palabrasClaveDerechas: ["Satisfacción", "deseos cumplidos", "felicidad", "disfrute", "abundancia emocional", "éxito", "autocomplacencia", "placer"],
+    palabrasClaveInvertidas: ["Insatisfacción", "deseos no cumplidos", "excesos", "vacío", "materialismo", "egoísmo", "problemas de salud"],
+    significadoDerecho: `El Nueve de Copas representa la satisfacción, los deseos cumplidos y la felicidad en el ámbito emocional. Esta carta simboliza la abundancia, el disfrute de la vida y la realización de tus anhelos. Es un momento de complacencia, donde te sientes feliz y afortunado por lo que tienes.
+    
+    Cuando aparece el Nueve de Copas, te invita a celebrar tus logros, a disfrutar de los placeres de la vida y a sentirte agradecido por tus bendiciones. Es un momento propicio para el cumplimiento de un deseo, para el éxito personal y para disfrutar de la comodidad y el bienestar.`,
+    significadoInvertido: `En posición invertida, el Nueve de Copas advierte sobre la insatisfacción, los deseos no cumplidos o los excesos. Puede indicar un vacío a pesar de la abundancia, la tendencia al materialismo o el egoísmo.
+    
+    También puede señalar problemas de salud relacionados con el hedonismo, la incapacidad de encontrar la verdadera felicidad o la necesidad de reevaluar tus prioridades. Te invita a buscar la satisfacción más allá de lo material, a ser más generoso y a encontrar un equilibrio en tus placeres.`,
+    detalleDerecho: `El Nueve de Copas en posición normal es la carta de los deseos cumplidos. Has alcanzado la satisfacción y la felicidad. Disfruta de tus logros y de la abundancia emocional.`,
+    detalleInvertido: `Cuando el Nueve de Copas aparece invertido, te pide que examines tu insatisfacción o tus excesos. La verdadera felicidad va más allá de lo material. Busca un propósito más profundo.`,
+    meditacionReflexion: {
+      preguntas: [
+        "¿Qué deseos se han cumplido en mi vida recientemente?",
+        "¿Estoy disfrutando plenamente de mi felicidad y satisfacción?",
+        "¿Estoy buscando la satisfacción en los lugares correctos?",
+        "¿Qué me impide sentirme verdaderamente pleno y abundante?",
+        "¿Estoy cayendo en excesos o en la autocomplacencia?"
+      ]
+    }
+  },
+  {
+    id: "diez-copas",
+    nombre: "Diez de Copas",
+    arcano: "Menor",
+    numero: 10,
+    palo: "Copas",
+    elemento: "Agua",
+    planeta: "Júpiter",
+    signoAstrologico: "Piscis",
+    numerologia: "10 (Felicidad, hogar, familia, alegría duradera)",
+    simbolismo: `Una pareja feliz, con los brazos alrededor, observa un arco iris sobre su hogar, mientras dos niños juegan a sus pies. Diez copas brillantes forman el arco iris. La escena representa la felicidad doméstica, la armonía familiar y la alegría duradera. El arco iris simboliza la bendición y la realización de los sueños.`,
+    palabrasClaveDerechas: ["Felicidad", "hogar", "familia", "alegría duradera", "armonía", "matrimonio", "comunidad", "paz emocional"],
+    palabrasClaveInvertidas: ["Conflictos familiares", "infelicidad", "ruptura de hogar", "desconexión", "falta de armonía", "divorcio", "tristeza"],
+    significadoDerecho: `El Diez de Copas representa la felicidad, la armonía en el hogar y la alegría duradera en el ámbito familiar. Esta carta simboliza la culminación emocional, la realización de los sueños familiares y la sensación de paz y plenitud. Es un momento de bendición y de disfrutar de las relaciones más importantes en tu vida.
+    
+    Cuando aparece el Diez de Copas, te invita a celebrar la unión familiar, a cultivar la armonía en tu hogar y a apreciar la felicidad que te rodea. Es un momento propicio para el matrimonio, el nacimiento de un hijo, la reunión familiar o cualquier evento que fortalezca los lazos emocionales y te brinde un sentido de pertenencia y alegría.`,
+    significadoInvertido: `En posición invertida, el Diez de Copas advierte sobre los conflictos familiares, la infelicidad o la ruptura del hogar. Puede indicar desarmonía, desconexión emocional o la necesidad de sanar relaciones en tu familia.
+    
+    También puede señalar el divorcio, la tristeza en el hogar o la incapacidad de encontrar la paz interior. Te invita a abordar los problemas con honestidad, a buscar la reconciliación y a recordar que la verdadera felicidad comienza desde dentro.`,
+    detalleDerecho: `El Diez de Copas en posición normal es el pináculo de la felicidad familiar y la armonía en el hogar. Has encontrado la plenitud emocional. Disfruta de este momento de paz y alegría duradera.`,
+    detalleInvertido: `Cuando el Diez de Copas aparece invertido, te pide que examines las tensiones o la infelicidad en tu hogar. Es el momento de buscar la sanación y la reconciliación para restaurar la armonía.`,
+    meditacionReflexion: {
+      preguntas: [
+        "¿Qué me trae la mayor felicidad y armonía en mi hogar y familia?",
+        "¿Estoy cultivando relaciones que me brindan paz emocional?",
+        "¿Qué sueños o anhelos familiares se han cumplido?",
+        "¿Qué me impide sentir la plenitud en mi vida emocional?",
+        "¿Necesito abordar algún conflicto familiar para restaurar la armonía?"
+      ]
+    }
+  },
+  {
+    id: "sota-copas",
+    nombre: "Sota de Copas",
+    arcano: "Menor",
+    numero: 11,
+    palo: "Copas",
+    elemento: "Agua",
+    planeta: "Neptuno",
+    signoAstrologico: "Cáncer/Escorpio/Piscis",
+    numerologia: "11 (Mensajes, creatividad, intuición, sensibilidad)",
+    simbolismo: `Una figura joven y andrógina de pie en la orilla del mar, sosteniendo una copa de la que un pez asoma la cabeza, mirándola. El mar tranquilo y el pez simbolizan la intuición, la creatividad y el inconsciente. La expresión de la figura es de asombro y sensibilidad. Su vestimenta es fluida y artística.`,
+    palabrasClaveDerechas: ["Mensajes emocionales", "creatividad", "intuición", "sensibilidad", "romance", "sueños", "propuestas", "asombro"],
+    palabrasClaveInvertidas: ["Emociones bloqueadas", "inmadurez emocional", "manipulación", "falsas promesas", "decepción", "falta de inspiración"],
+    significadoDerecho: `La Sota de Copas representa la llegada de mensajes emocionales, la creatividad y la intuición. Esta carta simboliza la sensibilidad, el asombro y la apertura a nuevas experiencias emocionales. Es un mensajero de propuestas románticas, oportunidades creativas o el despertar de tu lado intuitivo.
+    
+    Cuando aparece la Sota de Copas, te invita a escuchar tu corazón, a seguir tus sueños y a expresar tu creatividad. Es un momento propicio para el romance, para el inicio de un proyecto artístico o para explorar tu mundo interior a través de la intuición y los sueños.`,
+    significadoInvertido: `En posición invertida, la Sota de Copas advierte sobre emociones bloqueadas, inmadurez emocional o manipulación. Puede indicar falsas promesas, decepción en el amor o la falta de inspiración.
+    
+    También puede señalar la incapacidad de confiar en tu intuición, la evitación de tus sentimientos o la necesidad de crecer emocionalmente. Te invita a ser más honesto contigo mismo, a liberar tus emociones y a buscar la autenticidad en tus relaciones.`,
+    detalleDerecho: `La Sota de Copas en posición normal es un mensajero de nuevas emociones y oportunidades creativas. Escucha tu intuición y abre tu corazón al romance y la inspiración.`,
+    detalleInvertido: `Cuando la Sota de Copas aparece invertida, te pide que examines tus bloqueos emocionales o la inmadurez en tus relaciones. Sé honesto con tus sentimientos y busca la autenticidad.`,
+    meditacionReflexion: {
+      preguntas: [
+        "¿Qué mensajes emocionales estoy recibiendo en este momento?",
+        "¿Estoy abierto a nuevas experiencias románticas o creativas?",
+        "¿Estoy escuchando mi intuición y mis sueños?",
+        "¿Qué me impide expresar mi sensibilidad y creatividad?",
+        "¿Necesito liberar alguna emoción bloqueada para avanzar?"
+      ]
+    }
+  },
+  {
+    id: "caballero-copas",
+    nombre: "Caballero de Copas",
+    arcano: "Menor",
+    numero: 12,
+    palo: "Copas",
+    elemento: "Agua",
+    planeta: "Piscis",
+    signoAstrologico: "Cáncer/Escorpio/Piscis",
+    numerologia: "12 (Romance, idealismo, propuestas, encanto)",
+    simbolismo: `Un caballero con armadura, montado en un caballo que se mueve lentamente y con gracia, sosteniendo una copa en alto. Un río fluye detrás de él, y el paisaje es suave y fértil. El caballero simboliza el romanticismo, la propuesta y la invitación a explorar el mundo emocional. Su postura es de reverencia y ofrecimiento.`,
+    palabrasClaveDerechas: ["Romance", "idealismo", "propuestas", "encanto", "invitación", "caballerosidad", "sensibilidad", "seducción"],
+    palabrasClaveInvertidas: ["Desilusión", "engaño", "manipulación", "irrealismo", "propuestas falsas", "desequilibrio emocional", "celos"],
+    significadoDerecho: `El Caballero de Copas representa el romance, el idealismo y la llegada de propuestas emocionales o invitaciones. Esta carta simboliza el encanto, la sensibilidad y la disposición a expresar tus sentimientos de manera caballerosa. Es un arquetipo de la propuesta, del enamorado o del artista soñador.
+    
+    Cuando aparece el Caballero de Copas, te invita a abrirte al amor, a perseguir tus ideales y a expresar tus emociones con gracia. Es un momento propicio para el romance, para recibir una propuesta importante o para embarcarte en un viaje de autodescubrimiento emocional.`,
+    significadoInvertido: `En posición invertida, el Caballero de Copas advierte sobre la desilusión, el engaño o la manipulación. Puede indicar propuestas falsas, irrealismo en el amor o la tendencia a ser demasiado emocional o celoso.
+    
+    También puede señalar el desequilibrio emocional, la incapacidad de comprometerse o la necesidad de ser más realista en tus expectativas. Te invita a discernir las verdaderas intenciones, a no dejarte llevar por las ilusiones y a buscar una conexión más auténtica.`,
+    detalleDerecho: `El Caballero de Copas en posición normal te trae romance e idealismo. Es un mensajero de propuestas emocionales, invitaciones a la conexión y la oportunidad de vivir un amor soñado.`,
+    detalleInvertido: `Cuando el Caballero de Copas aparece invertido, te pide que examines las desilusiones o las falsas promesas. No te dejes engañar por el idealismo; busca la autenticidad y la realidad en tus relaciones.`,
+    meditacionReflexion: {
+      preguntas: [
+        "¿Estoy abierto a nuevas experiencias románticas o emocionales?",
+        "¿Qué propuestas o invitaciones estoy recibiendo?",
+        "¿Estoy siendo demasiado idealista o realista en mis relaciones?",
+        "¿Cómo puedo expresar mis emociones con gracia y autenticidad?",
+        "¿Qué me impide comprometerme o buscar una conexión más profunda?"
+      ]
+    }
+  },
+  {
+    id: "reina-copas",
+    nombre: "Reina de Copas",
+    arcano: "Menor",
+    numero: 13,
+    palo: "Copas",
+    elemento: "Agua",
+    planeta: "Neptuno",
+    signoAstrologico: "Cáncer",
+    numerologia: "13 (Compasión, intuición, sensibilidad, sanación)",
+    simbolismo: `Una mujer sentada en un trono tallado con sirenas (símbolo de intuición y emociones) y conchas. Sostiene una copa elaboradamente decorada con asas de ángel, mirándola pensativamente. El trono está en el borde del agua. La Reina simboliza la intuición, la compasión, la sanación y la conexión profunda con las emociones.`,
+    palabrasClaveDerechas: ["Compasión", "intuición", "sensibilidad", "sanación", "cuidado", "empatía", "apoyo emocional", "psíquica"],
+    palabrasClaveInvertidas: ["Dependencia emocional", "manipulación", "inseguridad", "emociones abrumadoras", "falta de empatía", "crueldad emocional"],
+    significadoDerecho: `La Reina de Copas representa la compasión, la intuición y la sanación emocional. Esta carta simboliza la empatía, el cuidado y la capacidad de conectar profundamente con las emociones de otros. Es el arquetipo de la consejera, la sanadora o la figura materna que ofrece apoyo incondicional.
+    
+    Cuando aparece la Reina de Copas, te invita a escuchar tu intuición, a ofrecer apoyo emocional a quienes lo necesitan y a cultivar la compasión por ti mismo y por los demás. Es un momento propicio para la terapia, para la meditación, para el trabajo emocional profundo y para nutrir tus relaciones con amor.`,
+    significadoInvertido: `En posición invertida, la Reina de Copas advierte sobre la dependencia emocional, la manipulación o la inseguridad. Puede indicar emociones abrumadoras, falta de empatía o la tendencia a ser demasiado influenciable.
+    
+    También puede señalar crueldad emocional, la incapacidad de establecer límites o la necesidad de sanar tus propias heridas antes de poder ayudar a otros. Te invita a fortalecer tu independencia emocional, a establecer límites saludables y a canalizar tu empatía de manera constructiva.`,
+    detalleDerecho: `La Reina de Copas en posición normal te anima a abrazar tu compasión e intuición. Eres una fuente de sanación y apoyo emocional. Conecta con tus sentimientos y con los de los demás.`,
+    detalleInvertido: `Cuando la Reina de Copas aparece invertida, te pide que examines tu dependencia emocional o si te sientes abrumado por las emociones. Es el momento de establecer límites saludables y de nutrirte a ti mismo.`,
+    meditacionReflexion: {
+      preguntas: [
+        "¿Estoy escuchando mi intuición y confiando en mis sentimientos?",
+        "¿Cómo puedo ofrecer compasión y apoyo emocional a otros?",
+        "¿Estoy cuidando de mis propias necesidades emocionales?",
+        "¿Qué me impide establecer límites saludables en mis relaciones?",
+        "¿Necesito sanar alguna herida emocional para ser más empático?"
+      ]
+    }
+  },
+  {
+    id: "rey-copas",
+    nombre: "Rey de Copas",
+    arcano: "Menor",
+    numero: 14,
+    palo: "Copas",
+    elemento: "Agua",
+    planeta: "Neptuno",
+    signoAstrologico: "Cáncer/Escorpio/Piscis",
+    numerologia: "14 (Liderazgo emocional, sabiduría, compasión, equilibrio)",
+    simbolismo: `Un rey sentado en un trono flotante en el agua, con un pez emergiendo a su lado y un barco navegando en el fondo. Sostiene una copa en una mano y un cetro en la otra. El pez simboliza la intuición y las emociones. El barco en el mar tempestuoso (o tranquilo) sugiere su dominio sobre los altibajos emocionales. El Rey simboliza el liderazgo emocional, la sabiduría y la compasión.`,
+    palabrasClaveDerechas: ["Liderazgo emocional", "sabiduría", "compasión", "equilibrio", "control emocional", "asesoramiento", "tolerancia", "calma"],
+    palabrasClaveInvertidas: ["Manipulación", "inestabilidad emocional", "adicción", "engaño", "crueldad", "falta de control", "egoísmo"],
+    significadoDerecho: `El Rey de Copas representa el liderazgo emocional, la sabiduría y la compasión. Esta carta simboliza el equilibrio, el control emocional y la capacidad de ofrecer asesoramiento con empatía. Es el arquetipo del terapeuta, el consejero o el líder que guía con el corazón.
+    
+    Cuando aparece el Rey de Copas, te invita a asumir tu rol de líder emocional, a gestionar tus sentimientos con madurez y a ofrecer apoyo incondicional a los demás. Es un momento propicio para la resolución de conflictos, para la mediación y para cualquier situación que requiera sabiduría emocional y comprensión.`,
+    significadoInvertido: `En posición invertida, el Rey de Copas advierte sobre la manipulación, la inestabilidad emocional o la adicción. Puede indicar falta de control, engaño o la tendencia a ser cruel con tus emociones.
+    
+    También puede señalar la incapacidad de manejar la adversidad, el egoísmo o la necesidad de buscar ayuda para gestionar tus sentimientos. Te invita a ser más honesto contigo mismo, a buscar la sanación y a encontrar un equilibrio más saludable en tu vida emocional.`,
+    detalleDerecho: `El Rey de Copas en posición normal te impulsa a liderar con sabiduría y compasión. Tienes la capacidad de navegar las emociones con equilibrio y de ofrecer un apoyo incondicional a los demás.`,
+    detalleInvertido: `Cuando el Rey de Copas aparece invertido, te pide que examines tu inestabilidad emocional o si estás cayendo en la manipulación. Busca la sanación y el autocontrol para encontrar la paz.`,
+    meditacionReflexion: {
+      preguntas: [
+        "¿Cómo puedo ejercer mi liderazgo emocional con sabiduría y compasión?",
+        "¿Estoy gestionando mis propias emociones con madurez?",
+        "¿Qué puedo hacer para ofrecer apoyo y asesoramiento con empatía?",
+        "¿Estoy cayendo en la manipulación o la inestabilidad emocional?",
+        "¿Qué significa para mí el verdadero equilibrio emocional?"
+      ]
+    }
   }
-];
+]
