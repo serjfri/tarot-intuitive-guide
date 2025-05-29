@@ -169,17 +169,22 @@ const TiradaSelector: React.FC<TiradaSelectorProps> = ({
                 ))}
               </ul>
             </CardContent>
-            <CardContent className="flex flex-col sm:flex-row justify-end gap-3 pt-6 shrink-0"> {/* Flex-col en móviles, luego row */}
+            <CardContent className="flex justify-end gap-2 pt-4 shrink-0"> {/* Ajustado a justify-end y gap-2 */}
               <Button
                 variant="ghost" // Más discreto
-                className="text-orange-700 hover:bg-orange-50 border-orange-200 border" // Añadir borde para visibilidad
+                size="sm" // Más pequeño
+                className="text-orange-700 hover:bg-orange-50 border-orange-200 border"
                 onClick={handleCopiarDetallesTirada}
               >
-                <Copy className="w-4 h-4 mr-2" />
-                Copiar Detalles
+                <Copy className="w-4 h-4 mr-1" /> {/* Icono más pequeño y menos margen */}
+                Copiar
               </Button>
-              <Button onClick={handleConfirmarTirada} className="bg-orange-600 hover:bg-orange-700"> {/* Mantener botón principal */}
-                Seleccionar Tirada
+              <Button 
+                onClick={handleConfirmarTirada} 
+                className="bg-orange-600 hover:bg-orange-700"
+                size="sm" // Más pequeño
+              >
+                Seleccionar
               </Button>
             </CardContent>
           </Card>
