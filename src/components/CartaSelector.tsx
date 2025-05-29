@@ -45,7 +45,7 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
   const [paloSeleccionado, setPaloSeleccionado] = useState<string>('');
   const { toast } = useToast();
 
-  // Filtrado de Arcanos Mayores: Ahora busca cartas cuya ID no contenga '_DE_'
+  // Filtrado de Arcanos Mayores: Ahora busca cartas cuya ID no contenga '_de_'
   // Esto es más robusto para tus IDs como 'el-loco', 'la-sacerdotisa', etc.
   const arcanosMayores = useMemo(() => cardNames.filter(c => c.baraja === 'tradicional' && !c.id.includes('_de_')), []);
   const arcanosMenores = useMemo(() => cardNames.filter(c => c.baraja === 'tradicional' && c.id.includes('_de_')), []);
@@ -103,16 +103,17 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
     if (name.includes('Nueve')) return '9';
     if (name.includes('Diez')) return '10';
     if (name.includes('Sota')) return 'Sota';
-    if (name.includes('Caballo')) return 'Caballero'; // Asegúrate de que el nombre de tu carta sea 'Caballo de X'
+    if (name.includes('Caballo')) return 'Caballero';
     if (name.includes('Reina')) return 'Reina';
     if (name.includes('Rey')) return 'Rey';
     return name; // Fallback
   };
 
   const filtrarCartasPorPalo = (palo: string) => {
-    const paloID = palo.toUpperCase();
+    // CORRECCIÓN CLAVE AQUÍ: Asegurar que paloID.toLowerCase() para coincidir con tus IDs
+    const paloID = palo.toLowerCase();
     const cartasDelPalo = arcanosMenores
-      .filter(carta => carta.id.endsWith(`_de_${paloID.toLowerCase()}`)) // Ajuste a IDs en minúsculas
+      .filter(carta => carta.id.endsWith(`_de_${paloID}`)) // Ajuste a IDs en minúsculas
       .sort((a, b) => {
         const getSortValue = (name: string) => {
           if (name.includes('As')) return 1;
@@ -312,7 +313,6 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
       </div>
     );
   };
-
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-teal-50 to-emerald-100">
