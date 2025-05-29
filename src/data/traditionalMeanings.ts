@@ -709,7 +709,7 @@ export const traditionalMeanings: TraditionalCardMeaning[] = [
   // Fin de Arcanos Mayores
   // Palo de Oros/Pentáculos
   {
-    id: "as-oros",
+    id: "as-de-oros",
     nombre: "As de Oros",
     arcano: "Menor",
     numero: 1,
@@ -740,7 +740,7 @@ export const traditionalMeanings: TraditionalCardMeaning[] = [
     }
   },
   {
-    id: "dos-oros",
+    id: "dos-de-oros",
     nombre: "Dos de Oros",
     arcano: "Menor",
     numero: 2,
@@ -771,7 +771,7 @@ export const traditionalMeanings: TraditionalCardMeaning[] = [
     }
   },
   {
-    id: "tres-oros",
+    id: "tres-de-oros",
     nombre: "Tres de Oros",
     arcano: "Menor",
     numero: 3,
@@ -802,7 +802,7 @@ export const traditionalMeanings: TraditionalCardMeaning[] = [
     }
   },
   {
-    id: "cuatro-oros",
+    id: "cuatro-de-oros",
     nombre: "Cuatro de Oros",
     arcano: "Menor",
     numero: 4,
@@ -833,7 +833,7 @@ export const traditionalMeanings: TraditionalCardMeaning[] = [
     }
   },
   {
-    id: "cinco-oros",
+    id: "cinco-de-oros",
     nombre: "Cinco de Oros",
     arcano: "Menor",
     numero: 5,
@@ -864,7 +864,7 @@ export const traditionalMeanings: TraditionalCardMeaning[] = [
     }
   },
   {
-    id: "seis-oros",
+    id: "seis-de-oros",
     nombre: "Seis de Oros",
     arcano: "Menor",
     numero: 6,
@@ -895,7 +895,7 @@ export const traditionalMeanings: TraditionalCardMeaning[] = [
     }
   },
   {
-    id: "siete-oros",
+    id: "siete-de-oros",
     nombre: "Siete de Oros",
     arcano: "Menor",
     numero: 7,
@@ -926,7 +926,7 @@ export const traditionalMeanings: TraditionalCardMeaning[] = [
     }
   },
   {
-    id: "ocho-oros",
+    id: "ocho-de-oros",
     nombre: "Ocho de Oros",
     arcano: "Menor",
     numero: 8,
@@ -957,7 +957,7 @@ export const traditionalMeanings: TraditionalCardMeaning[] = [
     }
   },
   {
-    id: "nueve-oros",
+    id: "nueve-de-oros",
     nombre: "Nueve de Oros",
     arcano: "Menor",
     numero: 9,
@@ -988,7 +988,7 @@ export const traditionalMeanings: TraditionalCardMeaning[] = [
     }
   },
   {
-    id: "diez-oros",
+    id: "diez-de-oros",
     nombre: "Diez de Oros",
     arcano: "Menor",
     numero: 10,
@@ -1019,7 +1019,7 @@ export const traditionalMeanings: TraditionalCardMeaning[] = [
     }
   },
   {
-    id: "sota-oros",
+    id: "sota-de-oros",
     nombre: "Sota de Oros",
     arcano: "Menor",
     numero: 11,
@@ -1050,7 +1050,7 @@ export const traditionalMeanings: TraditionalCardMeaning[] = [
     }
   },
   {
-    id: "caballero-oros",
+    id: "caballero-de-oros",
     nombre: "Caballero de Oros",
     arcano: "Menor",
     numero: 12,
@@ -1081,7 +1081,7 @@ export const traditionalMeanings: TraditionalCardMeaning[] = [
     }
   },
   {
-    id: "reina-oros",
+    id: "reina-de-oros",
     nombre: "Reina de Oros",
     arcano: "Menor",
     numero: 13,
@@ -1112,7 +1112,7 @@ export const traditionalMeanings: TraditionalCardMeaning[] = [
     }
   },
   {
-    id: "rey-oros",
+    id: "rey-de-oros",
     nombre: "Rey de Oros",
     arcano: "Menor",
     numero: 14,
@@ -1144,7 +1144,7 @@ export const traditionalMeanings: TraditionalCardMeaning[] = [
   },
   // Palo de Bastos/Varas
   {
-    id: "as-bastos",
+    id: "as-de-bastos",
     nombre: "As de Bastos",
     arcano: "Menor",
     numero: 1,
@@ -1175,7 +1175,7 @@ export const traditionalMeanings: TraditionalCardMeaning[] = [
     }
   },
   {
-    id: "dos-bastos",
+    id: "dos-de-bastos",
     nombre: "Dos de Bastos",
     arcano: "Menor",
     numero: 2,
@@ -1206,7 +1206,7 @@ export const traditionalMeanings: TraditionalCardMeaning[] = [
     }
   },
   {
-    id: "tres-bastos",
+    id: "tres-de-bastos",
     nombre: "Tres de Bastos",
     arcano: "Menor",
     numero: 3,
@@ -1237,7 +1237,7 @@ export const traditionalMeanings: TraditionalCardMeaning[] = [
     }
   },
   {
-    id: "cuatro-bastos",
+    id: "cuatro-de-bastos",
     nombre: "Cuatro de Bastos",
     arcano: "Menor",
     numero: 4,
@@ -1268,7 +1268,7 @@ export const traditionalMeanings: TraditionalCardMeaning[] = [
     }
   },
   {
-    id: "cinco-bastos",
+    id: "cinco-de-bastos",
     nombre: "Cinco de Bastos",
     arcano: "Menor",
     numero: 5,
@@ -1299,7 +1299,7 @@ export const traditionalMeanings: TraditionalCardMeaning[] = [
     }
   },
   {
-    id: "seis-bastos",
+    id: "seis-de-bastos",
     nombre: "Seis de Bastos",
     arcano: "Menor",
     numero: 6,
@@ -1330,7 +1330,7 @@ export const traditionalMeanings: TraditionalCardMeaning[] = [
     }
   },
   {
-    id: "siete-bastos",
+    id: "siete-de-bastos",
     nombre: "Siete de Bastos",
     arcano: "Menor",
     numero: 7,
@@ -1361,7 +1361,7 @@ export const traditionalMeanings: TraditionalCardMeaning[] = [
     }
   },
   {
-    id: "ocho-bastos",
+    id: "ocho-de-bastos",
     nombre: "Ocho de Bastos",
     arcano: "Menor",
     numero: 8,
@@ -1392,7 +1392,7 @@ export const traditionalMeanings: TraditionalCardMeaning[] = [
     }
   },
   {
-    id: "nueve-bastos",
+    id: "nueve-de-bastos",
     nombre: "Nueve de Bastos",
     arcano: "Menor",
     numero: 9,
@@ -1423,7 +1423,7 @@ export const traditionalMeanings: TraditionalCardMeaning[] = [
     }
   },
   {
-    id: "diez-bastos",
+    id: "diez-de-bastos",
     nombre: "Diez de Bastos",
     arcano: "Menor",
     numero: 10,
@@ -1454,7 +1454,7 @@ export const traditionalMeanings: TraditionalCardMeaning[] = [
     }
   },
   {
-    id: "sota-bastos",
+    id: "sota-de-bastos",
     nombre: "Sota de Bastos",
     arcano: "Menor",
     numero: 11,
@@ -1485,7 +1485,7 @@ export const traditionalMeanings: TraditionalCardMeaning[] = [
     }
   },
   {
-    id: "caballero-bastos",
+    id: "caballero-de-bastos",
     nombre: "Caballero de Bastos",
     arcano: "Menor",
     numero: 12,
@@ -1516,7 +1516,7 @@ export const traditionalMeanings: TraditionalCardMeaning[] = [
     }
   },
   {
-    id: "reina-bastos",
+    id: "reina-de-bastos",
     nombre: "Reina de Bastos",
     arcano: "Menor",
     numero: 13,
@@ -1547,7 +1547,7 @@ export const traditionalMeanings: TraditionalCardMeaning[] = [
     }
   },
   {
-    id: "rey-bastos",
+    id: "rey-de-bastos",
     nombre: "Rey de Bastos",
     arcano: "Menor",
     numero: 14,
@@ -1579,7 +1579,7 @@ export const traditionalMeanings: TraditionalCardMeaning[] = [
   },
   // Palo de Espadas
   {
-    id: "as-espadas",
+    id: "as-de-espadas",
     nombre: "As de Espadas",
     arcano: "Menor",
     numero: 1,
@@ -1610,7 +1610,7 @@ export const traditionalMeanings: TraditionalCardMeaning[] = [
     }
   },
   {
-    id: "dos-espadas",
+    id: "dos-de-espadas",
     nombre: "Dos de Espadas",
     arcano: "Menor",
     numero: 2,
@@ -1641,7 +1641,7 @@ export const traditionalMeanings: TraditionalCardMeaning[] = [
     }
   },
   {
-    id: "tres-espadas",
+    id: "tres-de-espadas",
     nombre: "Tres de Espadas",
     arcano: "Menor",
     numero: 3,
@@ -1672,7 +1672,7 @@ export const traditionalMeanings: TraditionalCardMeaning[] = [
     }
   },
   {
-    id: "cuatro-espadas",
+    id: "cuatro-de-espadas",
     nombre: "Cuatro de Espadas",
     arcano: "Menor",
     numero: 4,
@@ -1703,7 +1703,7 @@ export const traditionalMeanings: TraditionalCardMeaning[] = [
     }
   },
   {
-    id: "cinco-espadas",
+    id: "cinco-de-espadas",
     nombre: "Cinco de Espadas",
     arcano: "Menor",
     numero: 5,
@@ -1734,7 +1734,7 @@ export const traditionalMeanings: TraditionalCardMeaning[] = [
     }
   },
   {
-    id: "seis-espadas",
+    id: "seis-de-espadas",
     nombre: "Seis de Espadas",
     arcano: "Menor",
     numero: 6,
@@ -1765,7 +1765,7 @@ export const traditionalMeanings: TraditionalCardMeaning[] = [
     }
   },
   {
-    id: "siete-espadas",
+    id: "siete-de-espadas",
     nombre: "Siete de Espadas",
     arcano: "Menor",
     numero: 7,
@@ -1796,7 +1796,7 @@ export const traditionalMeanings: TraditionalCardMeaning[] = [
     }
   },
   {
-    id: "ocho-espadas",
+    id: "ocho-de-espadas",
     nombre: "Ocho de Espadas",
     arcano: "Menor",
     numero: 8,
@@ -1827,7 +1827,7 @@ export const traditionalMeanings: TraditionalCardMeaning[] = [
     }
   },
   {
-    id: "nueve-espadas",
+    id: "nueve-de-espadas",
     nombre: "Nueve de Espadas",
     arcano: "Menor",
     numero: 9,
@@ -1858,7 +1858,7 @@ export const traditionalMeanings: TraditionalCardMeaning[] = [
     }
   },
   {
-    id: "diez-espadas",
+    id: "diez-de-espadas",
     nombre: "Diez de Espadas",
     arcano: "Menor",
     numero: 10,
@@ -1889,7 +1889,7 @@ export const traditionalMeanings: TraditionalCardMeaning[] = [
     }
   },
   {
-    id: "sota-espadas",
+    id: "sota-de-espadas",
     nombre: "Sota de Espadas",
     arcano: "Menor",
     numero: 11,
@@ -1920,7 +1920,7 @@ export const traditionalMeanings: TraditionalCardMeaning[] = [
     }
   },
   {
-    id: "caballero-espadas",
+    id: "caballero-de-espadas",
     nombre: "Caballero de Espadas",
     arcano: "Menor",
     numero: 12,
@@ -1951,7 +1951,7 @@ export const traditionalMeanings: TraditionalCardMeaning[] = [
     }
   },
   {
-    id: "reina-espadas",
+    id: "reina-de-espadas",
     nombre: "Reina de Espadas",
     arcano: "Menor",
     numero: 13,
@@ -1982,7 +1982,7 @@ export const traditionalMeanings: TraditionalCardMeaning[] = [
     }
   },
   {
-    id: "rey-espadas",
+    id: "rey-de-espadas",
     nombre: "Rey de Espadas",
     arcano: "Menor",
     numero: 14,
@@ -2014,7 +2014,7 @@ export const traditionalMeanings: TraditionalCardMeaning[] = [
   },
   // Palo de Copas
   {
-    id: "as-copas",
+    id: "as-de-copas",
     nombre: "As de Copas",
     arcano: "Menor",
     numero: 1,
@@ -2045,7 +2045,7 @@ export const traditionalMeanings: TraditionalCardMeaning[] = [
     }
   },
   {
-    id: "dos-copas",
+    id: "dos-de-copas",
     nombre: "Dos de Copas",
     arcano: "Menor",
     numero: 2,
@@ -2076,7 +2076,7 @@ export const traditionalMeanings: TraditionalCardMeaning[] = [
     }
   },
   {
-    id: "tres-copas",
+    id: "tres-de-copas",
     nombre: "Tres de Copas",
     arcano: "Menor",
     numero: 3,
@@ -2107,7 +2107,7 @@ export const traditionalMeanings: TraditionalCardMeaning[] = [
     }
   },
   {
-    id: "cuatro-copas",
+    id: "cuatro-de-copas",
     nombre: "Cuatro de Copas",
     arcano: "Menor",
     numero: 4,
@@ -2138,7 +2138,7 @@ export const traditionalMeanings: TraditionalCardMeaning[] = [
     }
   },
   {
-    id: "cinco-copas",
+    id: "cinco-de-copas",
     nombre: "Cinco de Copas",
     arcano: "Menor",
     numero: 5,
@@ -2169,7 +2169,7 @@ export const traditionalMeanings: TraditionalCardMeaning[] = [
     }
   },
   {
-    id: "seis-copas",
+    id: "seis-de-copas",
     nombre: "Seis de Copas",
     arcano: "Menor",
     numero: 6,
@@ -2200,7 +2200,7 @@ export const traditionalMeanings: TraditionalCardMeaning[] = [
     }
   },
   {
-    id: "siete-copas",
+    id: "siete-de-copas",
     nombre: "Siete de Copas",
     arcano: "Menor",
     numero: 7,
@@ -2231,7 +2231,7 @@ export const traditionalMeanings: TraditionalCardMeaning[] = [
     }
   },
   {
-    id: "ocho-copas",
+    id: "ocho-de-copas",
     nombre: "Ocho de Copas",
     arcano: "Menor",
     numero: 8,
@@ -2262,7 +2262,7 @@ export const traditionalMeanings: TraditionalCardMeaning[] = [
     }
   },
   {
-    id: "nueve-copas",
+    id: "nueve-de-copas",
     nombre: "Nueve de Copas",
     arcano: "Menor",
     numero: 9,
@@ -2293,7 +2293,7 @@ export const traditionalMeanings: TraditionalCardMeaning[] = [
     }
   },
   {
-    id: "diez-copas",
+    id: "diez-de-copas",
     nombre: "Diez de Copas",
     arcano: "Menor",
     numero: 10,
@@ -2324,7 +2324,7 @@ export const traditionalMeanings: TraditionalCardMeaning[] = [
     }
   },
   {
-    id: "sota-copas",
+    id: "sota-de-copas",
     nombre: "Sota de Copas",
     arcano: "Menor",
     numero: 11,
@@ -2355,7 +2355,7 @@ export const traditionalMeanings: TraditionalCardMeaning[] = [
     }
   },
   {
-    id: "caballero-copas",
+    id: "caballero-de-copas",
     nombre: "Caballero de Copas",
     arcano: "Menor",
     numero: 12,
@@ -2386,7 +2386,7 @@ export const traditionalMeanings: TraditionalCardMeaning[] = [
     }
   },
   {
-    id: "reina-copas",
+    id: "reina-de-copas",
     nombre: "Reina de Copas",
     arcano: "Menor",
     numero: 13,
@@ -2417,7 +2417,7 @@ export const traditionalMeanings: TraditionalCardMeaning[] = [
     }
   },
   {
-    id: "rey-copas",
+    id: "rey-de-copas",
     nombre: "Rey de Copas",
     arcano: "Menor",
     numero: 14,

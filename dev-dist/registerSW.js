@@ -1,0 +1,1 @@
+if('serviceWorker' in navigator) navigator.serviceWorker.register('/lecturas/dev-sw.js?dev-sw', { scope: '/lecturas/', type: 'classic' })

@@ -6,7 +6,7 @@ export const cardNames = [
   { id: 'la-emperatriz', name: 'La Emperatriz', baraja: 'tradicional' },
   { id: 'el-emperador', name: 'El Emperador', baraja: 'tradicional' },
   { id: 'el-sumo-sacerdote', name: 'El Sumo Sacerdote', baraja: 'tradicional' },
-  { id: 'los-enamorados', name: 'Los Enamorados', baraja: 'tradicional' },
+  { id: 'los-amantes', name: 'Los Amantes', baraja: 'tradicional' },
   { id: 'el-carro', name: 'El Carro', baraja: 'tradicional' },
   { id: 'la-justicia', name: 'La Justicia', baraja: 'tradicional' },
   { id: 'el-ermitaño', name: 'El Ermitaño', baraja: 'tradicional' },
