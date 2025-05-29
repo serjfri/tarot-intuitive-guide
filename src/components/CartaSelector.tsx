@@ -14,7 +14,7 @@ import { cardNames } from '@/data/cardNames';
 interface CartaSelectorProps {
   tirada: Tirada;
   baraja: 'tradicional' | 'osho';
-  cartasSeleccionadas: CartaSeleccionada[];
+  cartasSeleccionadas: CartaSeleccionada[]; // Esta prop es requerida y se usa para mostrar las seleccionadas
   onCartaAdd: (carta: CartaSeleccionada) => void;
   onCartaToggle: (posicion: number) => void;
   onVolver: () => void;
@@ -170,10 +170,17 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
       setPosicionActual(posicion + 1);
     }
 
-    // Reiniciar selecciones para mostrar de nuevo las categorías
-    setCategoriaSeleccionada(null);
-    setLetraSeleccionada('');
-    setPaloSeleccionado('');
+    // Reiniciar selecciones para mostrar de nuevo las categorías, letras o palos
+    // La lógica de reseteo debe ser inteligente para volver al paso anterior
+    if (baraja === 'tradicional' && categoriaSeleccionada === 'mayores') {
+      setLetraSeleccionada(''); // Vuelve a la selección de letra para Mayores
+    } else if (baraja === 'tradicional' && categoriaSeleccionada === 'menores') {
+      setPaloSeleccionado(''); // Vuelve a la selección de palo para Menores
+    } else if (baraja === 'osho') {
+      setLetraSeleccionada(''); // Vuelve a la selección de letra para Osho
+    }
+    // No reseteamos categoriaSeleccionada a null aquí, ya que el usuario puede querer seguir seleccionando en la misma categoría
+    // Pero si estamos en modo libre y queremos volver a la selección de baraja, eso se haría desde el Index.tsx o con un botón "volver" más general.
   };
 
   const handleDoubleClick = (posicion: number) => {
@@ -186,7 +193,7 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
     if (onCambiarBaraja) {
       onCambiarBaraja(nuevaBaraja);
     }
-    // Resetear las selecciones de categoría, letra y palo al cambiar de baraja
+    // Resetear todas las selecciones al cambiar de baraja
     setCategoriaSeleccionada(null);
     setLetraSeleccionada('');
     setPaloSeleccionado('');
@@ -334,17 +341,16 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
               {/* Sección de selección para Tarot Tradicional */}
               {baraja === 'tradicional' && (
                 <div className="space-y-4">
-                  {/* Botones para seleccionar categoría (siempre visibles para tradicional) */}
-                  {/* Solo se muestran si no hay una letra o palo seleccionado para que no compitan con la visualización de las cartas */}
-                  {!letraSeleccionada && !paloSeleccionado && (
+                  {/* Botones para seleccionar categoría: Mostrar SÓLO SI no hay categoría, letra o palo seleccionado */}
+                  {!categoriaSeleccionada && ( // <--- CAMBIO CLAVE AQUÍ: Solo si categoriaSeleccionada es null
                     <div className="grid gap-2 grid-cols-2">
                       <Button
                         variant={categoriaSeleccionada === 'mayores' ? "default" : "outline"}
                         className="h-10 text-sm"
                         onClick={() => {
                           setCategoriaSeleccionada('mayores');
-                          setLetraSeleccionada(''); // Asegúrate de resetear estos
-                          setPaloSeleccionado(''); // Asegúrate de resetear estos
+                          setLetraSeleccionada(''); // Resetear letras/palos al seleccionar categoría
+                          setPaloSeleccionado('');
                         }}
                       >
                         Arcanos Mayores
@@ -354,8 +360,8 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
                         className="h-10 text-sm"
                         onClick={() => {
                           setCategoriaSeleccionada('menores');
-                          setLetraSeleccionada(''); // Asegúrate de resetear estos
-                          setPaloSeleccionado(''); // Asegúrate de resetear estos
+                          setLetraSeleccionada(''); // Resetear letras/palos al seleccionar categoría
+                          setPaloSeleccionado('');
                         }}
                       >
                         Arcanos Menores
@@ -363,8 +369,8 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
                     </div>
                   )}
 
-                  {/* Selección de Arcanos Mayores por Letra */}
-                  {categoriaSeleccionada === 'mayores' && !letraSeleccionada && (
+                  {/* Selección de Arcanos Mayores por Letra: Mostrar si categoría es 'mayores' Y no hay letra seleccionada */}
+                  {categoriaSeleccionada === 'mayores' && !letraSeleccionada && ( // <--- ESTO ESTÁ BIEN
                     <>
                       <label className="block text-sm font-medium text-emerald-900 mb-2">
                         Primera letra
@@ -384,8 +390,8 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
                     </>
                   )}
 
-                  {/* Selección de Arcanos Menores por Palo */}
-                  {categoriaSeleccionada === 'menores' && !paloSeleccionado && (
+                  {/* Selección de Arcanos Menores por Palo: Mostrar si categoría es 'menores' Y no hay palo seleccionado */}
+                  {categoriaSeleccionada === 'menores' && !paloSeleccionado && ( // <--- ESTO ESTÁ BIEN
                     <>
                       <label className="block text-sm font-medium text-emerald-900 mb-2">
                         Palo
@@ -408,7 +414,7 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
               )}
 
               {/* Sección de selección para Tarot de Osho (con botones de letra) */}
-              {baraja === 'osho' && !letraSeleccionada && (
+              {baraja === 'osho' && !letraSeleccionada && ( // <--- ESTO ESTÁ BIEN
                 <>
                   <label className="block text-sm font-medium text-emerald-900 mb-2">
                     Primera letra
@@ -428,14 +434,8 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
                 </>
               )}
 
-              {/* Cartas filtradas por letra o palo */}
-              {/* Este bloque se muestra si:
-                  - Baraja Tradicional, Arcanos Mayores seleccionados Y letra seleccionada
-                  - Baraja Tradicional, Arcanos Menores seleccionados Y palo seleccionado
-                  - Baraja Osho Y letra seleccionada
-              */}
-              {((baraja === 'tradicional' && categoriaSeleccionada === 'mayores' && letraSeleccionada) ||
-                (baraja === 'tradicional' && categoriaSeleccionada === 'menores' && paloSeleccionado) ||
+              {/* Cartas filtradas por letra o palo: Mostrar si hay letra O palo seleccionado */}
+              {((baraja === 'tradicional' && (letraSeleccionada || paloSeleccionado)) || // <--- CAMBIO CLAVE AQUÍ: si hay letra O palo
                 (baraja === 'osho' && letraSeleccionada)) && (
                   <div>
                     <label className="block text-sm font-medium text-emerald-900 mb-2">
@@ -530,7 +530,8 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
 
               {/* Botón para volver a la selección de letra/palo/categoría */}
               {/* Este botón ahora tiene una lógica más robusta para retroceder en la selección */}
-              {(letraSeleccionada || paloSeleccionado || (baraja === 'tradicional' && categoriaSeleccionada)) && (
+              {((baraja === 'tradicional' && (letraSeleccionada || paloSeleccionado || categoriaSeleccionada)) ||
+                (baraja === 'osho' && letraSeleccionada)) && ( // <--- Aseguramos que se muestre para retroceder en Osho también
                 <Button
                   variant="ghost"
                   className="text-emerald-700 hover:bg-emerald-50"
@@ -540,7 +541,7 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
                     } else if (letraSeleccionada) {
                       setLetraSeleccionada('');
                     } else if (baraja === 'tradicional' && categoriaSeleccionada) {
-                        setCategoriaSeleccionada(null);
+                        setCategoriaSeleccionada(null); // Volver a la selección de Mayores/Menores
                     }
                   }}
                 >
