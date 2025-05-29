@@ -318,7 +318,6 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
     );
   };
 
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-teal-50 to-emerald-100">
       <div className="container mx-auto px-4 py-8">
@@ -416,7 +415,7 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
               {/* Selección para Tarot Tradicional */}
               {baraja === 'tradicional' && (
                 <div className="space-y-4">
-                  {/* Botones para seleccionar categoría (siempre visibles para tradicional si no hay letra/palo seleccionado) */}
+                  {/* Botones para seleccionar categoría: Visible si no hay letra o palo seleccionado */}
                   {!letraSeleccionada && !paloSeleccionado && (
                     <div className="flex justify-center gap-2">
                       <Button
@@ -487,7 +486,7 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
                 </>
               )}
 
-              {/* Cartas filtradas por letra o palo */}
+              {/* Cartas filtradas por letra o palo - visible solo si hay una letra o palo seleccionado */}
               {((baraja === 'tradicional' && categoriaSeleccionada === 'mayores' && letraSeleccionada) ||
                 (baraja === 'tradicional' && categoriaSeleccionada === 'menores' && paloSeleccionado) ||
                 (baraja === 'osho' && letraSeleccionada)) && (
@@ -588,23 +587,23 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
                   </div>
                 )}
 
-              {/* Botón para volver a la selección de letra/palo */}
-              {(letraSeleccionada || paloSeleccionado) && (
+              {/* Botón para volver a la selección de letra/palo/categoría */}
+              {(letraSeleccionada || paloSeleccionado || categoriaSeleccionada) && (
                 <div className="flex justify-center mt-4">
                   <Button
                     variant="ghost"
                     className="text-emerald-700 hover:bg-emerald-50"
                     onClick={() => {
-                      if (paloSeleccionado) {
-                        setPaloSeleccionado('');
-                      } else if (letraSeleccionada) {
+                      if (letraSeleccionada) { // Si hay una letra seleccionada, quitarla
                         setLetraSeleccionada('');
-                        // Si se vuelve de la letra de Arcanos Mayores, se debe volver a la selección de categoría
-                        if (baraja === 'tradicional' && categoriaSeleccionada === 'mayores') {
-                            setCategoriaSeleccionada('mayores'); // Reafirmar la categoría para que los botones de letra vuelvan a aparecer
-                        } else {
-                            setCategoriaSeleccionada(null); // Para Osho o si se resetea todo, vuelve a mostrar categorías (si aplica)
-                        }
+                        // Si estábamos en Arcanos Mayores, volvemos a la selección de letras de Mayores
+                        // Si estábamos en Osho, volvemos a la selección de letras de Osho
+                        // La categoría se mantiene.
+                      } else if (paloSeleccionado) { // Si hay un palo seleccionado, quitarlo
+                        setPaloSeleccionado('');
+                        // Volvemos a la selección de palos de Menores.
+                      } else if (categoriaSeleccionada) { // Si hay una categoría seleccionada (y no letra/palo), quitarla
+                        setCategoriaSeleccionada(null);
                       }
                     }}
                   >
