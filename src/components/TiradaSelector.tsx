@@ -1,11 +1,10 @@
 import React, { useState, useMemo } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { ChevronLeft, X, Copy } from "lucide-react"; // Asegúrate de que X y Copy estén importados
+import { ChevronLeft, X, Copy } from "lucide-react";
 import { Tirada } from '@/pages/Index';
 import { tiradas } from '@/data/tiradas';
-import { useToast } from "@/hooks/use-toast"; // Importar useToast para notificaciones
+import { useToast } from "@/hooks/use-toast";
 
 interface TiradaSelectorProps {
   onTiradaSelect: (tirada: Tirada, baraja: 'tradicional' | 'osho') => void;
@@ -134,15 +133,16 @@ const TiradaSelector: React.FC<TiradaSelectorProps> = ({
         </div>
       </div>
 
-      {/* Botón Volver fijo en la parte inferior */}
-      <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 z-50">
+      {/* Botón Volver fijo en la parte inferior izquierda */}
+      <div className="fixed bottom-4 left-4 z-50">
         <Button
           variant="secondary"
-          className="px-6 py-3 shadow-lg"
+          size="icon" // Hace el botón redondo
+          className="rounded-full w-12 h-12 shadow-lg"
           onClick={onVolver}
         >
-          <ChevronLeft className="w-5 h-5 mr-2" />
-          Volver al Inicio
+          <ChevronLeft className="w-6 h-6" />
+          <span className="sr-only">Volver</span> {/* Accesibilidad: texto para lectores de pantalla */}
         </Button>
       </div>
 
@@ -169,16 +169,16 @@ const TiradaSelector: React.FC<TiradaSelectorProps> = ({
                 ))}
               </ul>
             </CardContent>
-            <CardContent className="flex justify-between items-center pt-6 shrink-0">
+            <CardContent className="flex flex-col sm:flex-row justify-end gap-3 pt-6 shrink-0"> {/* Flex-col en móviles, luego row */}
               <Button
-                variant="outline"
-                className="text-blue-700 border-blue-300 hover:bg-blue-50"
+                variant="ghost" // Más discreto
+                className="text-orange-700 hover:bg-orange-50 border-orange-200 border" // Añadir borde para visibilidad
                 onClick={handleCopiarDetallesTirada}
               >
                 <Copy className="w-4 h-4 mr-2" />
                 Copiar Detalles
               </Button>
-              <Button onClick={handleConfirmarTirada}>
+              <Button onClick={handleConfirmarTirada} className="bg-orange-600 hover:bg-orange-700"> {/* Mantener botón principal */}
                 Seleccionar Tirada
               </Button>
             </CardContent>

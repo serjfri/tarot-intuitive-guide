@@ -2,7 +2,6 @@ import React, { useState, useMemo } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"; // Este Select no está siendo usado en el código actual, pero lo mantengo por si acaso.
 import { ChevronLeft, Copy, Trash, Undo2 } from "lucide-react";
 import { Tirada, CartaSeleccionada } from '@/pages/Index';
 import { useToast } from "@/hooks/use-toast";
@@ -133,6 +132,7 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
         return getSortValue(a.name) - getSortValue(b.name);
       });
 
+      // Agrupación original de Arcanos Menores
       const asToFive = cartasDelPalo.filter(c => ['As', 'Dos', 'Tres', 'Cuatro', 'Cinco'].some(n => c.name.includes(n)));
       const sixToTen = cartasDelPalo.filter(c => ['Seis', 'Siete', 'Ocho', 'Nueve', 'Diez'].some(n => c.name.includes(n)));
       const sotaCaballero = cartasDelPalo.filter(c => ['Sota', 'Caballo'].some(n => c.name.includes(n)));
@@ -360,7 +360,8 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
                       <label className="block text-sm font-medium text-emerald-900 mb-2 text-center">
                         Selecciona la primera letra
                       </label>
-                      <div className="grid grid-cols-5 gap-2 sm:grid-cols-7 md:grid-cols-9 lg:grid-cols-10 xl:grid-cols-12 justify-items-center">
+                      {/* Grid adaptativo para las letras - Ahora se centrará mejor */}
+                      <div className="grid grid-cols-5 gap-2 sm:grid-cols-7 md:grid-cols-9 lg:grid-cols-10 xl:grid-cols-12 justify-center">
                         {getLetrasArcanosMayores.map((letra) => (
                           <Button
                             key={letra}
@@ -380,7 +381,7 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
                       <label className="block text-sm font-medium text-emerald-900 mb-2 text-center">
                         Selecciona el palo
                       </label>
-                      <div className="grid grid-cols-2 gap-3 sm:grid-cols-2 md:grid-cols-4">
+                      <div className="grid grid-cols-2 gap-3 sm:grid-cols-2 md:grid-cols-4 justify-center"> {/* justify-center para centrar */}
                         {palos.map((palo) => (
                           <Button
                             key={palo}
@@ -403,7 +404,8 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
                   <label className="block text-sm font-medium text-emerald-900 mb-2 text-center">
                     Selecciona la primera letra
                   </label>
-                  <div className="grid grid-cols-5 gap-2 sm:grid-cols-7 md:grid-cols-9 lg:grid-cols-10 xl:grid-cols-12 justify-items-center">
+                  {/* Grid adaptativo para las letras de Osho - Ahora se centrará mejor */}
+                  <div className="grid grid-cols-5 gap-2 sm:grid-cols-7 md:grid-cols-9 lg:grid-cols-10 xl:grid-cols-12 justify-center">
                     {getLetrasOsho.map((letra) => (
                       <Button
                         key={letra}
@@ -430,12 +432,12 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
                        <div className="space-y-3">
                         {/* Fila: As, 2, 3, 4, 5 */}
                         {cartasPorGruposDePalo.asToFive.length > 0 && (
-                            <div className="grid grid-cols-3 gap-2 sm:grid-cols-4 md:grid-cols-5 justify-items-center">
+                            <div className="flex flex-wrap justify-center gap-2"> {/* Volvemos a flex-wrap para estos grupos */}
                                 {cartasPorGruposDePalo.asToFive.map((carta) => (
                                     <Button
                                         key={carta.id}
                                         variant="outline"
-                                        className="h-auto min-h-[48px] px-4 py-2 text-center hover:bg-emerald-50 hover:border-emerald-400 text-sm flex items-center justify-center whitespace-normal break-words w-full"
+                                        className="h-auto min-h-[48px] px-4 py-2 text-center hover:bg-emerald-50 hover:border-emerald-400 text-sm flex items-center justify-center whitespace-normal break-words w-24 sm:w-28" /* Ancho fijo para consistencia */
                                         onClick={() => handleCartaSelect(carta.id)}
                                     >
                                         {getCartaMenorDisplay(carta.name)}
@@ -445,12 +447,12 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
                         )}
                         {/* Fila: 6, 7, 8, 9, 10 */}
                         {cartasPorGruposDePalo.sixToTen.length > 0 && (
-                            <div className="grid grid-cols-3 gap-2 sm:grid-cols-4 md:grid-cols-5 justify-items-center">
+                            <div className="flex flex-wrap justify-center gap-2"> {/* Volvemos a flex-wrap para estos grupos */}
                                 {cartasPorGruposDePalo.sixToTen.map((carta) => (
                                     <Button
                                         key={carta.id}
                                         variant="outline"
-                                        className="h-auto min-h-[48px] px-4 py-2 text-center hover:bg-emerald-50 hover:border-emerald-400 text-sm flex items-center justify-center whitespace-normal break-words w-full"
+                                        className="h-auto min-h-[48px] px-4 py-2 text-center hover:bg-emerald-50 hover:border-emerald-400 text-sm flex items-center justify-center whitespace-normal break-words w-24 sm:w-28"
                                         onClick={() => handleCartaSelect(carta.id)}
                                     >
                                         {getCartaMenorDisplay(carta.name)}
@@ -460,12 +462,12 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
                         )}
                         {/* Fila: Sota, Caballero */}
                         {cartasPorGruposDePalo.sotaCaballero.length > 0 && (
-                            <div className="grid grid-cols-2 gap-2 justify-items-center">
+                            <div className="flex flex-wrap justify-center gap-2"> {/* Volvemos a flex-wrap para estos grupos */}
                                 {cartasPorGruposDePalo.sotaCaballero.map((carta) => (
                                     <Button
                                         key={carta.id}
                                         variant="outline"
-                                        className="h-auto min-h-[48px] px-4 py-2 text-center hover:bg-emerald-50 hover:border-emerald-400 text-sm flex items-center justify-center whitespace-normal break-words w-full"
+                                        className="h-auto min-h-[48px] px-4 py-2 text-center hover:bg-emerald-50 hover:border-emerald-400 text-sm flex items-center justify-center whitespace-normal break-words w-24 sm:w-28"
                                         onClick={() => handleCartaSelect(carta.id)}
                                     >
                                         {getCartaMenorDisplay(carta.name)}
@@ -475,12 +477,12 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
                         )}
                         {/* Fila: Reina, Rey */}
                         {cartasPorGruposDePalo.reinaRey.length > 0 && (
-                            <div className="grid grid-cols-2 gap-2 justify-items-center">
+                            <div className="flex flex-wrap justify-center gap-2"> {/* Volvemos a flex-wrap para estos grupos */}
                                 {cartasPorGruposDePalo.reinaRey.map((carta) => (
                                     <Button
                                         key={carta.id}
                                         variant="outline"
-                                        className="h-auto min-h-[48px] px-4 py-2 text-center hover:bg-emerald-50 hover:border-emerald-400 text-sm flex items-center justify-center whitespace-normal break-words w-full"
+                                        className="h-auto min-h-[48px] px-4 py-2 text-center hover:bg-emerald-50 hover:border-emerald-400 text-sm flex items-center justify-center whitespace-normal break-words w-24 sm:w-28"
                                         onClick={() => handleCartaSelect(carta.id)}
                                     >
                                         {getCartaMenorDisplay(carta.name)}
@@ -511,26 +513,6 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
                     )}
                   </div>
                 )}
-
-              {/* Botón para volver a la selección de letra/palo - ELIMINADO */}
-              {/* {(letraSeleccionada || paloSeleccionado) && (
-                <div className="flex justify-center mt-4">
-                  <Button
-                    variant="ghost"
-                    className="text-emerald-700 hover:bg-emerald-50"
-                    onClick={() => {
-                      if (paloSeleccionado) {
-                        setPaloSeleccionado('');
-                      } else if (letraSeleccionada) {
-                        setLetraSeleccionada('');
-                      }
-                    }}
-                  >
-                    <ChevronLeft className="w-4 h-4 mr-2" />
-                    Volver a seleccionar
-                  </Button>
-                </div>
-              )} */}
             </CardContent>
           </Card>
 
@@ -584,16 +566,6 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
 
           {/* Botones de acción */}
           <div className="flex flex-wrap gap-4 justify-center">
-            {/* ELIMINADO: Botón Volver redundante */}
-            {/* <Button
-              variant="outline"
-              className="text-emerald-700 border-emerald-300 hover:bg-emerald-50"
-              onClick={onVolver}
-            >
-              <ChevronLeft className="w-4 h-4 mr-2" />
-              Volver
-            </Button> */}
-
             {cartasSeleccionadas.length > 0 && (
               <>
                 <Button
@@ -638,15 +610,16 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
         </div>
       </div>
       
-      {/* Botón Volver fijo en la parte inferior */}
-      <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 z-50">
+      {/* Botón Volver fijo en la parte inferior izquierda */}
+      <div className="fixed bottom-4 left-4 z-50">
         <Button
-          variant="secondary" // Usamos secondary para que contraste un poco
-          className="px-6 py-3 shadow-lg"
+          variant="secondary"
+          size="icon" // Hace el botón redondo
+          className="rounded-full w-12 h-12 shadow-lg"
           onClick={onVolver}
         >
-          <ChevronLeft className="w-5 h-5 mr-2" />
-          Volver al Inicio
+          <ChevronLeft className="w-6 h-6" />
+          <span className="sr-only">Volver</span>
         </Button>
       </div>
     </div>
