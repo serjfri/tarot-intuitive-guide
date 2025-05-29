@@ -2,13 +2,13 @@ import React, { useState, useMemo } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, X, Copy } from "lucide-react";
-import { Tirada } from '@/pages/Index';
+import { Tirada } from '@/pages/Index'; // Asumo que Tirada se importa desde aquí o un types.ts
 import { tiradas } from '@/data/tiradas';
 import { useToast } from "@/hooks/use-toast";
 
 interface TiradaSelectorProps {
   onTiradaSelect: (tirada: Tirada, baraja: 'tradicional' | 'osho') => void;
-  onVolver: () => void;
+  onVolver: () => void; // Este onVolver es para el botón flotante
 }
 
 const TiradaSelector: React.FC<TiradaSelectorProps> = ({

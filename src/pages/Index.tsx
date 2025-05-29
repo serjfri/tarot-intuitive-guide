@@ -5,7 +5,7 @@ import { CreditCard, Layers } from "lucide-react";
 import CartaSelector from '@/components/CartaSelector';
 import TiradaSelector from '@/components/TiradaSelector';
 import InterpretacionCartas from '@/components/InterpretacionCartas';
-import BackButton from '@/components/ui/back-button'; // <-- Importa el nuevo componente BackButton
+// Ya NO se importa BackButton aquí, lo hemos eliminado para evitar duplicidad
 
 // MODIFICACIÓN CLAVE AQUÍ: x e y son OPCIONALES
 export interface Posicion {
@@ -197,12 +197,12 @@ const Index = () => {
     }
   };
 
-  // Determinar si el botón de volver debe ser visible
-  const showBackButton = vistaActual !== 'inicio';
+  // El botón de volver global ahora solo existe dentro de los componentes CartaSelector y TiradaSelector
+  // No hay un showBackButton global aquí.
 
   return (
-    <div className="relative min-h-screen"> {/* Contenedor relativo para posicionar el botón de volver */}
-      {showBackButton && <BackButton onClick={handleVolver} />} {/* Renderiza el botón de volver */}
+    <div className="relative min-h-screen"> {/* Contenedor relativo para posicionar el botón de volver (en los hijos) */}
+      {/* Ya NO se renderiza un BackButton aquí */}
 
       {vistaActual === 'interpretacion' && tiradaSeleccionada && (
         <InterpretacionCartas
@@ -210,6 +210,7 @@ const Index = () => {
           cartasSeleccionadas={cartasSeleccionadas}
           onVolver={handleVolver}
           modoLibre={modoLibre}
+          baraja={barajaSeleccionada} // Asegurarse de pasar la baraja a InterpretacionCartas
         />
       )}
 

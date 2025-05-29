@@ -33,13 +33,15 @@ interface InterpretacionCartasProps {
   cartasSeleccionadas: CartaSeleccionada[];
   onVolver: () => void;
   modoLibre: boolean;
+  baraja: 'tradicional' | 'osho'; // <--- ESTO ES LO QUE FALTABA
 }
 
 const InterpretacionCartas: React.FC<InterpretacionCartasProps> = ({
   tirada,
   cartasSeleccionadas,
   onVolver,
-  modoLibre
+  modoLibre,
+  baraja // Asegúrate de desestructurar la prop aquí
 }) => {
   // *** INICIO DE BLOQUE DE DEPURACIÓN - NO ELIMINAR HASTA QUE SE RESUELVA EL PROBLEMA ***
   useEffect(() => {
@@ -47,7 +49,8 @@ const InterpretacionCartas: React.FC<InterpretacionCartasProps> = ({
     console.log(">>> DEP_LOG_INTERPRETACION: Prop 'cartasSeleccionadas' recibida:", cartasSeleccionadas);
     console.log(">>> DEP_LOG_INTERPRETACION: Estado de traditionalMeanings (raw):", traditionalMeanings);
     console.log(">>> DEP_LOG_INTERPRETACION: Longitud de traditionalMeanings:", traditionalMeanings ? traditionalMeanings.length : 'undefined/null');
-    
+    console.log(">>> DEP_LOG_INTERPRETACION: Prop 'baraja' recibida:", baraja); // Depuración de la nueva prop
+
     // Si traditionalMeanings no se ha cargado o está vacío
     if (!traditionalMeanings || traditionalMeanings.length === 0) {
       console.error(">>> DEP_LOG_INTERPRETACION: ERROR CRÍTICO: traditionalMeanings está vacío o no se cargó correctamente.");
@@ -87,11 +90,11 @@ const InterpretacionCartas: React.FC<InterpretacionCartasProps> = ({
     }
 
     console.log(">>> DEP_LOG_INTERPRETACION: Fin de depuración en InterpretacionCartas.");
-  }, [cartasSeleccionadas, tirada]); // Asegurarse de que el efecto se re-ejecute si cambian estas props
+  }, [cartasSeleccionadas, tirada, baraja]); // Asegurarse de que el efecto se re-ejecute si cambian estas props
   // *** FIN DE BLOQUE DE DEPURACIÓN ***
 
 
-  const getInterpretacionCarta = (cartaId: string, invertida: boolean, baraja: 'tradicional' | 'osho'): InterpretacionCartaResult => {
+  const getInterpretacionCarta = (cartaId: string, invertida: boolean, currentBaraja: 'tradicional' | 'osho'): InterpretacionCartaResult => {
     // console.log(`DEBUG: Buscando carta: ${cartaId}, Invertida: ${invertida}, Baraja: ${baraja}`); // Debug temporal
 
     // *** MODIFICACIÓN CLAVE AQUÍ: NORMALIZAR EL ID DE LA CARTA ***
@@ -99,7 +102,7 @@ const InterpretacionCartas: React.FC<InterpretacionCartasProps> = ({
     console.log(`>>> DEP_LOG_INTERPRETACION: Carta ID ORIGINAL: "${cartaId}" -> ID NORMALIZADO para búsqueda: "${normalizedCartaId}"`);
 
 
-    if (baraja === 'tradicional') {
+    if (currentBaraja === 'tradicional') {
       // Usa el ID normalizado para la búsqueda
       const interp = traditionalMeanings.find(c => c.id === normalizedCartaId) as TraditionalCardMeaning | undefined;
 
@@ -129,7 +132,7 @@ const InterpretacionCartas: React.FC<InterpretacionCartasProps> = ({
           nombre: interp.nombre,
           significado: interp.significado,
           interpretacion: interp.detalle,
-          elemento: undefined,
+          elemento: undefined, // Osho no tiene estas propiedades en el mismo formato
           palabrasClave: undefined,
           arquetipo: undefined,
           meditacionReflexion: undefined,
@@ -144,7 +147,7 @@ const InterpretacionCartas: React.FC<InterpretacionCartasProps> = ({
     }
 
     // Caso de carta no encontrada (esto debería ocurrir mucho menos ahora)
-    console.error(`>>> DEP_ERROR: Carta con ID normalizado "${normalizedCartaId}" no encontrada en la baraja "${baraja}".`);
+    console.error(`>>> DEP_ERROR: Carta con ID normalizado "${normalizedCartaId}" no encontrada en la baraja "${currentBaraja}".`);
     return {
       nombre: 'Carta Desconocida',
       significado: 'Significado no encontrado',
@@ -199,13 +202,13 @@ const InterpretacionCartas: React.FC<InterpretacionCartasProps> = ({
                 </div>
                 <div className="text-center">
                   <div className="text-2xl font-bold text-purple-700">
-                    {cartasSeleccionadas.length > 0 ? (cartasSeleccionadas[0].baraja === 'tradicional' ? 'Tradicional' : 'Osho') : 'N/A'}
+                    {baraja === 'tradicional' ? 'Tradicional' : 'Osho'} {/* Usa la prop 'baraja' */}
                   </div>
                   <div className="text-purple-600 text-sm">
                     Tipo de Baraja
                   </div>
                 </div>
-                {cartasSeleccionadas.length > 0 && cartasSeleccionadas[0].baraja === 'tradicional' && (
+                {baraja === 'tradicional' && ( // Solo muestra esto para baraja tradicional
                   <div className="text-center">
                     <div className="text-2xl font-bold text-purple-700">
                       {cartasSeleccionadas.filter(c => c.invertida).length}
@@ -225,7 +228,8 @@ const InterpretacionCartas: React.FC<InterpretacionCartasProps> = ({
               .sort((a, b) => a.posicion - b.posicion)
               .map((carta) => {
                 const posicionData = tirada.posiciones.find(p => p.numero === carta.posicion);
-                const interpretacion = getInterpretacionCarta(carta.carta, carta.invertida, carta.baraja);
+                // Pasa la prop 'baraja' a getInterpretacionCarta para asegurar la búsqueda correcta
+                const interpretacion = getInterpretacionCarta(carta.carta, carta.invertida, baraja);
 
                 return (
                   <Card key={carta.posicion} className="bg-white/80 backdrop-blur-sm border-purple-200">
@@ -244,15 +248,15 @@ const InterpretacionCartas: React.FC<InterpretacionCartasProps> = ({
                         </div>
                         <div className="text-right">
                           <Badge
-                            variant={carta.invertida && carta.baraja === 'tradicional' ? "destructive" : "default"}
+                            variant={carta.invertida && baraja === 'tradicional' ? "destructive" : "default"} // Usa la prop 'baraja'
                             className="mb-1"
                           >
                             {interpretacion.nombre}
                           </Badge>
-                          {carta.invertida && carta.baraja === 'tradicional' && (
+                          {carta.invertida && baraja === 'tradicional' && ( // Usa la prop 'baraja'
                             <div className="text-xs text-red-600">Invertida</div>
                           )}
-                          {carta.baraja === 'tradicional' && interpretacion.elemento && (
+                          {baraja === 'tradicional' && interpretacion.elemento && ( // Usa la prop 'baraja'
                             <div className="text-xs text-purple-500 mt-0.5">
                               Elemento: {interpretacion.elemento}
                             </div>
@@ -263,7 +267,7 @@ const InterpretacionCartas: React.FC<InterpretacionCartasProps> = ({
                     <CardContent>
                       <div className="space-y-3">
                         {/* Nueva sección: Información Básica */}
-                        {carta.baraja === 'tradicional' && (interpretacion.arcano || interpretacion.numero !== undefined || interpretacion.elemento || interpretacion.planeta || interpretacion.signoAstrologico || interpretacion.numerologia) && (
+                        {baraja === 'tradicional' && (interpretacion.arcano || interpretacion.numero !== undefined || interpretacion.elemento || interpretacion.planeta || interpretacion.signoAstrologico || interpretacion.numerologia) && (
                           <div>
                             <h4 className="font-medium text-purple-900 mb-1">Información Básica:</h4>
                             <ul className="text-purple-700 text-sm space-y-0.5">
@@ -278,7 +282,7 @@ const InterpretacionCartas: React.FC<InterpretacionCartasProps> = ({
                         )}
 
                         {/* Simbolismo */}
-                        {carta.baraja === 'tradicional' && interpretacion.simbolismo && (
+                        {baraja === 'tradicional' && interpretacion.simbolismo && ( // Usa la prop 'baraja'
                           <div>
                             <h4 className="font-medium text-purple-900 mb-1">Simbolismo:</h4>
                             <p className="text-purple-700" dangerouslySetInnerHTML={{ __html: interpretacion.simbolismo }}></p>
@@ -307,7 +311,7 @@ const InterpretacionCartas: React.FC<InterpretacionCartasProps> = ({
                         )}
 
                         {/* Sección de Meditación y Reflexión */}
-                        {carta.baraja === 'tradicional' && interpretacion.meditacionReflexion && interpretacion.meditacionReflexion.preguntas.length > 0 && (
+                        {baraja === 'tradicional' && interpretacion.meditacionReflexion && interpretacion.meditacionReflexion.preguntas.length > 0 && ( // Usa la prop 'baraja'
                           <div>
                             <h4 className="font-medium text-purple-900 mb-1">Meditación y Reflexión:</h4>
                             <ul className="list-disc list-inside text-purple-700 space-y-1">
