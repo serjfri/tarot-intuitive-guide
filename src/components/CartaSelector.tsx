@@ -110,8 +110,7 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
   };
 
   const filtrarCartasPorPalo = (palo: string) => {
-    // CORRECCIÓN CLAVE AQUÍ: Asegurar que paloID.toLowerCase() para coincidir con tus IDs
-    const paloID = palo.toLowerCase();
+    const paloID = palo.toLowerCase(); // Asegurar minúsculas para coincidir con tus IDs
     const cartasDelPalo = arcanosMenores
       .filter(carta => carta.id.endsWith(`_de_${paloID}`)) // Ajuste a IDs en minúsculas
       .sort((a, b) => {
@@ -412,11 +411,11 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
               {baraja === 'tradicional' && (
                 <div className="space-y-4">
                   {/* Botones de categoría: Visibles si no hay selección de letra o palo */}
-                  {!letraSeleccionada && !paloSeleccionado && (
+                  {!letraSeleccionada && !paloSeleccionado && !categoriaSeleccionada && (
                     <div className="flex justify-center gap-2">
                       <Button
-                        variant={categoriaSeleccionada === 'mayores' ? "default" : "outline"}
-                        className={categoriaSeleccionada === 'mayores' ? "h-10 text-sm bg-emerald-600 text-white hover:bg-emerald-700" : "h-10 text-sm border-emerald-300 text-emerald-700 hover:bg-emerald-50"}
+                        variant={"outline"}
+                        className={"h-10 text-sm border-emerald-300 text-emerald-700 hover:bg-emerald-50"}
                         onClick={() => {
                           setCategoriaSeleccionada('mayores');
                           setLetraSeleccionada('');
@@ -426,8 +425,8 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
                         Arcanos Mayores
                       </Button>
                       <Button
-                        variant={categoriaSeleccionada === 'menores' ? "default" : "outline"}
-                        className={categoriaSeleccionada === 'menores' ? "h-10 text-sm bg-emerald-600 text-white hover:bg-emerald-700" : "h-10 text-sm border-emerald-300 text-emerald-700 hover:bg-emerald-50"}
+                        variant={"outline"}
+                        className={"h-10 text-sm border-emerald-300 text-emerald-700 hover:bg-emerald-50"}
                         onClick={() => {
                           setCategoriaSeleccionada('menores');
                           setLetraSeleccionada('');
@@ -588,10 +587,13 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
                         setLetraSeleccionada('');
                       } else if (paloSeleccionado) {
                         setPaloSeleccionado('');
-                      } else if (categoriaSeleccionada && baraja === 'tradicional') { // Solo resetea la categoría si es tradicional
+                        // Si ya no hay palo, volvemos a mostrar la selección de categoría si aplica
+                        if (baraja === 'tradicional') setCategoriaSeleccionada('menores');
+                      } else if (categoriaSeleccionada) {
                         setCategoriaSeleccionada(null);
+                        setLetraSeleccionada(''); // Resetear letra también al volver de categoría
+                        setPaloSeleccionado(''); // Resetear palo también al volver de categoría
                       }
-                      // Para Osho, si quitamos la letra, automáticamente volvemos al renderOshoLetterButtons
                     }}
                   >
                     <ChevronLeft className="w-4 h-4 mr-2" />
