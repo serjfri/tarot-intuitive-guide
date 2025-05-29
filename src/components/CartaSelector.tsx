@@ -127,7 +127,7 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
           if (name.includes('Caballo')) return 12;
           if (name.includes('Reina')) return 13;
           if (name.includes('Rey')) return 14;
-          return 99;
+          return 99; // Para cualquier caso no previsto, aunque no debería ocurrir
         };
         return getSortValue(a.name) - getSortValue(b.name);
       });
@@ -189,8 +189,8 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
       setPosicionActual(posicion + 1);
     }
 
-    // Reiniciar selecciones para mostrar de nuevo las categorías
-    setCategoriaSeleccionada(null);
+    // Reiniciar selecciones para mostrar de nuevo las categorías, letras o palos
+    setCategoriaSeleccionada(null); // Esto asegura que siempre se vuelva al inicio de la selección de categoría para tradicional
     setLetraSeleccionada('');
     setPaloSeleccionado('');
   };
@@ -259,7 +259,7 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
   // Renderiza los botones de letras de Osho en filas
   const renderOshoLetterButtons = () => {
     const letters = getLetrasOsho;
-    const itemsPerRow = 7; // Puedes ajustar este número para mejor estética
+    const itemsPerRow = 7; // Ajuste para mejor estética
     const rows: string[][] = [];
 
     for (let i = 0; i < letters.length; i += itemsPerRow) {
@@ -274,8 +274,8 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
               <Button
                 key={letra}
                 variant="outline"
-                // Ajuste de tamaño para botones de Osho
-                className="h-10 w-10 text-base p-0 text-center flex items-center justify-center bg-white hover:bg-emerald-50 hover:border-emerald-400"
+                // Ajuste de tamaño para botones de Osho: h-12 w-12 text-lg
+                className="h-12 w-12 text-lg p-0 text-center flex items-center justify-center bg-white hover:bg-emerald-50 hover:border-emerald-400"
                 onClick={() => setLetraSeleccionada(letra)}
               >
                 {letra}
@@ -286,6 +286,38 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
       </div>
     );
   };
+
+  // Renderiza los botones de letras para Arcanos Mayores
+  const renderMayoresLetterButtons = () => {
+    const letters = getLetrasArcanosMayores;
+    const itemsPerRow = 7; // Ajuste para mejor estética
+    const rows: string[][] = [];
+
+    for (let i = 0; i < letters.length; i += itemsPerRow) {
+      rows.push(letters.slice(i, i + itemsPerRow));
+    }
+
+    return (
+      <div className="space-y-2"> {/* Pequeño espacio entre filas */}
+        {rows.map((row, rowIndex) => (
+          <div key={rowIndex} className="flex flex-wrap gap-1 justify-center"> {/* Pequeño gap */}
+            {row.map((letra) => (
+              <Button
+                key={letra}
+                variant="outline"
+                // Tamaño para botones de letras de Arcanos Mayores: h-8 w-8 text-xs
+                className="h-8 w-8 text-xs p-0 text-center flex items-center justify-center bg-white hover:bg-emerald-50 hover:border-emerald-400"
+                onClick={() => setLetraSeleccionada(letra)}
+              >
+                {letra}
+              </Button>
+            ))}
+          </div>
+        ))}
+      </div>
+    );
+  };
+
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-teal-50 to-emerald-100">
@@ -384,50 +416,41 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
               {/* Selección para Tarot Tradicional */}
               {baraja === 'tradicional' && (
                 <div className="space-y-4">
-                  {/* Botones para seleccionar categoría (siempre visibles para tradicional) */}
-                  <div className="flex justify-center gap-2">
-                    <Button
-                      variant={categoriaSeleccionada === 'mayores' ? "default" : "outline"}
-                      className={categoriaSeleccionada === 'mayores' ? "h-10 text-sm bg-emerald-600 text-white hover:bg-emerald-700" : "h-10 text-sm border-emerald-300 text-emerald-700 hover:bg-emerald-50"}
-                      onClick={() => {
-                        setCategoriaSeleccionada('mayores');
-                        setLetraSeleccionada('');
-                        setPaloSeleccionado('');
-                      }}
-                    >
-                      Arcanos Mayores
-                    </Button>
-                    <Button
-                      variant={categoriaSeleccionada === 'menores' ? "default" : "outline"}
-                      className={categoriaSeleccionada === 'menores' ? "h-10 text-sm bg-emerald-600 text-white hover:bg-emerald-700" : "h-10 text-sm border-emerald-300 text-emerald-700 hover:bg-emerald-50"}
-                      onClick={() => {
-                        setCategoriaSeleccionada('menores');
-                        setLetraSeleccionada('');
-                        setPaloSeleccionado('');
-                      }}
-                    >
-                      Arcanos Menores
-                    </Button>
-                  </div>
+                  {/* Botones para seleccionar categoría (siempre visibles para tradicional si no hay letra/palo seleccionado) */}
+                  {!letraSeleccionada && !paloSeleccionado && (
+                    <div className="flex justify-center gap-2">
+                      <Button
+                        variant={categoriaSeleccionada === 'mayores' ? "default" : "outline"}
+                        className={categoriaSeleccionada === 'mayores' ? "h-10 text-sm bg-emerald-600 text-white hover:bg-emerald-700" : "h-10 text-sm border-emerald-300 text-emerald-700 hover:bg-emerald-50"}
+                        onClick={() => {
+                          setCategoriaSeleccionada('mayores');
+                          setLetraSeleccionada('');
+                          setPaloSeleccionado('');
+                        }}
+                      >
+                        Arcanos Mayores
+                      </Button>
+                      <Button
+                        variant={categoriaSeleccionada === 'menores' ? "default" : "outline"}
+                        className={categoriaSeleccionada === 'menores' ? "h-10 text-sm bg-emerald-600 text-white hover:bg-emerald-700" : "h-10 text-sm border-emerald-300 text-emerald-700 hover:bg-emerald-50"}
+                        onClick={() => {
+                          setCategoriaSeleccionada('menores');
+                          setLetraSeleccionada('');
+                          setPaloSeleccionado('');
+                        }}
+                      >
+                        Arcanos Menores
+                      </Button>
+                    </div>
+                  )}
 
-                  {/* Sección de Selección de Arcanos Mayores */}
+                  {/* Sección de Selección de Arcanos Mayores - Botones de Letra */}
                   {categoriaSeleccionada === 'mayores' && !letraSeleccionada && (
                     <>
                       <label className="block text-sm font-medium text-emerald-900 mb-2 text-center">
-                        Primera letra
+                        Primera letra de la carta
                       </label>
-                      <div className="flex flex-wrap gap-1 justify-center">
-                        {getLetrasArcanosMayores.map((letra) => (
-                          <Button
-                            key={letra}
-                            variant="outline"
-                            className="h-8 w-8 p-0 text-center text-xs flex items-center justify-center bg-white hover:bg-emerald-50 hover:border-emerald-400"
-                            onClick={() => setLetraSeleccionada(letra)}
-                          >
-                            {letra}
-                          </Button>
-                        ))}
-                      </div>
+                      {renderMayoresLetterButtons()}
                     </>
                   )}
 
@@ -458,7 +481,7 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
               {baraja === 'osho' && !letraSeleccionada && (
                 <>
                   <label className="block text-sm font-medium text-emerald-900 mb-2 text-center">
-                    Primera letra
+                    Primera letra de la carta
                   </label>
                   {renderOshoLetterButtons()}
                 </>
@@ -474,7 +497,7 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
                     </label>
                     {/* Contenedor flexible para Arcanos Menores para una distribución óptima */}
                     {baraja === 'tradicional' && categoriaSeleccionada === 'menores' && paloSeleccionado && cartasPorGruposDePalo ? (
-                      <div className="space-y-2">
+                      <div className="space-y-3"> {/* Aumento del espacio entre grupos de palos */}
                         {/* Fila: As, 2, 3, 4, 5 */}
                         {cartasPorGruposDePalo.asToFive.length > 0 && (
                           <div className="flex flex-wrap gap-1 justify-center">
@@ -484,7 +507,7 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
                                 variant="outline"
                                 className="h-10 w-12 p-0 text-center hover:bg-emerald-50 hover:border-emerald-400 text-sm bg-white"
                                 onClick={() => handleCartaSelect(carta.id)}
-                                disabled={!modoLibre && cartasSeleccionadas.length >= tirada.numeroCartas && !cartasSeleccionadas.some(c => c.carta === carta.id)}
+                                disabled={cartasSeleccionadas.some(c => c.carta === carta.id)}
                               >
                                 {getCartaMenorDisplay(carta.name)}
                               </Button>
@@ -500,7 +523,7 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
                                 variant="outline"
                                 className="h-10 w-12 p-0 text-center hover:bg-emerald-50 hover:border-emerald-400 text-sm bg-white"
                                 onClick={() => handleCartaSelect(carta.id)}
-                                disabled={!modoLibre && cartasSeleccionadas.length >= tirada.numeroCartas && !cartasSeleccionadas.some(c => c.carta === carta.id)}
+                                disabled={cartasSeleccionadas.some(c => c.carta === carta.id)}
                               >
                                 {getCartaMenorDisplay(carta.name)}
                               </Button>
@@ -516,7 +539,7 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
                                 variant="outline"
                                 className="h-10 w-24 p-0 text-center hover:bg-emerald-50 hover:border-emerald-400 text-sm bg-white"
                                 onClick={() => handleCartaSelect(carta.id)}
-                                disabled={!modoLibre && cartasSeleccionadas.length >= tirada.numeroCartas && !cartasSeleccionadas.some(c => c.carta === carta.id)}
+                                disabled={cartasSeleccionadas.some(c => c.carta === carta.id)}
                               >
                                 {getCartaMenorDisplay(carta.name)}
                               </Button>
@@ -532,7 +555,7 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
                                 variant="outline"
                                 className="h-10 w-24 p-0 text-center hover:bg-emerald-50 hover:border-emerald-400 text-sm bg-white"
                                 onClick={() => handleCartaSelect(carta.id)}
-                                disabled={!modoLibre && cartasSeleccionadas.length >= tirada.numeroCartas && !cartasSeleccionadas.some(c => c.carta === carta.id)}
+                                disabled={cartasSeleccionadas.some(c => c.carta === carta.id)}
                               >
                                 {getCartaMenorDisplay(carta.name)}
                               </Button>
@@ -554,7 +577,7 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
                               variant="outline"
                               className="h-auto w-full max-w-[120px] p-1 text-center hover:bg-emerald-50 hover:border-emerald-400 text-xs truncate bg-white"
                               onClick={() => handleCartaSelect(carta.id)}
-                              disabled={!modoLibre && cartasSeleccionadas.length >= tirada.numeroCartas && !cartasSeleccionadas.some(c => c.carta === carta.id)}
+                              disabled={cartasSeleccionadas.some(c => c.carta === carta.id)}
                             >
                               {carta.name}
                             </Button>
@@ -576,6 +599,12 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
                         setPaloSeleccionado('');
                       } else if (letraSeleccionada) {
                         setLetraSeleccionada('');
+                        // Si se vuelve de la letra de Arcanos Mayores, se debe volver a la selección de categoría
+                        if (baraja === 'tradicional' && categoriaSeleccionada === 'mayores') {
+                            setCategoriaSeleccionada('mayores'); // Reafirmar la categoría para que los botones de letra vuelvan a aparecer
+                        } else {
+                            setCategoriaSeleccionada(null); // Para Osho o si se resetea todo, vuelve a mostrar categorías (si aplica)
+                        }
                       }
                     }}
                   >
