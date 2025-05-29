@@ -101,7 +101,7 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
     if (name.includes('Nueve')) return '9';
     if (name.includes('Diez')) return '10';
     if (name.includes('Sota')) return 'Sota';
-    if (name.includes('Caballo') || name.includes('Caballero')) return 'Caballero';
+    if (name.includes('Caballo')) return 'Caballero';
     if (name.includes('Reina')) return 'Reina';
     if (name.includes('Rey')) return 'Rey';
     return name; // Fallback
@@ -124,7 +124,7 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
           if (name.includes('Nueve')) return 9;
           if (name.includes('Diez')) return 10;
           if (name.includes('Sota')) return 11;
-          if (name.includes('Caballo') || name.includes('Caballero')) return 12;
+          if (name.includes('Caballo')) return 12;
           if (name.includes('Reina')) return 13;
           if (name.includes('Rey')) return 14;
           return 99; // Para cualquier caso no previsto, aunque no debería ocurrir
@@ -135,7 +135,7 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
     // Agrupar las cartas según la nueva estructura solicitada
     const asToFive = cartasDelPalo.filter(c => ['As', 'Dos', 'Tres', 'Cuatro', 'Cinco'].some(n => c.name.includes(n)));
     const sixToTen = cartasDelPalo.filter(c => ['Seis', 'Siete', 'Ocho', 'Nueve', 'Diez'].some(n => c.name.includes(n)));
-    const sotaCaballero = cartasDelPalo.filter(c => ['Sota', 'Caballo', 'Caballero'].some(n => c.name.includes(n)));
+    const sotaCaballero = cartasDelPalo.filter(c => ['Sota', 'Caballo'].some(n => c.name.includes(n)));
     const reinaRey = cartasDelPalo.filter(c => ['Reina', 'Rey'].some(n => c.name.includes(n)));
 
     return { asToFive, sixToTen, sotaCaballero, reinaRey };
@@ -274,6 +274,7 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
               <Button
                 key={letra}
                 variant="outline"
+                // Ajuste de tamaño para botones de Osho: h-12 w-12 text-lg
                 className="h-12 w-12 text-lg p-0 text-center flex items-center justify-center bg-white hover:bg-emerald-50 hover:border-emerald-400"
                 onClick={() => setLetraSeleccionada(letra)}
               >
@@ -304,6 +305,7 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
               <Button
                 key={letra}
                 variant="outline"
+                // Tamaño para botones de letras de Arcanos Mayores: h-8 w-8 text-xs
                 className="h-8 w-8 text-xs p-0 text-center flex items-center justify-center bg-white hover:bg-emerald-50 hover:border-emerald-400"
                 onClick={() => setLetraSeleccionada(letra)}
               >
