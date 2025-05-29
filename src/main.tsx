@@ -1,9 +1,17 @@
+// src/main.tsx
 import { createRoot } from 'react-dom/client'
 import App from './App.tsx'
 import './index.css'
 
+console.log(">>> DEP_LOG_MAIN: Archivo main.tsx cargado y comenzando ejecución."); // <--- AÑADE ESTA LÍNEA
+
+// Opcional: Para forzar una pausa en el navegador (solo si tienes la pestaña Sources abierta)
+// debugger; // <--- Puedes añadir esto para ver si se detiene aquí
+
 // Renderiza la aplicación React en el elemento con id 'root'
 createRoot(document.getElementById("root")!).render(<App />);
+
+console.log(">>> DEP_LOG_MAIN: createRoot().render(<App />) ha sido llamado."); // <--- Y ESTA LÍNEA
 
 // NOTA IMPORTANTE:
 // El registro del Service Worker se maneja ahora automáticamente por 'vite-plugin-pwa'.
