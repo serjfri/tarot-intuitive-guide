@@ -2,7 +2,6 @@ import React, { useState, useMemo } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-// Removidos Select, SelectContent, SelectItem, SelectTrigger, SelectValue ya que no se usan en esta versión
 import { ChevronLeft, Copy, Trash, Undo2 } from "lucide-react";
 import { Tirada, CartaSeleccionada } from '@/pages/Index';
 import { useToast } from "@/hooks/use-toast";
@@ -102,7 +101,7 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
     if (name.includes('Nueve')) return '9';
     if (name.includes('Diez')) return '10';
     if (name.includes('Sota')) return 'Sota';
-    if (name.includes('Caballo')) return 'Caballero'; // Cambiado a "Caballero"
+    if (name.includes('Caballo')) return 'Caballero';
     if (name.includes('Reina')) return 'Reina';
     if (name.includes('Rey')) return 'Rey';
     return name; // Fallback
@@ -260,22 +259,23 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
   // Renderiza los botones de letras de Osho en filas
   const renderOshoLetterButtons = () => {
     const letters = getLetrasOsho;
-    const rows: string[][] = [];
     const itemsPerRow = 7; // Puedes ajustar este número para mejor estética
+    const rows: string[][] = [];
 
     for (let i = 0; i < letters.length; i += itemsPerRow) {
       rows.push(letters.slice(i, i + itemsPerRow));
     }
 
     return (
-      <div className="space-y-1"> {/* Pequeño espacio entre filas */}
+      <div className="space-y-2"> {/* Pequeño espacio entre filas */}
         {rows.map((row, rowIndex) => (
-          <div key={rowIndex} className="flex flex-wrap gap-1 justify-center">
+          <div key={rowIndex} className="flex flex-wrap gap-2 justify-center"> {/* Aumentado el gap para los botones */}
             {row.map((letra) => (
               <Button
                 key={letra}
                 variant="outline"
-                className="h-8 w-8 p-0 text-center text-xs flex items-center justify-center bg-white hover:bg-emerald-50 hover:border-emerald-400"
+                // Ajuste de tamaño para botones de Osho
+                className="h-10 w-10 text-base p-0 text-center flex items-center justify-center bg-white hover:bg-emerald-50 hover:border-emerald-400"
                 onClick={() => setLetraSeleccionada(letra)}
               >
                 {letra}
@@ -410,7 +410,7 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
                     </Button>
                   </div>
 
-                  {/* Sección de Selección de Arcanos Mayores o Menores */}
+                  {/* Sección de Selección de Arcanos Mayores */}
                   {categoriaSeleccionada === 'mayores' && !letraSeleccionada && (
                     <>
                       <label className="block text-sm font-medium text-emerald-900 mb-2 text-center">
@@ -431,13 +431,13 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
                     </>
                   )}
 
-                  {/* Botones de palo para Arcanos Menores (siempre visibles si menores seleccionados) */}
-                  {categoriaSeleccionada === 'menores' && (
+                  {/* Botones de palo para Arcanos Menores */}
+                  {categoriaSeleccionada === 'menores' && !paloSeleccionado && (
                     <>
                       <label className="block text-sm font-medium text-emerald-900 mb-2 text-center">
                         Palo
                       </label>
-                      <div className="flex justify-center gap-1 flex-wrap"> {/* Usar flex-wrap y justify-center */}
+                      <div className="flex justify-center gap-1 flex-wrap">
                         {palos.map((palo) => (
                           <Button
                             key={palo}
@@ -460,7 +460,7 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
                   <label className="block text-sm font-medium text-emerald-900 mb-2 text-center">
                     Primera letra
                   </label>
-                  {renderOshoLetterButtons()} {/* Utiliza la función para renderizar los botones de Osho */}
+                  {renderOshoLetterButtons()}
                 </>
               )}
 
@@ -482,7 +482,7 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
                               <Button
                                 key={carta.id}
                                 variant="outline"
-                                className="h-10 w-12 p-0 text-center hover:bg-emerald-50 hover:border-emerald-400 text-sm bg-white" // Más pequeño y uniforme
+                                className="h-10 w-12 p-0 text-center hover:bg-emerald-50 hover:border-emerald-400 text-sm bg-white"
                                 onClick={() => handleCartaSelect(carta.id)}
                                 disabled={!modoLibre && cartasSeleccionadas.length >= tirada.numeroCartas && !cartasSeleccionadas.some(c => c.carta === carta.id)}
                               >
@@ -514,7 +514,7 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
                               <Button
                                 key={carta.id}
                                 variant="outline"
-                                className="h-10 w-24 p-0 text-center hover:bg-emerald-50 hover:border-emerald-400 text-sm bg-white" // Ancho ajustado para "Sota" y "Caballero"
+                                className="h-10 w-24 p-0 text-center hover:bg-emerald-50 hover:border-emerald-400 text-sm bg-white"
                                 onClick={() => handleCartaSelect(carta.id)}
                                 disabled={!modoLibre && cartasSeleccionadas.length >= tirada.numeroCartas && !cartasSeleccionadas.some(c => c.carta === carta.id)}
                               >
@@ -530,7 +530,7 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
                               <Button
                                 key={carta.id}
                                 variant="outline"
-                                className="h-10 w-24 p-0 text-center hover:bg-emerald-50 hover:border-emerald-400 text-sm bg-white" // Ancho ajustado para "Reina" y "Rey"
+                                className="h-10 w-24 p-0 text-center hover:bg-emerald-50 hover:border-emerald-400 text-sm bg-white"
                                 onClick={() => handleCartaSelect(carta.id)}
                                 disabled={!modoLibre && cartasSeleccionadas.length >= tirada.numeroCartas && !cartasSeleccionadas.some(c => c.carta === carta.id)}
                               >
