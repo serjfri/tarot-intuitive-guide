@@ -45,18 +45,15 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
   const [paloSeleccionado, setPaloSeleccionado] = useState<string>('');
   const { toast } = useToast();
 
-  // Filtrado de Arcanos Mayores: Ahora busca cartas cuya ID no contenga '_de_'
-  // Esto es más robusto para tus IDs como 'el-loco', 'la-sacerdotisa', etc.
   const arcanosMayores = useMemo(() => cardNames.filter(c => c.baraja === 'tradicional' && !c.id.includes('_de_')), []);
   const arcanosMenores = useMemo(() => cardNames.filter(c => c.baraja === 'tradicional' && c.id.includes('_de_')), []);
   const cartasOsho = useMemo(() => cardNames.filter(c => c.baraja === 'osho'), []);
 
   const palos = ['Bastos', 'Copas', 'Espadas', 'Oros'];
 
-  // Normaliza caracteres acentuados y elimina artículos para la primera letra
   const getFirstLetterForSorting = (name: string): string => {
     const cleanedName = name
-      .replace(/^(El|La|Los|Las)\s+/i, '') // Elimina artículos al principio
+      .replace(/^(El|La|Los|Las)\s+/i, '')
       .trim();
     return cleanedName.normalize("NFD").replace(/[\u0300-\u036f]/g, "").charAt(0).toUpperCase();
   };
@@ -90,7 +87,6 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
     return [];
   };
 
-  // Función para obtener el display de la carta menor (As, 2, 3... Rey)
   const getCartaMenorDisplay = (name: string): string => {
     if (name.includes('As')) return 'As';
     if (name.includes('Dos')) return '2';
@@ -106,13 +102,13 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
     if (name.includes('Caballo')) return 'Caballero';
     if (name.includes('Reina')) return 'Reina';
     if (name.includes('Rey')) return 'Rey';
-    return name; // Fallback
+    return name;
   };
 
   const filtrarCartasPorPalo = (palo: string) => {
-    const paloID = palo.toLowerCase(); // Asegurar minúsculas para coincidir con tus IDs
+    const paloID = palo.toLowerCase();
     const cartasDelPalo = arcanosMenores
-      .filter(carta => carta.id.endsWith(`_de_${paloID}`)) // Ajuste a IDs en minúsculas
+      .filter(carta => carta.id.endsWith(`_de_${paloID}`))
       .sort((a, b) => {
         const getSortValue = (name: string) => {
           if (name.includes('As')) return 1;
@@ -129,7 +125,7 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
           if (name.includes('Caballo')) return 12;
           if (name.includes('Reina')) return 13;
           if (name.includes('Rey')) return 14;
-          return 99; // Para cualquier caso no previsto
+          return 99;
         };
         return getSortValue(a.name) - getSortValue(b.name);
       });
@@ -253,7 +249,6 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
 
   const cartasPorGruposDePalo = paloSeleccionado ? filtrarCartasPorPalo(paloSeleccionado) : null;
 
-  // Renderiza los botones de letras de Osho en filas
   const renderOshoLetterButtons = () => {
     const letters = getLetrasOsho;
     const itemsPerRow = 7;
@@ -283,7 +278,6 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
     );
   };
 
-  // Renderiza los botones de letras para Arcanos Mayores
   const renderMayoresLetterButtons = () => {
     const letters = getLetrasArcanosMayores;
     const itemsPerRow = 7;
@@ -410,7 +404,7 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
               {/* Controles para Tarot Tradicional */}
               {baraja === 'tradicional' && (
                 <div className="space-y-4">
-                  {/* Botones de categoría: Visibles si no hay selección de letra o palo */}
+                  {/* Botones de categoría: Visibles si no hay selección de letra o palo NI categoría seleccionada */}
                   {!letraSeleccionada && !paloSeleccionado && !categoriaSeleccionada && (
                     <div className="flex justify-center gap-2">
                       <Button
@@ -438,8 +432,8 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
                     </div>
                   )}
 
-                  {/* Botones de Letra para Arcanos Mayores: Visibles si Arcanos Mayores seleccionados y ninguna letra */}
-                  {categoriaSeleccionada === 'mayores' && !letraSeleccionada && (
+                  {/* Botones de Letra para Arcanos Mayores: Visibles si Arcanos Mayores seleccionados y ninguna letra ni palo */}
+                  {categoriaSeleccionada === 'mayores' && !letraSeleccionada && !paloSeleccionado && (
                     <>
                       <label className="block text-sm font-medium text-emerald-900 mb-2 text-center">
                         Primera letra de la carta
@@ -448,8 +442,8 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
                     </>
                   )}
 
-                  {/* Botones de Palo para Arcanos Menores: Visibles si Arcanos Menores seleccionados y ningún palo */}
-                  {categoriaSeleccionada === 'menores' && !paloSeleccionado && (
+                  {/* Botones de Palo para Arcanos Menores: Visibles si Arcanos Menores seleccionados y ningún palo ni letra */}
+                  {categoriaSeleccionada === 'menores' && !paloSeleccionado && !letraSeleccionada && (
                     <>
                       <label className="block text-sm font-medium text-emerald-900 mb-2 text-center">
                         Palo
@@ -583,17 +577,15 @@ const CartaSelector: React.FC<CartaSelectorProps> = ({
                     variant="ghost"
                     className="text-emerald-700 hover:bg-emerald-50"
                     onClick={() => {
-                      if (letraSeleccionada) {
+                      if (letraSeleccionada) { // Si hay letra seleccionada, la quita
                         setLetraSeleccionada('');
-                      } else if (paloSeleccionado) {
+                      } else if (paloSeleccionado) { // Si hay palo seleccionado, lo quita
                         setPaloSeleccionado('');
-                        // Si ya no hay palo, volvemos a mostrar la selección de categoría si aplica
-                        if (baraja === 'tradicional') setCategoriaSeleccionada('menores');
-                      } else if (categoriaSeleccionada) {
+                      } else if (categoriaSeleccionada) { // Si hay categoría seleccionada, la quita
                         setCategoriaSeleccionada(null);
-                        setLetraSeleccionada(''); // Resetear letra también al volver de categoría
-                        setPaloSeleccionado(''); // Resetear palo también al volver de categoría
                       }
+                      // Si no hay nada seleccionado, este botón podría llevar a la selección de baraja si Modo Libre
+                      // o simplemente no hacer nada si ya estamos en el inicio de la selección
                     }}
                   >
                     <ChevronLeft className="w-4 h-4 mr-2" />
